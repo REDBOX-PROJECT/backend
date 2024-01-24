@@ -6,11 +6,13 @@ import fx.redbox.entity.users.User;
 import fx.redbox.entity.users.UserAccount;
 import fx.redbox.entity.users.UserInfo;
 import fx.redbox.service.user.UserService;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.sql.Date;
+import java.util.Optional;
 
 @SpringBootTest
 class UserServiceTest {
@@ -25,19 +27,23 @@ class UserServiceTest {
     @Test
     void signUp() {
 
-        UserAccount userAccount = new UserAccount();
-        userAccount.setEmail("user1@fx.com");
-        userAccount.setPassword("1234");
+        UserAccount userAccount = UserAccount.builder()
+                .email("user1@fx.com")
+                .password("1234")
+                .build();
 
-        UserInfo userInfo = new UserInfo();
-        userInfo.setPhone("010-1111-1111");
-        userInfo.setAddress("SEOUL");
+        UserInfo userInfo = UserInfo.builder()
+                .phone("010-1111-1111")
+                .address("SEOUL")
+                .build();
 
-        User user = new User();
-        user.setName("KIM");
-        user.setBirth(Date.valueOf("2001-01-01"));
-        user.setGender(Gender.남);
-        user.setBloodType(BloodType.B);
+        User user = User.builder()
+                .name("KIM")
+                .birth(Date.valueOf("2001-01-01"))
+                .gender(Gender.남)
+                .bloodType(BloodType.B)
+                .build();
+
 
         userService.signUp(userAccount, userInfo, user);
 
