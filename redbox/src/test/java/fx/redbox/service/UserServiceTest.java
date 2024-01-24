@@ -48,4 +48,11 @@ class UserServiceTest {
         userService.signUp(userAccount, userInfo, user);
 
     }
+
+    @Test
+    void findByUserId() {
+        Optional<User> findUser = userService.findByUserId(1l);
+        System.out.println("findUser = " + findUser);
+        Assertions.assertThat(findUser.get().getUserId()).isEqualTo(1L);
+    }
 }
