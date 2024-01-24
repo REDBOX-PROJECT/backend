@@ -6,14 +6,15 @@ import fx.redbox.entity.enums.Permission;
 import fx.redbox.entity.users.User;
 import fx.redbox.entity.users.UserAccount;
 import fx.redbox.entity.users.UserInfo;
+import fx.redbox.repository.mappper.UserMapper;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
@@ -21,6 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class UserRepositoryImpl implements UserRepository {
 
     private final JdbcTemplate jdbcTemplate;
+    private final UserMapper userMapper;
 
     @Override
     public User save(UserAccount userAccount, UserInfo userInfo, User user) {
@@ -62,6 +64,15 @@ public class UserRepositoryImpl implements UserRepository {
         userJdbcInsert.executeAndReturnKey(userParam).longValue();
 
         return user;
+    }
+
+    @Override
+    public Optional<User> findByUserId(Long userId) {
+        String sql = "SELECT * FROM users" +
+                    " JOIN user_accounts ON users.account_id = user_accounts.account_id" +
+                    " JOIN user_info ON users.user_info_id = user_info.user_info_id" +
+                    " WHERE users.user_id = ?";
+        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, new Object[]{userId}, userMapper));
     }
 
 }
