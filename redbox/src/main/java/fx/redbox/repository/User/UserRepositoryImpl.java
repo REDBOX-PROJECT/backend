@@ -83,4 +83,19 @@ public class UserRepositoryImpl implements UserRepository {
         return jdbcTemplate.query(sql, userMapper);
     }
 
+    @Override
+    public Long update(Long userId, User updateUser) {
+        // users 테이블에 대한 데이터는 변경할 수 없다, (이름, 생일, 성별, ....)
+        String userAccountsSql = "UPDATE user_accounts SET password = ? WHERE account_id = ?";
+        String userInfoSql = "UPDATE user_info SET phone = ?, address = ? WHERE user_info_id = ?";
+
+        jdbcTemplate.update(userAccountsSql,
+                updateUser.getUserAccount().getPassword(),
+                updateUser.getUserId());
+        jdbcTemplate.update(userInfoSql,
+                updateUser.getUserInfo().getPhone(),
+                updateUser.getUserInfo().getAddress(),
+                updateUser.getUserId());
+        return updateUser.getUserId();
+    }
 }

@@ -14,4 +14,5 @@ public interface UserRepository {
 
     List<User> findAll();
 
+    Long update(Long userId, User updateUser);
 }
