@@ -7,6 +7,7 @@ import fx.redbox.repository.User.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,5 +24,10 @@ public class UserServiceImpl implements UserService{
     @Override
     public Optional<User> findByUserId(Long userId) {
         return userRepository.findByUserId(userId);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 }
