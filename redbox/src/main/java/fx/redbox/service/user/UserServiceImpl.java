@@ -30,4 +30,9 @@ public class UserServiceImpl implements UserService{
     public List<User> findAll() {
         return userRepository.findAll();
     }
+
+    @Override
+    public Long update(Long userId, User user) {
+        return userRepository.update(userId, user);
+    }
 }
