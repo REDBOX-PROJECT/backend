@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -54,5 +55,12 @@ class UserServiceTest {
         Optional<User> findUser = userService.findByUserId(1l);
         System.out.println("findUser = " + findUser);
         Assertions.assertThat(findUser.get().getUserId()).isEqualTo(1L);
+    }
+
+    @Test
+    void findAll() {
+        List<User> allStudent = userService.findAll();
+        System.out.println("allStudent = " + allStudent);
+        Assertions.assertThat(allStudent.size()).isEqualTo(4);
     }
 }
