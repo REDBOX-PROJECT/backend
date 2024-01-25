@@ -77,4 +77,16 @@ class UserServiceTest {
 
         Assertions.assertThat(updatedId).isEqualTo(1L);
     }
+
+    @Test
+    void deleteByUserId() {
+        Long deleteUserId = 2L;
+        int beforeSize = userService.findAll().size();
+
+        userService.deleteByUserId(deleteUserId);
+        int afterSize = userService.findAll().size();
+
+        Assertions.assertThat(afterSize).isEqualTo(beforeSize-1);
+    }
+
 }
