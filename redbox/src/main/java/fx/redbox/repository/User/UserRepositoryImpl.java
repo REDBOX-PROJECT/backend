@@ -98,4 +98,16 @@ public class UserRepositoryImpl implements UserRepository {
                 updateUser.getUserId());
         return updateUser.getUserId();
     }
+
+    @Override
+    public void deleteByUserId(Long userId) {
+        String userAccountSql = "DELETE FROM user_accounts WHERE account_id = ?";
+        String userInfoSql = "DELETE FROM user_info WHERE user_info_id = ?";
+        String userSql = "DELETE FROM users WHERE user_id = ?";
+
+        jdbcTemplate.update(userSql, userId);
+        jdbcTemplate.update(userAccountSql, userId);
+        jdbcTemplate.update(userInfoSql, userId);
+    }
+
 }
