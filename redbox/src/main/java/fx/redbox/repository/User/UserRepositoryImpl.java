@@ -75,4 +75,12 @@ public class UserRepositoryImpl implements UserRepository {
         return Optional.ofNullable(jdbcTemplate.queryForObject(sql, new Object[]{userId}, userMapper));
     }
 
+    @Override
+    public List<User> findAll() {
+        String sql = "SELECT * FROM users" +
+                " JOIN user_accounts ON users.account_id = user_accounts.account_id" +
+                " JOIN user_info ON users.user_info_id = user_info.user_info_id";
+        return jdbcTemplate.query(sql, userMapper);
+    }
+
 }

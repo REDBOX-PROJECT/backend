@@ -11,4 +11,7 @@ public interface UserRepository {
     User save (UserAccount userAccount, UserInfo userInfo, User user);
 
     Optional<User> findByUserId(Long userId);
+
+    List<User> findAll();
+
 }
