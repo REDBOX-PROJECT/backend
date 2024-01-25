@@ -35,4 +35,10 @@ public class UserServiceImpl implements UserService{
     public Long update(Long userId, User user) {
         return userRepository.update(userId, user);
     }
+
+    @Override
+    public void deleteByUserId(Long userId) {
+        userRepository.deleteByUserId(userId);
+    }
+
 }

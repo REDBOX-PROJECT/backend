@@ -18,4 +18,6 @@ public interface UserService {
     List<User> findAll();
 
     Long update(Long userId, User user);
+
+    void deleteByUserId(Long userId);
 }
