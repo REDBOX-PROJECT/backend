@@ -63,4 +63,18 @@ class UserServiceTest {
         System.out.println("allStudent = " + allStudent);
         Assertions.assertThat(allStudent.size()).isEqualTo(4);
     }
+
+    @Test
+    void update() {
+        Long updateUserId = 1L;
+        User user = User.builder()
+                .userId(updateUserId)
+                .userAccount(UserAccount.builder().password("newPassword").build())
+                .userInfo(UserInfo.builder().phone("010-2222-2222").address("INCHEON").build())
+                .build();
+
+        Long updatedId = userService.update(updateUserId, user);
+
+        Assertions.assertThat(updatedId).isEqualTo(1L);
+    }
 }
