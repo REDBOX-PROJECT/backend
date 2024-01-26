@@ -21,7 +21,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/users")
-    public ApiResponse signUp(@RequestBody UserData signUpData) throws NoSuchAlgorithmException {
+    public ApiResponse signUp(@RequestBody UserForm signUpData) throws NoSuchAlgorithmException {
         User user = User.builder()
                 .name(signUpData.getName())
                 .birth(signUpData.getBirth())
@@ -53,7 +53,7 @@ public class UserController {
     }
 
     @PatchMapping("/users/{userId}")
-    public ApiResponse update(@PathVariable("userId") Long userId, @RequestBody UserData userData) { //비번 휴대폰 주소
+    public ApiResponse update(@PathVariable("userId") Long userId, @RequestBody UserForm userData) { //비번 휴대폰 주소
         Optional<User> updateUser = userService.findByUserId(userId);
 
         User user = User.builder()
