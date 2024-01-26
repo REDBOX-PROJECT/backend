@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +27,7 @@ class UserServiceTest {
     }
 
     @Test
-    void signUp() {
+    void signUp() throws NoSuchAlgorithmException {
 
         UserAccount userAccount = UserAccount.builder()
                 .email("user1@fx.com")

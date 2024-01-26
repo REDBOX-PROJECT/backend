@@ -5,13 +5,14 @@ import fx.redbox.entity.users.UserAccount;
 import fx.redbox.entity.users.UserInfo;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 
 @Transactional
 public interface UserService {
 
-    void signUp(UserAccount userAccount, UserInfo userInfo, User user);
+    void signUp(UserAccount userAccount, UserInfo userInfo, User user) throws NoSuchAlgorithmException;
 
     Optional<User> findByUserId(Long userId);
 
