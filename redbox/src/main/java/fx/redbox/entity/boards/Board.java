@@ -16,5 +16,13 @@ public class Board {
     private BoardType boardType;
     private Long userId;
 
+    public Board(String title, String content,
+                 Timestamp registrationDate, BoardType boardType, Long userId) {
 
+        this.title = title;
+        this.content = content;
+        this.registrationDate = registrationDate;
+        this.boardType = boardType;
+        this.userId = userId;
+    }
 }
