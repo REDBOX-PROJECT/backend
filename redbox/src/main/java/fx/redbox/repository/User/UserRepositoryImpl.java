@@ -1,4 +1,4 @@
-package fx.redbox.repository.User;
+package fx.redbox.repository.user;
 
 
 import fx.redbox.entity.enums.Grade;
@@ -110,4 +110,10 @@ public class UserRepositoryImpl implements UserRepository {
         jdbcTemplate.update(userInfoSql, userId);
     }
 
+    @Override
+    public boolean existsByEmail(String email) {
+        String sql = "SELECT COUNT(*) FROM user_accounts WHERE email = ?";
+        int cnt = jdbcTemplate.queryForObject(sql, Integer.class, email);
+        return cnt > 0;
+    }
 }

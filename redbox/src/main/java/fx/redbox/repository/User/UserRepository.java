@@ -1,4 +1,4 @@
-package fx.redbox.repository.User;
+package fx.redbox.repository.user;
 
 import fx.redbox.entity.users.User;
 import fx.redbox.entity.users.UserAccount;
@@ -17,5 +17,7 @@ public interface UserRepository {
     Long update(Long userId, User updateUser);
 
     void deleteByUserId(Long userId);
+
+    boolean existsByEmail(String email);
 
 }

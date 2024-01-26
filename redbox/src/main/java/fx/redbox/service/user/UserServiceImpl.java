@@ -3,10 +3,9 @@ package fx.redbox.service.user;
 import fx.redbox.entity.users.User;
 import fx.redbox.entity.users.UserAccount;
 import fx.redbox.entity.users.UserInfo;
-import fx.redbox.repository.User.UserRepository;
+import fx.redbox.repository.user.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +17,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void signUp(UserAccount userAccount, UserInfo userInfo, User user) {
+        userAccount.setPassword(passwordEncoder.encrypt(userAccount.getPassword()));
+        if(userRepository.existsByEmail(userAccount.getEmail()))
+            return; //예외처리하기!
+
         userRepository.save(userAccount, userInfo, user);
     }
 
