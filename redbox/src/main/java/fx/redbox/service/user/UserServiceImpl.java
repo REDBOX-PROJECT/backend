@@ -14,6 +14,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void signUp(UserAccount userAccount, UserInfo userInfo, User user) {
@@ -36,6 +37,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public Long update(Long userId, User user) {
+        String encryptedPassword = passwordEncoder.encrypt(user.getUserAccount().getPassword());
+        user.getUserAccount().setPassword(encryptedPassword);
         return userRepository.update(userId, user);
     }
 
