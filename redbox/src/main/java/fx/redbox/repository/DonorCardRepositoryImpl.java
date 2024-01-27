@@ -11,4 +11,18 @@ import java.util.Map;
 public class DonorCardRepositoryImpl implements DonorCardRepository{
     private JdbcTemplate jdbcTemplate;
 
+    @Override
+    public void save(DonorCard donorCard) {
+        String INSERT = "insert into donor_cards values(?,?,?,?,?,?,?)";
+        jdbcTemplate.update(INSERT,
+                donorCard.getCertificateNumber(),
+                donorCard.getDonorName(),
+                donorCard.getDonorBirth(),
+                donorCard.getDonorBloodKind(),
+                donorCard.getDonorGender(),
+                donorCard.getBloodCenter(),
+                donorCard.getUserId());
+
+    }
+
 }
