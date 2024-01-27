@@ -38,4 +38,18 @@ public class DonorCardRepositoryImpl implements DonorCardRepository{
         return donorCards;
     }
 
+    @Override
+    public void update(String certificateNumber, DonorCard updateDonorCard) {
+        String UPDATE = "update donor_cards set donor_name=?," +
+                "donor_birth=?, donor_blood_kind=?, donor_gender=?" +
+                "donor_blood_center=? where cefiticate_number=?";
+        jdbcTemplate.update(UPDATE,
+                updateDonorCard.getDonorName(),
+                updateDonorCard.getDonorBirth(),
+                updateDonorCard.getDonorBloodKind(),
+                updateDonorCard.getDonorGender(),
+                updateDonorCard.getBloodCenter(),
+                certificateNumber);
+    }
+
 }
