@@ -17,4 +17,9 @@ public class DonorCardServiceImpl implements DonorCardService{
         donorCardRepository.save(donorCard);
     }
 
+    @Override
+    public List<Map<String, Object>> findDonorCard(String certificateNumber) {
+        return donorCardRepository.findById(certificateNumber);
+    }
+
 }
