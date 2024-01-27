@@ -22,4 +22,9 @@ public class DonorCardServiceImpl implements DonorCardService{
         return donorCardRepository.findById(certificateNumber);
     }
 
+    @Override
+    public void deleteDonorCard(String certificateNumber) {
+        donorCardRepository.delete(certificateNumber);
+    }
+
 }
