@@ -25,4 +25,10 @@ public class DonorCardRepositoryImpl implements DonorCardRepository{
 
     }
 
+    @Override
+    public List<Map<String, Object>> findById(String certificateNumber) {
+        String FIND = "select * from donor_cards where cefiticate_number=?";
+        return jdbcTemplate.queryForList(FIND, certificateNumber);
+    }
+
 }
