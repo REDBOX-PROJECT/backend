@@ -12,4 +12,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class DonorCardServiceImpl implements DonorCardService{
     private final DonorCardRepository donorCardRepository;
+    @Override
+    public void join(DonorCard donorCard) {
+        donorCardRepository.save(donorCard);
+    }
+
 }
