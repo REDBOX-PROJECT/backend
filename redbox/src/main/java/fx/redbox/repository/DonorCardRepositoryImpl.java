@@ -52,4 +52,10 @@ public class DonorCardRepositoryImpl implements DonorCardRepository{
                 certificateNumber);
     }
 
+    @Override
+    public void delete(String certificateNumber) {
+        String DELETE = "select * from donor_cards where cefiticate_number=?";
+        jdbcTemplate.queryForList(DELETE, certificateNumber);
+    }
+
 }
