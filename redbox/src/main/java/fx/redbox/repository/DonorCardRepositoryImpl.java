@@ -31,4 +31,11 @@ public class DonorCardRepositoryImpl implements DonorCardRepository{
         return jdbcTemplate.queryForList(FIND, certificateNumber);
     }
 
+    @Override
+    public List<Map<String, Object>> findAll() {
+        String FIND_ALL = "select * from donor_cards";
+        List<Map<String, Object>> donorCards =  jdbcTemplate.queryForList(FIND_ALL);
+        return donorCards;
+    }
+
 }
