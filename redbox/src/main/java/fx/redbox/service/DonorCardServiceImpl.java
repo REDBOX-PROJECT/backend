@@ -27,4 +27,8 @@ public class DonorCardServiceImpl implements DonorCardService{
         donorCardRepository.delete(certificateNumber);
     }
 
+    @Override
+    public void updateDonorCard(String certificateNumber, DonorCard updateDonorCard) {
+        donorCardRepository.update(certificateNumber, updateDonorCard);
+    }
 }
