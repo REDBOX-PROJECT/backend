@@ -52,7 +52,7 @@ public class UserController {
 
     @GetMapping("/users")
     public ApiResponse findAll() {
-        List<User> all = userService.findAll();
+        List<UserInfoForm> all = userService.findAll();
         return ApiResponse.res(HttpStatus.OK.value(), "회원 전체 조회 성공", all);
     }
 
@@ -84,6 +84,6 @@ public class UserController {
             userService.deleteByUserId(userId);
             return ApiResponse.res(HttpStatus.OK.value(), "회원 삭제 성공");
         }
-        return ApiResponse.res(HttpStatus.BAD_REQUEST.value(), "회원 삭제 실패");
+        return ApiResponse.res(HttpStatus.BAD_REQUEST.value(), "존재하지 않는 회원입니다.");
     }
 }

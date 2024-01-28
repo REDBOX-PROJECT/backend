@@ -1,9 +1,8 @@
 package fx.redbox.service.user;
 
 import fx.redbox.controller.user.form.UserForm;
+import fx.redbox.controller.user.form.UserInfoForm;
 import fx.redbox.entity.users.User;
-import fx.redbox.entity.users.UserAccount;
-import fx.redbox.entity.users.UserInfo;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -16,7 +15,7 @@ public interface UserService {
 
     Optional<User> findByUserId(Long userId);
 
-    List<User> findAll();
+    List<UserInfoForm> findAll();
 
     Long update(Long userId, User user);
 
