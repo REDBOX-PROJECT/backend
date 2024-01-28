@@ -30,7 +30,24 @@ public class UserController {
     @GetMapping("/users/{userId}")
     public ApiResponse findByUserId(@PathVariable("userId") Long userId) {
         Optional<User> findUser = userService.findByUserId(userId);
-        return ApiResponse.res(HttpStatus.OK.value(), "회원 단건 조회 성공", findUser);
+        if(findUser.isPresent()) {
+            User user = findUser.get();
+            UserInfoForm userInfo = UserInfoForm.builder()
+                    .userId(user.getUserId())
+                    .email(user.getUserAccount().getEmail())
+                    .name(user.getName())
+                    .birth(user.getBirth())
+                    .gender(user.getGender())
+                    .bloodType(user.getBloodType())
+                    .grade(user.getGrade())
+                    .phone(user.getUserInfo().getPhone())
+                    .donationCount(user.getUserInfo().getDonationCount())
+                    .permission(user.getUserInfo().getPermission())
+                    .build();
+            return ApiResponse.res(HttpStatus.OK.value(), "회원 단건 조회 성공", userInfo);
+
+        }
+        return ApiResponse.res(HttpStatus.BAD_REQUEST.value(), "존재하지 않는 회원입니다.");
     }
 
     @GetMapping("/users")
