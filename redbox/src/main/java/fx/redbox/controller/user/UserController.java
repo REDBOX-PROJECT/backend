@@ -1,6 +1,8 @@
 package fx.redbox.controller.user;
 
 import fx.redbox.controller.api.ApiResponse;
+import fx.redbox.controller.user.form.UserForm;
+import fx.redbox.controller.user.form.UserInfoForm;
 import fx.redbox.entity.users.User;
 import fx.redbox.entity.users.UserAccount;
 import fx.redbox.entity.users.UserInfo;
@@ -9,7 +11,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,22 +22,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/users")
-    public ApiResponse signUp(@RequestBody UserForm signUpData) throws NoSuchAlgorithmException {
-        User user = User.builder()
-                .name(signUpData.getName())
-                .birth(signUpData.getBirth())
-                .gender(signUpData.getGender())
-                .bloodType(signUpData.getBloodType())
-                .build();
-        UserAccount userAccount = UserAccount.builder()
-                .email(signUpData.getEmail())
-                .password(signUpData.getPassword())
-                .build();
-        UserInfo userInfo = UserInfo.builder()
-                .phone(signUpData.getPhone())
-                .address(signUpData.getAddress())
-                .build();
-        userService.signUp(userAccount, userInfo, user);
+    public ApiResponse signUp(@RequestBody UserForm signUpData) {
+        userService.signUp(signUpData);
         return ApiResponse.res(HttpStatus.CREATED.value(), "회원가입 성공");
     }
 
