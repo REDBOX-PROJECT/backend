@@ -15,7 +15,7 @@ public class UserForm {
     private String name;
     private Date birth; //YYYY-MM-DD
     private Gender gender;
-    private BloodType bloodType;
+    private BloodType bloodType = BloodType.NULL;
 
     //UserAccount
     private String email;

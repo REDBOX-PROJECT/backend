@@ -23,7 +23,11 @@ public class UserController {
 
     @PostMapping("/users")
     public ApiResponse signUp(@RequestBody UserForm signUpData) {
-        userService.signUp(signUpData);
+        try {
+            userService.signUp(signUpData);
+        } catch (RuntimeException e) {
+            return ApiResponse.res(HttpStatus.BAD_REQUEST.value(), "회원가입 실패");
+        }
         return ApiResponse.res(HttpStatus.CREATED.value(), "회원가입 성공");
     }
 
