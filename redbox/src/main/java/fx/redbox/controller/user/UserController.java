@@ -78,13 +78,9 @@ public class UserController {
         return ApiResponse.res(HttpStatus.OK.value(), "회원 정보 수정 성공");
     }
 
-    @DeleteMapping("/users/{userId}")
-    public ApiResponse deleteByUserId(@PathVariable("userId") Long userId) {
-        Optional<User> deleteUserId = userService.findByUserId(userId);
-        if(deleteUserId.isPresent()) {
-            userService.deleteByUserId(userId);
-            return ApiResponse.res(HttpStatus.OK.value(), "회원 삭제 성공");
-        }
-        return ApiResponse.res(HttpStatus.BAD_REQUEST.value(), "존재하지 않는 회원입니다.");
+    @DeleteMapping("/user/{email}") //회원 탈퇴
+    public ApiResponse deleteUser(@PathVariable String email) throws Exception {
+        userService.deleteUser(email);
+        return ApiResponse.res(HttpStatus.OK.value(), "회원 탈퇴 성공");
     }
 }

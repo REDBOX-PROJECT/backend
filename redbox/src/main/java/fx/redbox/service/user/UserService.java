@@ -20,5 +20,5 @@ public interface UserService {
 
     Long update(Long userId, User user);
 
-    void deleteByUserId(Long userId);
+    void deleteUser(String email) throws Exception;
 }

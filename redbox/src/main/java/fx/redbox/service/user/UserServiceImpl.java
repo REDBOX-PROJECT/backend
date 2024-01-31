@@ -131,8 +131,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteByUserId(Long userId) {
-        userRepository.deleteByUserId(userId);
     }
 
+    @Override
+    public void deleteUser(String email) throws Exception {
+        User userId = userRepository.findByEmail(email).
+                orElseThrow(() -> new Exception("계정을 찾을 수 없습니다."));
+        userRepository.deleteByUserId(userId.getUserId());
+    }
 }
