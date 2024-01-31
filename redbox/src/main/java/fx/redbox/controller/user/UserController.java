@@ -1,26 +1,27 @@
 package fx.redbox.controller.user;
 
 import fx.redbox.controller.api.ApiResponse;
-import fx.redbox.controller.user.form.UserForm;
-import fx.redbox.controller.user.form.UserInfoForm;
-import fx.redbox.entity.users.User;
-import fx.redbox.entity.users.UserAccount;
-import fx.redbox.entity.users.UserInfo;
+import fx.redbox.controller.user.form.FindMailOrPasswordForm;
+import fx.redbox.controller.user.form.SignRequestForm;
+import fx.redbox.controller.user.form.SignResponseForm;
+import fx.redbox.controller.user.form.UpdateForm;
 import fx.redbox.service.user.UserService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-
 @RestController
+@Slf4j
+@RequiredArgsConstructor
 @RequestMapping("/redbox")
-@AllArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
+    @PostMapping("/login") //로그인
+    public ApiResponse<SignResponseForm> signIn(@RequestBody SignRequestForm signRequestForm) throws Exception {
+        return ApiResponse.res(HttpStatus.OK.value(), "로그인 성공", userService.signIn(signRequestForm));
     }
 
     @GetMapping("/users/{userId}")

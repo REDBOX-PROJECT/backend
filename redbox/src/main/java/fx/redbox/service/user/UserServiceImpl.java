@@ -1,24 +1,38 @@
 package fx.redbox.service.user;
 
-import fx.redbox.controller.user.form.UserForm;
-import fx.redbox.controller.user.form.UserInfoForm;
+import fx.redbox.controller.user.form.FindMailOrPasswordForm;
+import fx.redbox.controller.user.form.SignRequestForm;
+import fx.redbox.controller.user.form.SignResponseForm;
+import fx.redbox.controller.user.form.UpdateForm;
+import fx.redbox.entity.enums.Permission;
 import fx.redbox.entity.users.User;
 import fx.redbox.entity.users.UserAccount;
 import fx.redbox.entity.users.UserInfo;
 import fx.redbox.repository.user.UserRepository;
-import lombok.AllArgsConstructor;
+import fx.redbox.token.JwtProvider;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
+@Slf4j
 @Service
-@AllArgsConstructor
-public class UserServiceImpl implements UserService{
-
-    private final UserRepository userRepository;
+@Transactional
+public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final JwtProvider jwtProvider;
+
+    public UserServiceImpl(@Lazy PasswordEncoder passwordEncoder, UserRepository userRepository, @Lazy JwtProvider jwtProvider) {
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
+        this.jwtProvider = jwtProvider;
+    }
 
     @Override
     public boolean signUp(SignRequestForm signRequestForm) {
@@ -54,7 +68,23 @@ public class UserServiceImpl implements UserService{
         return true;
     }
 
+    @Override
+    public SignResponseForm signIn(SignRequestForm signRequestForm) throws Exception{
+        User user = userRepository.findByEmail(signRequestForm.getEmail()).orElseThrow(() ->
+                new BadCredentialsException("잘못된 계정정보입니다."));
+
+        if(!passwordEncoder.matches(signRequestForm.getPassword(), user.getUserAccount().getPassword())) {
+            throw new BadCredentialsException("잘못된 계정정보입니다.");
+        }
+
+        return SignResponseForm.builder()
+                .userId(user.getAccountId())
+                .name(user.getName())
+                .email(user.getUserAccount().getEmail())
+                .permission(user.getUserInfo().getPermission())
+                .token(jwtProvider.createToken(user.getUserAccount().getEmail(), user.getUserInfo().getPermission()))
                 .build();
+    }
 
         userAccount.setPassword(passwordEncoder.encrypt(userAccount.getPassword()));
         if(userRepository.existsByEmail(userAccount.getEmail()))
