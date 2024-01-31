@@ -11,8 +11,7 @@ import java.util.Optional;
 @Transactional
 public interface UserService {
 
-    void signUp(UserForm userForm);
-
+    boolean signUp(SignRequestForm signRequestForm);
     Optional<User> findByUserId(Long userId);
 
     List<UserInfoForm> findAll();

@@ -45,7 +45,7 @@ public class UserRepositoryImpl implements UserRepository {
         userInfoParam.put("phone", userInfo.getPhone());
         userInfoParam.put("address", userInfo.getAddress());
         userInfoParam.put("donation_count", 0); //DEFAULT 0
-        userInfoParam.put("permission", Permission.USER.name()); //DEFAULT USER
+        userInfoParam.put("permission", userInfo.getPermission().name()); //DEFAULT USER
 //        user.setUserInfoId(userInfoJdbcInsert.executeAndReturnKey(userInfoParam).longValue());
 
 

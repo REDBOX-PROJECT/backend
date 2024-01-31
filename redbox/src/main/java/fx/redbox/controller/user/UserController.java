@@ -21,14 +21,6 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/users")
-    public ApiResponse signUp(@RequestBody UserForm signUpData) {
-        try {
-            userService.signUp(signUpData);
-        } catch (RuntimeException e) {
-            return ApiResponse.res(HttpStatus.BAD_REQUEST.value(), "회원가입 실패");
-        }
-        return ApiResponse.res(HttpStatus.CREATED.value(), "회원가입 성공");
     }
 
     @GetMapping("/users/{userId}")
@@ -49,6 +41,10 @@ public class UserController {
                     .permission(user.getUserInfo().getPermission())
                     .build();
             return ApiResponse.res(HttpStatus.OK.value(), "회원 단건 조회 성공", userInfo);
+    @PostMapping("/register") //회원가입
+    public ApiResponse<Boolean> signUp(@RequestBody SignRequestForm signRequestForm) throws Exception {
+        return ApiResponse.res(HttpStatus.OK.value(), "회원가입 성공", userService.signUp(signRequestForm));
+    }
 
         }
         return ApiResponse.res(HttpStatus.BAD_REQUEST.value(), "존재하지 않는 회원입니다.");
