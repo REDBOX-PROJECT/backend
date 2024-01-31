@@ -24,24 +24,6 @@ public class UserController {
         return ApiResponse.res(HttpStatus.OK.value(), "로그인 성공", userService.signIn(signRequestForm));
     }
 
-    @GetMapping("/users/{userId}")
-    public ApiResponse findByUserId(@PathVariable("userId") Long userId) {
-        Optional<User> findUser = userService.findByUserId(userId);
-        if(findUser.isPresent()) {
-            User user = findUser.get();
-            UserInfoForm userInfo = UserInfoForm.builder()
-                    .userId(user.getUserId())
-                    .email(user.getUserAccount().getEmail())
-                    .name(user.getName())
-                    .birth(user.getBirth())
-                    .gender(user.getGender())
-                    .bloodType(user.getBloodType())
-                    .grade(user.getGrade())
-                    .phone(user.getUserInfo().getPhone())
-                    .donationCount(user.getUserInfo().getDonationCount())
-                    .permission(user.getUserInfo().getPermission())
-                    .build();
-            return ApiResponse.res(HttpStatus.OK.value(), "회원 단건 조회 성공", userInfo);
     @PostMapping("/register") //회원가입
     public ApiResponse<Boolean> signUp(@RequestBody SignRequestForm signRequestForm) throws Exception {
         return ApiResponse.res(HttpStatus.OK.value(), "회원가입 성공", userService.signUp(signRequestForm));
@@ -49,12 +31,18 @@ public class UserController {
 
         }
         return ApiResponse.res(HttpStatus.BAD_REQUEST.value(), "존재하지 않는 회원입니다.");
+    @GetMapping("/user/{email}") //회원조회
+    public ApiResponse<SignResponseForm> getUser(@PathVariable String email) throws Exception {
+        return ApiResponse.res(HttpStatus.OK.value(),"회원 조회 성공", userService.getUser(email));
     }
 
     @GetMapping("/users")
     public ApiResponse findAll() {
         List<UserInfoForm> all = userService.findAll();
         return ApiResponse.res(HttpStatus.OK.value(), "회원 전체 조회 성공", all);
+    @GetMapping("/admin/{email}") //관리자권한 회원조회
+    public ApiResponse<SignResponseForm> getUserForAdmin(@PathVariable String email) throws Exception {
+        return ApiResponse.res(HttpStatus.OK.value(), "ADMIN : 회원 조회 성공",userService.getUser(email));
     }
 
     @GetMapping("/user/findEmail") //이메일 찾기

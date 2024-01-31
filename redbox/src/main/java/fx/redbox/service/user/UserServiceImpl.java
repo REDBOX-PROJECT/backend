@@ -86,9 +86,12 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
-        userAccount.setPassword(passwordEncoder.encrypt(userAccount.getPassword()));
-        if(userRepository.existsByEmail(userAccount.getEmail()))
-            throw new RuntimeException();
+    @Override
+    public SignResponseForm getUser(String email) throws Exception {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new Exception("계정을 찾을 수 없습니다."));
+        return new SignResponseForm(user);
+    }
 
         userRepository.save(userAccount, userInfo, user);
     }

@@ -14,6 +14,7 @@ public interface UserService {
 
     boolean signUp(SignRequestForm signRequestForm);
     SignResponseForm signIn(SignRequestForm signRequestForm) throws Exception;
+    SignResponseForm getUser(String email) throws Exception;
     Optional<User> findByUserId(Long userId);
 
     List<UserInfoForm> findAll();
