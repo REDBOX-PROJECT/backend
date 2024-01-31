@@ -23,5 +23,8 @@ public interface UserRepository {
 
     boolean existsByEmail(String email);
     public Optional<User> findEmail(String name, String phone);
+    boolean existsByNameAndEmail(String name, String email);
+    void insertPassword(String email, String password);
+
 
 }

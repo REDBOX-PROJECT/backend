@@ -128,4 +128,20 @@ public class UserRepositoryImpl implements UserRepository {
         return Optional.ofNullable(jdbcTemplate.queryForObject(sql, new Object[]{name, phone}, userMapper));
     }
 
+    @Override
+    public boolean existsByNameAndEmail(String name, String email) {
+        String sql ="SELECT COUNT(*) FROM users" +
+                " JOIN user_accounts ON users.account_id = user_accounts.account_id" +
+                " WHERE users.name = ? AND user_accounts.email = ?";
+        int cnt = jdbcTemplate.queryForObject(sql, Integer.class, name, email);
+        return cnt > 0;
+    }
+
+    public void insertPassword(String email, String password) {
+        String sql = "UPDATE user_accounts" +
+                " SET password = ?" +
+                " WHERE email = ?";
+        jdbcTemplate.update(sql, password, email);
+    }
+
 }
