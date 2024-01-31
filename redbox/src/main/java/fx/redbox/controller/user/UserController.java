@@ -69,6 +69,9 @@ public class UserController {
         return ApiResponse.res(HttpStatus.OK.value(), "사용자 정보 수정 성공");
     }
 
+    @PostMapping("/user/findPassword") //비밀번호 찾기, 임시비밀번호 발급
+    public ApiResponse<String> getPassword(@RequestBody FindMailOrPasswordForm findMailOrPasswordForm) {
+        return ApiResponse.res(HttpStatus.OK.value(), "사용자 임시 비밀번호 발급", userService.findPassword(findMailOrPasswordForm));
     }
 
     @DeleteMapping("/user/{email}") //회원 탈퇴

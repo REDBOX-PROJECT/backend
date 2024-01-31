@@ -18,5 +18,6 @@ public interface UserService {
 
     List<UserInfoForm> findAll();
     void update(String email, UpdateForm updateForm) throws Exception;
+    String findPassword(FindMailOrPasswordForm findPasswordForm);
     void deleteUser(String email) throws Exception;
 }

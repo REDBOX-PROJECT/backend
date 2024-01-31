@@ -131,6 +131,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public String findPassword(FindMailOrPasswordForm findPasswordForm) {
+        //name과 email로 계정 존재 유뮤 확인
+        if(!userRepository.existsByNameAndEmail(findPasswordForm.getName(), findPasswordForm.getEmail()))
+            throw new RuntimeException();
+
+        //SMTP를 사용해 사용자의 이메일에 인증번호 전송
+        /*
+        *
+        */
+
+        //랜덤 비밀번호 생성
+        UUID uid = UUID.randomUUID();
+        String tempPassword = uid.toString().substring(10); //비밀번호 10자리
+
+        //새 비밀번호 암호화 후 DB저장
+        userRepository.insertPassword(findPasswordForm.getEmail(), passwordEncoder.encode(tempPassword));
+
+        //임시비밀번호 반환
+        return tempPassword;
     }
 
     @Override
