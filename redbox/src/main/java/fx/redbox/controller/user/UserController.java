@@ -36,10 +36,6 @@ public class UserController {
         return ApiResponse.res(HttpStatus.OK.value(),"회원 조회 성공", userService.getUser(email));
     }
 
-    @GetMapping("/users")
-    public ApiResponse findAll() {
-        List<UserInfoForm> all = userService.findAll();
-        return ApiResponse.res(HttpStatus.OK.value(), "회원 전체 조회 성공", all);
     @GetMapping("/admin/{email}") //관리자권한 회원조회
     public ApiResponse<SignResponseForm> getUserForAdmin(@PathVariable String email) throws Exception {
         return ApiResponse.res(HttpStatus.OK.value(), "ADMIN : 회원 조회 성공",userService.getUser(email));

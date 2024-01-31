@@ -102,28 +102,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserInfoForm> findAll() {
-        List<User> userList = userRepository.findAll();
-        List<UserInfoForm> userInfoList = new ArrayList<>();
-
-        for (User user : userList) {
-            UserInfoForm userInfo = UserInfoForm.builder()
-                    .userId(user.getUserId())
-                    .email(user.getUserAccount().getEmail())
-                    .name(user.getName())
-                    .birth(user.getBirth())
-                    .gender(user.getGender())
-                    .bloodType(user.getBloodType())
-                    .grade(user.getGrade())
-                    .phone(user.getUserInfo().getPhone())
-                    .donationCount(user.getUserInfo().getDonationCount())
-                    .permission(user.getUserInfo().getPermission())
-                    .build();
-
-            userInfoList.add(userInfo);
-        }
-
-        return userInfoList;
     }
 
     @Override
