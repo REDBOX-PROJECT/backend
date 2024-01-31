@@ -15,7 +15,9 @@ public interface UserService {
     boolean signUp(SignRequestForm signRequestForm);
     SignResponseForm signIn(SignRequestForm signRequestForm) throws Exception;
     SignResponseForm getUser(String email) throws Exception;
+    Optional<User> findByEmail(String email);
     Optional<User> findByUserId(Long userId);
+    FindMailOrPasswordForm getEmail(FindMailOrPasswordForm findMailOrPasswordForm) throws Exception;
     void update(String email, UpdateForm updateForm) throws Exception;
     String findPassword(FindMailOrPasswordForm findPasswordForm);
     void deleteUser(String email) throws Exception;

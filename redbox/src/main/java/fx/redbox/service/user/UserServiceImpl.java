@@ -102,6 +102,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public FindMailOrPasswordForm getEmail(FindMailOrPasswordForm findMailOrPasswordForm) throws Exception {
+        User user = userRepository.findEmail(findMailOrPasswordForm.getName(), findMailOrPasswordForm.getPhone())
+                .orElseThrow(() -> new Exception("계정을 찾을 수 없습니다."));
+        return new FindMailOrPasswordForm(user);
     }
 
     @Override

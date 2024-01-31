@@ -29,8 +29,6 @@ public class UserController {
         return ApiResponse.res(HttpStatus.OK.value(), "회원가입 성공", userService.signUp(signRequestForm));
     }
 
-        }
-        return ApiResponse.res(HttpStatus.BAD_REQUEST.value(), "존재하지 않는 회원입니다.");
     @GetMapping("/user/{email}") //회원조회
     public ApiResponse<SignResponseForm> getUser(@PathVariable String email) throws Exception {
         return ApiResponse.res(HttpStatus.OK.value(),"회원 조회 성공", userService.getUser(email));
