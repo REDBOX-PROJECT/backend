@@ -17,8 +17,6 @@ public interface UserService {
     Optional<User> findByUserId(Long userId);
 
     List<UserInfoForm> findAll();
-
-    Long update(Long userId, User user);
-
+    void update(String email, UpdateForm updateForm) throws Exception;
     void deleteUser(String email) throws Exception;
 }

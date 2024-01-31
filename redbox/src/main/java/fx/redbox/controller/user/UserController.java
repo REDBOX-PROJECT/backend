@@ -57,25 +57,18 @@ public class UserController {
         return ApiResponse.res(HttpStatus.OK.value(), "회원 전체 조회 성공", all);
     }
 
-    @PatchMapping("/users/{userId}")
-    public ApiResponse update(@PathVariable("userId") Long userId, @RequestBody UserForm userData) { //비번 휴대폰 주소
-        Optional<User> updateUser = userService.findByUserId(userId);
+    @GetMapping("/user/findEmail") //이메일 찾기
+    public ApiResponse<FindMailOrPasswordForm> getEmail(@RequestBody FindMailOrPasswordForm findMailOrPasswordForm) throws Exception {
+        return ApiResponse.res(HttpStatus.OK.value(), "사용자 이메일 찾기 성공",userService.getEmail(findMailOrPasswordForm));
+    }
 
-        User user = User.builder()
-                .userId(updateUser.get().getUserId())
-                .userAccount(
-                        UserAccount.builder()
-                                .password(userData.getPassword())
-                                .build())
-                .userInfo(
-                        UserInfo.builder()
-                                .phone(userData.getPhone())
-                                .address(userData.getAddress())
-                                .build())
-                .build();
-        userService.update(userId, user);
+    @PatchMapping("/user/{email}") //회원 정보 수정 - 생년얼일, 전화번호, 주소
+    public ApiResponse<FindMailOrPasswordForm> update(@PathVariable String email,
+                                                      @RequestBody UpdateForm updateForm) throws Exception{
+        userService.update(email, updateForm);
+        return ApiResponse.res(HttpStatus.OK.value(), "사용자 정보 수정 성공");
+    }
 
-        return ApiResponse.res(HttpStatus.OK.value(), "회원 정보 수정 성공");
     }
 
     @DeleteMapping("/user/{email}") //회원 탈퇴

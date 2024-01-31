@@ -124,10 +124,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Long update(Long userId, User user) {
-        String encryptedPassword = passwordEncoder.encrypt(user.getUserAccount().getPassword());
-        user.getUserAccount().setPassword(encryptedPassword);
-        return userRepository.update(userId, user);
+    public void update(String email, UpdateForm updateForm) throws Exception {
+        User user = userRepository.findByEmail(email)
+                        .orElseThrow(() -> new Exception("게정을 찾을 수 없습니다."));
+        userRepository.update(user.getUserId(), updateForm.getBirth(), updateForm.getPhone(), updateForm.getAddress() );
     }
 
     @Override
