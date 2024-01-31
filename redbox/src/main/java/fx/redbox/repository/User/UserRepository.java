@@ -4,6 +4,7 @@ import fx.redbox.entity.users.User;
 import fx.redbox.entity.users.UserAccount;
 import fx.redbox.entity.users.UserInfo;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,9 +13,11 @@ public interface UserRepository {
 
     Optional<User> findByUserId(Long userId);
 
+    Optional<User> findByEmail(String email);
+
     List<User> findAll();
 
-    Long update(Long userId, User updateUser);
+    void update(Long userId, Date birth, String phone, String address);
 
     void deleteByUserId(Long userId);
 

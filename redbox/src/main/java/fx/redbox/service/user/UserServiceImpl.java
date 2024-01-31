@@ -93,7 +93,9 @@ public class UserServiceImpl implements UserService {
         return new SignResponseForm(user);
     }
 
-        userRepository.save(userAccount, userInfo, user);
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     @Override

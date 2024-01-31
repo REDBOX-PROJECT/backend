@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -75,6 +76,14 @@ public class UserRepositoryImpl implements UserRepository {
         return Optional.ofNullable(jdbcTemplate.queryForObject(sql, new Object[]{userId}, userMapper));
     }
 
+    public Optional<User> findByEmail(String email) {
+        String sql = "SELECT * FROM users" +
+                " JOIN user_accounts ON users.account_id = user_accounts.account_id" +
+                " JOIN user_info ON users.user_info_id = user_info.user_info_id" +
+                " WHERE user_accounts.email = ?";
+        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, new Object[]{email}, userMapper));
+    }
+
     @Override
     public List<User> findAll() {
         String sql = "SELECT * FROM users" +
@@ -84,19 +93,11 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Long update(Long userId, User updateUser) {
-        // users 테이블에 대한 데이터는 변경할 수 없다, (이름, 생일, 성별, ....)
-        String userAccountsSql = "UPDATE user_accounts SET password = ? WHERE account_id = ?";
+    public void update(Long userId, Date birth, String phone, String address) { //생일, 전화번호, 주소 변경
+        String userSql = "UPDATE users SET birth = ? WHERE user_id = ?";
         String userInfoSql = "UPDATE user_info SET phone = ?, address = ? WHERE user_info_id = ?";
-
-        jdbcTemplate.update(userAccountsSql,
-                updateUser.getUserAccount().getPassword(),
-                updateUser.getUserId());
-        jdbcTemplate.update(userInfoSql,
-                updateUser.getUserInfo().getPhone(),
-                updateUser.getUserInfo().getAddress(),
-                updateUser.getUserId());
-        return updateUser.getUserId();
+        jdbcTemplate.update(userSql, birth, userId);
+        jdbcTemplate.update(userInfoSql, phone, address, userId);
     }
 
     @Override
