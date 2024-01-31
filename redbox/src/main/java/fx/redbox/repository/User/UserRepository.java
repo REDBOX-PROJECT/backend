@@ -22,5 +22,6 @@ public interface UserRepository {
     void deleteByUserId(Long userId);
 
     boolean existsByEmail(String email);
+    public Optional<User> findEmail(String name, String phone);
 
 }

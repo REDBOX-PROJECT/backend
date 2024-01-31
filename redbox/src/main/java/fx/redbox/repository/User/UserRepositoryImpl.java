@@ -117,4 +117,15 @@ public class UserRepositoryImpl implements UserRepository {
         int cnt = jdbcTemplate.queryForObject(sql, Integer.class, email);
         return cnt > 0;
     }
+
+    @Override
+    public Optional<User> findEmail(String name, String phone) {
+        String sql = "SELECT *" +
+                " FROM users" +
+                " JOIN user_info ON users.user_info_id = user_info.user_info_id" +
+                " JOIN user_accounts ON users.account_id = user_accounts.account_id" +
+                " WHERE users.name = ? AND user_info.phone = ?";
+        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, new Object[]{name, phone}, userMapper));
+    }
+
 }
