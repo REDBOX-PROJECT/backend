@@ -10,6 +10,7 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,8 +23,8 @@ import java.util.Date;
 @Component
 public class JwtProvider {
 
-//    @Value("${jwt.secret.key}")
-    private String salt = "Xx!sdlakfpiou3o42oprtjtgk@1096@@!gmbk#GS12sdf";
+    @Value("${jwt.secret.key}")
+    private String salt;
 
     private Key secretKey;
 
