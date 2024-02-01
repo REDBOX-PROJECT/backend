@@ -19,6 +19,21 @@ import java.util.List;
 public class BoardController {
 
     private final BoardRepository boardRepository;
+
+    //전체 게시글 조회
+    @GetMapping
+    public ApiResponse board(Model model) {
+        List<Board> boards = boardRepository.findAll();
+        model.addAttribute("boards",boards);
+        return ApiResponse.res(HttpStatus.OK.value(), "게시글 전체 조회 완료", boards);
+    }
+    //단일 게시글 조회
+    @GetMapping("/{boardId}")
+    public ApiResponse board(@PathVariable Long boardId, Model model) {
+        Board board = boardRepository.findById(boardId);
+        model.addAttribute("board",board);
+        return ApiResponse.res(HttpStatus.OK.value(), "단일 게시글 조회 완료",board);
+    }
     //게시글 등록
     @PostMapping("/add")
     public ApiResponse addBoard(Board board, Model model) {
@@ -26,3 +41,4 @@ public class BoardController {
         model.addAttribute("board",board);
         return ApiResponse.res(HttpStatus.OK.value(), "게시글 저장 완료");
     }
+}
