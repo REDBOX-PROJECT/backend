@@ -65,7 +65,7 @@ public class UserController {
     }
 
     @PatchMapping("/user/{email}") //회원 정보 수정 - 생년얼일, 전화번호, 주소
-    public ApiResponse<FindMailOrPasswordForm> update(@PathVariable String email,
+    public ApiResponse update(@PathVariable String email,
                                                       @RequestBody UpdateForm updateForm) {
         try {
             userService.update(email, updateForm);
