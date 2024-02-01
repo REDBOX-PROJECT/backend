@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface UserService {
 
     boolean signUp(SignRequestForm signRequestForm);
-    SignResponseForm signIn(SignRequestForm signRequestForm) throws Exception;
+    SignResponseForm signIn(SignRequestForm signRequestForm);
     SignResponseForm getUser(String email) throws Exception;
     Optional<User> findByEmail(String email);
     Optional<User> findByUserId(Long userId);

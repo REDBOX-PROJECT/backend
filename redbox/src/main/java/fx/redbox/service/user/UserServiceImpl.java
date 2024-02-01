@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
 
             userRepository.save(userAccount, userInfo, user);
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException("계정이 존재하거나 잘못된 요청입니다.");
 
         }
@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public SignResponseForm signIn(SignRequestForm signRequestForm) throws Exception{
+    public SignResponseForm signIn(SignRequestForm signRequestForm) {
         User user = userRepository.findByEmail(signRequestForm.getEmail()).orElseThrow(() ->
                 new BadCredentialsException("잘못된 계정정보입니다."));
 

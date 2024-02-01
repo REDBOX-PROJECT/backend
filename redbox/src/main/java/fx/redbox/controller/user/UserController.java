@@ -20,45 +20,77 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/login") //로그인
-    public ApiResponse<SignResponseForm> signIn(@RequestBody SignRequestForm signRequestForm) throws Exception {
-        return ApiResponse.res(HttpStatus.OK.value(), "로그인 성공", userService.signIn(signRequestForm));
+    public ApiResponse<SignResponseForm> signIn(@RequestBody SignRequestForm signRequestForm) {
+        try {
+            return ApiResponse.res(HttpStatus.OK.value(), "로그인 성공", userService.signIn(signRequestForm));
+        } catch (Exception e) {
+            return ApiResponse.res(HttpStatus.BAD_REQUEST.value(), "로그인 실패");
+        }
     }
 
     @PostMapping("/register") //회원가입
-    public ApiResponse<Boolean> signUp(@RequestBody SignRequestForm signRequestForm) throws Exception {
-        return ApiResponse.res(HttpStatus.OK.value(), "회원가입 성공", userService.signUp(signRequestForm));
+    public ApiResponse<Boolean> signUp(@RequestBody SignRequestForm signRequestForm) {
+        try {
+            return ApiResponse.res(HttpStatus.OK.value(), "회원가입 성공", userService.signUp(signRequestForm));
+        } catch (Exception e) {
+            return  ApiResponse.res(HttpStatus.BAD_REQUEST.value(), "계정이 존재하거나 잘못된 요청입니다.");
+        }
     }
 
     @GetMapping("/user/{email}") //회원조회
-    public ApiResponse<SignResponseForm> getUser(@PathVariable String email) throws Exception {
-        return ApiResponse.res(HttpStatus.OK.value(),"회원 조회 성공", userService.getUser(email));
+    public ApiResponse<SignResponseForm> getUser(@PathVariable String email) {
+        try {
+            return ApiResponse.res(HttpStatus.OK.value(),"회원 조회 성공", userService.getUser(email));
+        } catch (Exception e) {
+            return ApiResponse.res(HttpStatus.BAD_REQUEST.value(),"존재하지 않는 회원입니다.");
+        }
     }
 
     @GetMapping("/admin/{email}") //관리자권한 회원조회
-    public ApiResponse<SignResponseForm> getUserForAdmin(@PathVariable String email) throws Exception {
-        return ApiResponse.res(HttpStatus.OK.value(), "ADMIN : 회원 조회 성공",userService.getUser(email));
+    public ApiResponse<SignResponseForm> getUserForAdmin(@PathVariable String email) {
+        try {
+            return ApiResponse.res(HttpStatus.OK.value(), "ADMIN : 회원 조회 성공",userService.getUser(email));
+        } catch (Exception e) {
+            return ApiResponse.res(HttpStatus.BAD_REQUEST.value(), "ADMIN : 회원 조회 실패");
+        }
     }
 
     @GetMapping("/user/findEmail") //이메일 찾기
     public ApiResponse<FindMailOrPasswordForm> getEmail(@RequestBody FindMailOrPasswordForm findMailOrPasswordForm) throws Exception {
-        return ApiResponse.res(HttpStatus.OK.value(), "사용자 이메일 찾기 성공",userService.getEmail(findMailOrPasswordForm));
+        try {
+            return ApiResponse.res(HttpStatus.OK.value(), "사용자 이메일 찾기 성공",userService.getEmail(findMailOrPasswordForm));
+        } catch (Exception e) {
+            return ApiResponse.res(HttpStatus.BAD_REQUEST.value(), "존재하지 않는 회원입니다.");
+        }
     }
 
     @PatchMapping("/user/{email}") //회원 정보 수정 - 생년얼일, 전화번호, 주소
     public ApiResponse<FindMailOrPasswordForm> update(@PathVariable String email,
-                                                      @RequestBody UpdateForm updateForm) throws Exception{
-        userService.update(email, updateForm);
-        return ApiResponse.res(HttpStatus.OK.value(), "사용자 정보 수정 성공");
+                                                      @RequestBody UpdateForm updateForm) {
+        try {
+            userService.update(email, updateForm);
+            return ApiResponse.res(HttpStatus.OK.value(), "사용자 정보 수정 성공");
+        } catch (Exception e) {
+            return ApiResponse.res(HttpStatus.BAD_REQUEST.value(), "존재하지 않는 회원입니다.");
+        }
     }
 
     @PostMapping("/user/findPassword") //비밀번호 찾기, 임시비밀번호 발급
     public ApiResponse<String> getPassword(@RequestBody FindMailOrPasswordForm findMailOrPasswordForm) {
-        return ApiResponse.res(HttpStatus.OK.value(), "사용자 임시 비밀번호 발급", userService.findPassword(findMailOrPasswordForm));
+        try {
+            return ApiResponse.res(HttpStatus.OK.value(), "사용자 임시 비밀번호 발급", userService.findPassword(findMailOrPasswordForm));
+        } catch (Exception e) {
+            return ApiResponse.res(HttpStatus.BAD_REQUEST.value(), "존재하지 않는 회원입니다.");
+        }
     }
 
     @DeleteMapping("/user/{email}") //회원 탈퇴
-    public ApiResponse deleteUser(@PathVariable String email) throws Exception {
-        userService.deleteUser(email);
-        return ApiResponse.res(HttpStatus.OK.value(), "회원 탈퇴 성공");
+    public ApiResponse deleteUser(@PathVariable String email) {
+        try {
+            userService.deleteUser(email);
+            return ApiResponse.res(HttpStatus.OK.value(), "회원 탈퇴 성공");
+        } catch (Exception e) {
+            return ApiResponse.res(HttpStatus.BAD_REQUEST.value(), "존재하지 않는 회원입니다.");
+        }
     }
 }
