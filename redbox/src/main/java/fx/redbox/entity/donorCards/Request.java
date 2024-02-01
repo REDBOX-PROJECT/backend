@@ -13,4 +13,5 @@ public class Request {
     private RejectPermission requestPermission;
     private String rejectionReason;
     private Long userId;
+    private RequestForm requestForm; // RequestForm 필드 추가
 }
