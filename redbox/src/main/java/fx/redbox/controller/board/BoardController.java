@@ -41,4 +41,16 @@ public class BoardController {
         model.addAttribute("board",board);
         return ApiResponse.res(HttpStatus.OK.value(), "게시글 저장 완료");
     }
+    //게시글 수정
+    @PostMapping("/{boardId}/edit")
+    public ApiResponse edit(@PathVariable Long boardId, @ModelAttribute Board board) {
+        boardRepository.update(boardId,board);
+        return ApiResponse.res(HttpStatus.OK.value(), "게시글 수정 완료");
+    }
+    //테스트 데이터 생성
+    @PostConstruct
+    public void init() {
+        boardRepository.save(new Board("boardA","contentA", new Timestamp(19), BoardType.문의,10L));
+        boardRepository.save(new Board("boardB","contentB", new Timestamp(20), BoardType.문의,11L));
+    }
 }
