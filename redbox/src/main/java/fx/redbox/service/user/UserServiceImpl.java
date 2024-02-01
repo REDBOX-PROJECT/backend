@@ -130,7 +130,7 @@ public class UserServiceImpl implements UserService {
 
         //랜덤 비밀번호 생성
         UUID uid = UUID.randomUUID();
-        String tempPassword = uid.toString().substring(10); //비밀번호 10자리
+        String tempPassword = uid.toString().substring(0, 10); //비밀번호 10자리
 
         //새 비밀번호 암호화 후 DB저장
         userRepository.insertPassword(findPasswordForm.getEmail(), passwordEncoder.encode(tempPassword));
