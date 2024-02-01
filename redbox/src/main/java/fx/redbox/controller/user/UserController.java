@@ -55,7 +55,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/user/findEmail") //이메일 찾기
+    @PostMapping("/user/findEmail") //이메일 찾기
     public ApiResponse<FindMailOrPasswordForm> getEmail(@RequestBody FindMailOrPasswordForm findMailOrPasswordForm) throws Exception {
         try {
             return ApiResponse.res(HttpStatus.OK.value(), "사용자 이메일 찾기 성공",userService.getEmail(findMailOrPasswordForm));
