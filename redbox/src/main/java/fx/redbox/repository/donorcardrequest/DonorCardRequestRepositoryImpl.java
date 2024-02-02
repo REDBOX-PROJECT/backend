@@ -72,16 +72,25 @@ public class DonorCardRequestRepositoryImpl implements DonorCardRequestRepositor
     }
 
     @Override
-    public DonorCardRequest updateDonorCardRequest(DonorCardRequest donorCardRequest) {
-        String sql = "UPDATE donorCardRequest SET donorcard_request_permission = ?," +
-                " donorcard_request_reject_reason = ?," +
-                " user_id = ?" +
+    public DonorCardRequest updateDonorCardRequest(DonorCardRequestForm donorCardRequestForm) {
+
+        String sql = "UPDATE donorCardRequestForm SET patient_name = ?," +
+                " evidence_document = ?," +
+                " patient_gender = ?," +
+                " blood_type = ?," +
+                " donorcard_request_date = ?" +
                 " WHERE donorcard_request_id = ?";
+        jdbcTemplate.update(sql,
+                donorCardRequestForm.getPatientName(),
+                donorCardRequestForm.getEvidenceDocument(),
+                donorCardRequestForm.getPatientGender(),
+                donorCardRequestForm.getBloodType(),
+                donorCardRequestForm.getDonorCardRequestDate(),
+                donorCardRequestForm.getDonorCardRequestId());
 
-        jdbcTemplate.update(sql, donorCardRequest.getDonorCardRequestPermission(), donorCardRequest.getDonorCardRequestRejectReason(), donorCardRequest.getUserId(), donorCardRequest.getDonorCardRequestId());
-
-        return getDonorCardRequestById(String.valueOf(donorCardRequest.getDonorCardRequestId()));
+        return getDonorCardRequestById(String.valueOf(donorCardRequestForm.getDonorCardRequestId()));
     }
+
 
     @Override
     public void deleteDonorCardRequest(String donorCardRequestId) {

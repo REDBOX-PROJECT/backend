@@ -13,7 +13,7 @@ public interface DonorCardRequestRepository {
 
     List<DonorCardRequest> getAllDonorCardRequests();
 
-    DonorCardRequest updateDonorCardRequest(DonorCardRequest donorCardRequest);
+    DonorCardRequest updateDonorCardRequest(DonorCardRequestForm donorCardRequestForm);
 
     void deleteDonorCardRequest(String donorCardRequestId);
 }
