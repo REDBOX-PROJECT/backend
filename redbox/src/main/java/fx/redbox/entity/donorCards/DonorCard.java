@@ -10,6 +10,7 @@ import java.sql.Date;
 
 @Getter
 @Setter
+@Builder
 public class DonorCard {
     private String certificateNumber;
     private String donorName;
@@ -19,14 +20,4 @@ public class DonorCard {
     private String bloodCenter;
     private Long userId;
 
-    @Builder
-    public DonorCard(String certificateNumber, String donorName, Date donorBirth, DonorBloodKind donorBloodKind, Gender donorGender, String bloodCenter, Long userId){
-        this.certificateNumber = certificateNumber;
-        this.donorName = donorName;
-        this.donorBirth = donorBirth;
-        this.donorBloodKind = donorBloodKind;
-        this.donorGender = donorGender;
-        this.bloodCenter = bloodCenter;
-        this.userId = userId;
-    }
 }
