@@ -15,4 +15,5 @@ public interface DonorCardRequestRepository {
 
     DonorCardRequest updateDonorCardRequest(DonorCardRequest donorCardRequest);
 
+    void deleteDonorCardRequest(String donorCardRequestId);
 }

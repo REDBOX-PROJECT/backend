@@ -83,5 +83,10 @@ public class DonorCardRequestRepositoryImpl implements DonorCardRequestRepositor
         return getDonorCardRequestById(String.valueOf(donorCardRequest.getDonorCardRequestId()));
     }
 
+    @Override
+    public void deleteDonorCardRequest(String donorCardRequestId) {
+        String sql = "DELETE FROM donor_card_request WHERE donor_card_request_id = ?";
+        jdbcTemplate.update(sql, donorCardRequestId);
+    }
 
 }
