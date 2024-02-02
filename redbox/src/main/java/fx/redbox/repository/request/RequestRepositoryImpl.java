@@ -65,8 +65,10 @@ public class RequestRepositoryImpl implements RequestRepository {
 
     @Override
     public List<Request> getAllRequests() {
-        return null;
+        String sql = "SELECT * FROM request";
+        return jdbcTemplate.query(sql, new RequestMapper());
     }
+
 
     @Override
     public void acceptRequest(String requestId) {
