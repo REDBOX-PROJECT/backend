@@ -1,8 +1,9 @@
 package fx.redbox.repository.request;
 
-import fx.redbox.entity.donorCards.Request;
-import fx.redbox.entity.donorCards.RequestForm;
-import fx.redbox.repository.mappper.RequestMapper;
+import fx.redbox.entity.donorCards.DonorCardRequest;
+import fx.redbox.entity.donorCards.DonorCardRequestForm;
+import fx.redbox.repository.mappper.DonorCardRequestMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -19,70 +20,53 @@ public class RequestRepositoryImpl implements RequestRepository {
     }
 
     @Override
-    public Request saveRequest(Request request, RequestForm requestForm) {
+    public DonorCardRequest createDonorCardRequest(DonorCardRequest donorCardRequest, DonorCardRequestForm donorCardRequestForm) {
 
         // request 테이블
         SimpleJdbcInsert requestInsert = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName("request")
-                .usingGeneratedKeyColumns("request_id");
+                .withTableName("donorcard_request")
+                .usingGeneratedKeyColumns("donorcard_request_id");
 
         MapSqlParameterSource parameters = new MapSqlParameterSource();
-        parameters.addValue("request_permission", request.getRequestPermission());
-        parameters.addValue("rejection_reason", request.getRejectionReason());
-        parameters.addValue("user_id", request.getUserId());
+        parameters.addValue("donorcard_request_permission", donorCardRequest.getDonorCardRequestPermission());
+        parameters.addValue("donorcard_request_reject_reason", donorCardRequest.getDonorCardRequestRejectReason());
+        parameters.addValue("user_id", donorCardRequest.getUserId());
 
-        Long requestId = requestInsert.executeAndReturnKey(parameters).longValue();
-        request.setRequestId(requestId);
+        Long donorCardRequestId = requestInsert.executeAndReturnKey(parameters).longValue();
+        donorCardRequest.setDonorCardRequestId(donorCardRequestId);
 
         // request_form 테이블
         SimpleJdbcInsert requestFormInsert = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName("request_form")
-                .usingGeneratedKeyColumns("request_id");
+                .withTableName("donorcard_request_form")
+                .usingGeneratedKeyColumns("donorcard_request_id");
 
         MapSqlParameterSource formParameters = new MapSqlParameterSource();
-        formParameters.addValue("request_id", requestId);
-        formParameters.addValue("patient_name", requestForm.getPatientName());
-        formParameters.addValue("evidence_document", requestForm.getEvidenceDocument());
-        formParameters.addValue("patient_gender", requestForm.getPatientGender());
-        formParameters.addValue("blood_type", requestForm.getBloodType());
-        formParameters.addValue("request_date", requestForm.getRequestDate());
+        formParameters.addValue("donorcard_request_id", donorCardRequestId);
+        formParameters.addValue("patient_name", donorCardRequestForm.getPatientName());
+        formParameters.addValue("evidence_document", donorCardRequestForm.getEvidenceDocument());
+        formParameters.addValue("patient_gender", donorCardRequestForm.getPatientGender());
+        formParameters.addValue("blood_type", donorCardRequestForm.getBloodType());
+        formParameters.addValue("donorcard_request_date", donorCardRequestForm.getDonorCardRequestDate());
 
         requestFormInsert.execute(formParameters);
 
-        return request;
+        return donorCardRequest;
     }
 
     @Override
-    public Request getRequestById(String requestId) {
+    public DonorCardRequest getDonorCardRequestById(String requestId) {
         String sql = "SELECT * FROM request WHERE request_id = ?";
         try {
-            return jdbcTemplate.queryForObject(sql, new Object[]{requestId}, new RequestMapper());
+            return jdbcTemplate.queryForObject(sql, new Object[]{requestId}, new DonorCardRequestMapper());
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
     }
 
-
     @Override
-    public List<Request> getAllRequests() {
+    public List<DonorCardRequest> getAllDonorCardRequests() {
         String sql = "SELECT * FROM request";
-        return jdbcTemplate.query(sql, new RequestMapper());
-    }
-
-
-    @Override
-    public void acceptRequest(String requestId) {
-
-    }
-
-    @Override
-    public void rejectRequest(String requestId, String rejectionReason) {
-
-    }
-
-    @Override
-    public void cancelRequest(String requestId) {
-
+        return jdbcTemplate.query(sql, new DonorCardRequestMapper());
     }
 
 }

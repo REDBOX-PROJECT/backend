@@ -11,11 +11,11 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @Builder
-public class RequestForm {
-    private Long requestId;
+public class DonorCardRequestForm {
+    private Long donorCardRequestId;
     private String patientName;
     private String evidenceDocument;
     private Gender patientGender;
     private BloodType bloodType;
-    private Timestamp requestDate;
+    private Timestamp donorCardRequestDate;
 }
