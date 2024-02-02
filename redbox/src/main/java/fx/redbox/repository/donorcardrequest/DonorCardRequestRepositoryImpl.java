@@ -7,7 +7,10 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
+import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -22,36 +25,45 @@ public class DonorCardRequestRepositoryImpl implements DonorCardRequestRepositor
     @Override
     public DonorCardRequest createDonorCardRequest(DonorCardRequest donorCardRequest, DonorCardRequestForm donorCardRequestForm) {
 
-        // request 테이블
-        SimpleJdbcInsert donorCardRequestInsert = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName("donorcard_request")
-                .usingGeneratedKeyColumns("donorcard_request_id");
+        // DonorCardRequest 테이블에 데이터 삽입
+        String sqlRequest = "INSERT INTO donorcard_request (donorcard_request_permission," +
+                " donorcard_request_reject_reason," +
+                " user_id) VALUES (?, ?, ?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection
+                    .prepareStatement(sqlRequest, new String[] {"donorcard_request_id"});
+            ps.setString(1, donorCardRequest.getDonorCardRequestPermission().toString());
+            ps.setString(2, donorCardRequest.getDonorCardRequestRejectReason());
+            ps.setLong(3, donorCardRequest.getUserId());
+            return ps;
+        }, keyHolder);
 
-        MapSqlParameterSource parameters = new MapSqlParameterSource();
-        parameters.addValue("donorcard_request_permission", donorCardRequest.getDonorCardRequestPermission());
-        parameters.addValue("donorcard_request_reject_reason", donorCardRequest.getDonorCardRequestRejectReason());
-        parameters.addValue("user_id", donorCardRequest.getUserId());
-
-        Long donorCardRequestId = donorCardRequestInsert.executeAndReturnKey(parameters).longValue();
+        Long donorCardRequestId = keyHolder.getKey().longValue();
         donorCardRequest.setDonorCardRequestId(donorCardRequestId);
 
-        // request_form 테이블
-        SimpleJdbcInsert donorCardRequestFormInsert = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName("donorcard_request_form")
-                .usingGeneratedKeyColumns("donorcard_request_id");
+        // DonorCardRequestForm 테이블에 데이터 삽입
+        String sqlRequestForm = "INSERT INTO donorcard_request_form (donorcard_request_id," +
+                " patient_name," +
+                " evidence_document," +
+                " patient_gender," +
+                " blood_type," +
+                " donorcard_request_date) VALUES (?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sqlRequestForm,
+                donorCardRequest.getDonorCardRequestId(),
+                donorCardRequestForm.getPatientName(),
+                donorCardRequestForm.getEvidenceDocument(),
+                donorCardRequestForm.getPatientGender().toString(),
+                donorCardRequestForm.getBloodType().toString(),
+                donorCardRequestForm.getDonorCardRequestDate());
 
-        MapSqlParameterSource formParameters = new MapSqlParameterSource();
-        formParameters.addValue("donorcard_request_id", donorCardRequestId);
-        formParameters.addValue("patient_name", donorCardRequestForm.getPatientName());
-        formParameters.addValue("evidence_document", donorCardRequestForm.getEvidenceDocument());
-        formParameters.addValue("patient_gender", donorCardRequestForm.getPatientGender());
-        formParameters.addValue("blood_type", donorCardRequestForm.getBloodType());
-        formParameters.addValue("donorcard_request_date", donorCardRequestForm.getDonorCardRequestDate());
-
-        donorCardRequestFormInsert.execute(formParameters);
+        // DonorCardRequest 객체가 DonorCardRequestForm 객체를 참조하도록 설정
+        donorCardRequest.setDonorCardRequestForm(donorCardRequestForm);
 
         return donorCardRequest;
     }
+
+
 
     @Override
     public DonorCardRequest getDonorCardRequestById(String donorCardRequestId) {
