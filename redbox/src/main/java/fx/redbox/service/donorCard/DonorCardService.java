@@ -8,6 +8,7 @@ import java.util.Map;
 public interface DonorCardService {
     void join(DonorCard donorCard);
     List<Map<String, Object>> findDonorCard(String certificateNumber);
+    List<Map<String, Object>> findAll();
     void deleteDonorCard(String certificateNumber);
     void updateDonorCard(String certificateNumber, DonorCard updateDonorCard);
 }
