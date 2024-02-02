@@ -1,4 +1,4 @@
-package fx.redbox.repository;
+package fx.redbox.repository.donorCard;
 
 import fx.redbox.entity.donorCards.DonorCard;
 
