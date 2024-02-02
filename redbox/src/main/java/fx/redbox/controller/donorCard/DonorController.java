@@ -29,5 +29,12 @@ public class DonorController {
         return ApiResponse.res(HttpStatus.CREATED.value(), "헌혈증 정보 저장 성공");
     }
 
+    @GetMapping("/{certificateNumber}")
+    public ApiResponse showDonorCardByCertificateNumber(@PathVariable String certificateNumber){
+        List<Map<String, Object>> findDonorCard = donorCardService.findDonorCard(certificateNumber);
+
+        return ApiResponse.res(HttpStatus.OK.value(), "헌혈증 단일 정보 조회 성공", findDonorCard);
+    }
+
 
 }
