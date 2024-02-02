@@ -2,6 +2,8 @@ package fx.redbox.repository.request;
 
 import fx.redbox.entity.donorCards.Request;
 import fx.redbox.entity.donorCards.RequestForm;
+import fx.redbox.repository.mappper.RequestMapper;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -52,8 +54,14 @@ public class RequestRepositoryImpl implements RequestRepository {
 
     @Override
     public Request getRequestById(String requestId) {
-        return null;
+        String sql = "SELECT * FROM request WHERE request_id = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, new Object[]{requestId}, new RequestMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
+
 
     @Override
     public List<Request> getAllRequests() {
