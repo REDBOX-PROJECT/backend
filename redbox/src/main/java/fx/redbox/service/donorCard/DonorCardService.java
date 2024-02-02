@@ -1,4 +1,4 @@
-package fx.redbox.service;
+package fx.redbox.service.donorCard;
 
 import fx.redbox.entity.donorCards.DonorCard;
 
