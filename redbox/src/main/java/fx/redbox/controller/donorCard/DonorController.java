@@ -36,5 +36,12 @@ public class DonorController {
         return ApiResponse.res(HttpStatus.OK.value(), "헌혈증 단일 정보 조회 성공", findDonorCard);
     }
 
+    @GetMapping("/donorCards")
+    public ApiResponse showAllDonorCards(){
+        List<Map<String, Object>> donorCards = donorCardService.findAll();
+
+        return ApiResponse.res(HttpStatus.OK.value(), "헌혈증 전체 정보 조회 성공", donorCards);
+    }
+
 
 }
