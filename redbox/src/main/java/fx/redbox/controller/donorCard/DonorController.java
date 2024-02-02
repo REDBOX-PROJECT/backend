@@ -43,5 +43,12 @@ public class DonorController {
         return ApiResponse.res(HttpStatus.OK.value(), "헌혈증 전체 정보 조회 성공", donorCards);
     }
 
+    @PatchMapping("/{certificateNumber}")
+    public ApiResponse updateDonorCardByCertificateNumber(@PathVariable String certificateNumber, @RequestBody DonorCard updateDonorCard){
+        donorCardService.updateDonorCard(certificateNumber, updateDonorCard);
+       
+        return ApiResponse.res(HttpStatus.OK.value(), "헌혈증 정보 수정 성공");
+    }
+    
 
 }
