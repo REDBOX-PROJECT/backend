@@ -23,6 +23,11 @@ public class DonorCardServiceImpl implements DonorCardService{
     }
 
     @Override
+    public List<Map<String, Object>> findAll() {
+        return donorCardRepository.findAll();
+    }
+
+    @Override
     public void deleteDonorCard(String certificateNumber) {
         donorCardRepository.delete(certificateNumber);
     }
