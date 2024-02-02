@@ -22,7 +22,7 @@ public class DonorCardRequestRepositoryImpl implements DonorCardRequestRepositor
     public DonorCardRequest createDonorCardRequest(DonorCardRequest donorCardRequest, DonorCardRequestForm donorCardRequestForm) {
 
         // request 테이블
-        SimpleJdbcInsert requestInsert = new SimpleJdbcInsert(jdbcTemplate)
+        SimpleJdbcInsert donorCardRequestInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("donorcard_request")
                 .usingGeneratedKeyColumns("donorcard_request_id");
 
@@ -31,11 +31,11 @@ public class DonorCardRequestRepositoryImpl implements DonorCardRequestRepositor
         parameters.addValue("donorcard_request_reject_reason", donorCardRequest.getDonorCardRequestRejectReason());
         parameters.addValue("user_id", donorCardRequest.getUserId());
 
-        Long donorCardRequestId = requestInsert.executeAndReturnKey(parameters).longValue();
+        Long donorCardRequestId = donorCardRequestInsert.executeAndReturnKey(parameters).longValue();
         donorCardRequest.setDonorCardRequestId(donorCardRequestId);
 
         // request_form 테이블
-        SimpleJdbcInsert requestFormInsert = new SimpleJdbcInsert(jdbcTemplate)
+        SimpleJdbcInsert donorCardRequestFormInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("donorcard_request_form")
                 .usingGeneratedKeyColumns("donorcard_request_id");
 
@@ -47,16 +47,16 @@ public class DonorCardRequestRepositoryImpl implements DonorCardRequestRepositor
         formParameters.addValue("blood_type", donorCardRequestForm.getBloodType());
         formParameters.addValue("donorcard_request_date", donorCardRequestForm.getDonorCardRequestDate());
 
-        requestFormInsert.execute(formParameters);
+        donorCardRequestFormInsert.execute(formParameters);
 
         return donorCardRequest;
     }
 
     @Override
-    public DonorCardRequest getDonorCardRequestById(String requestId) {
-        String sql = "SELECT * FROM request WHERE request_id = ?";
+    public DonorCardRequest getDonorCardRequestById(String donorCardRequestId) {
+        String sql = "SELECT * FROM donorCardRequest WHERE donorcard_request_id = ?";
         try {
-            return jdbcTemplate.queryForObject(sql, new Object[]{requestId}, new DonorCardRequestMapper());
+            return jdbcTemplate.queryForObject(sql, new Object[]{donorCardRequestId}, new DonorCardRequestMapper());
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
@@ -64,7 +64,7 @@ public class DonorCardRequestRepositoryImpl implements DonorCardRequestRepositor
 
     @Override
     public List<DonorCardRequest> getAllDonorCardRequests() {
-        String sql = "SELECT * FROM request";
+        String sql = "SELECT * FROM donorCardRequest";
         return jdbcTemplate.query(sql, new DonorCardRequestMapper());
     }
 

@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface DonorCardRequestRepository {
 
-    DonorCardRequest createDonorCardRequest(DonorCardRequest request, DonorCardRequestForm requestForm);
+    DonorCardRequest createDonorCardRequest(DonorCardRequest donorCardRequest, DonorCardRequestForm donorCardRequestForm);
 
-    DonorCardRequest getDonorCardRequestById(String requestId);
+    DonorCardRequest getDonorCardRequestById(String donorCardRequestId);
 
     List<DonorCardRequest> getAllDonorCardRequests();
 
