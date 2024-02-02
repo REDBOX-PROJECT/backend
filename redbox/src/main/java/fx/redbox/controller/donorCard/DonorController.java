@@ -50,5 +50,11 @@ public class DonorController {
         return ApiResponse.res(HttpStatus.OK.value(), "헌혈증 정보 수정 성공");
     }
     
+    @DeleteMapping("/{certificateNumber}")
+    public ApiResponse deleteDonorCardByCertificateNumber(@PathVariable String certificateNumber){
+        donorCardService.deleteDonorCard(certificateNumber);
+        
+        return ApiResponse.res(HttpStatus.OK.value(), "헌혈증 정보 삭제 성공");
+    }
 
 }
