@@ -1,9 +1,8 @@
-package fx.redbox.repository.request;
+package fx.redbox.repository.donorcardrequest;
 
 import fx.redbox.entity.donorCards.DonorCardRequest;
 import fx.redbox.entity.donorCards.DonorCardRequestForm;
 import fx.redbox.repository.mappper.DonorCardRequestMapper;
-import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -11,11 +10,11 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import java.util.List;
 
-public class RequestRepositoryImpl implements RequestRepository {
+public class DonorCardRequestRepositoryImpl implements DonorCardRequestRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public RequestRepositoryImpl(JdbcTemplate jdbcTemplate) {
+    public DonorCardRequestRepositoryImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
