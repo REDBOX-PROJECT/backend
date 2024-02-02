@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class DonorCardRequestRepositoryImpl implements DonorCardRequestRepository {
 
@@ -54,13 +55,15 @@ public class DonorCardRequestRepositoryImpl implements DonorCardRequestRepositor
 
     @Override
     public DonorCardRequest getDonorCardRequestById(String donorCardRequestId) {
+
         String sql = "SELECT * FROM donorCardRequest WHERE donorcard_request_id = ?";
         try {
             return jdbcTemplate.queryForObject(sql, new Object[]{donorCardRequestId}, new DonorCardRequestMapper());
         } catch (EmptyResultDataAccessException e) {
-            return null;
+            throw new NoSuchElementException("DonorCardRequest with id " + donorCardRequestId + " not found");
         }
     }
+
 
     @Override
     public List<DonorCardRequest> getAllDonorCardRequests() {
