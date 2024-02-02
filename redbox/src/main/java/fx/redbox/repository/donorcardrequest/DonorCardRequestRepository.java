@@ -13,4 +13,6 @@ public interface DonorCardRequestRepository {
 
     List<DonorCardRequest> getAllDonorCardRequests();
 
+    DonorCardRequest updateDonorCardRequest(DonorCardRequest donorCardRequest);
+
 }

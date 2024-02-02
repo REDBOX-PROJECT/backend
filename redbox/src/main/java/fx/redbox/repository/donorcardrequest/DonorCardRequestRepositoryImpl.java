@@ -71,4 +71,17 @@ public class DonorCardRequestRepositoryImpl implements DonorCardRequestRepositor
         return jdbcTemplate.query(sql, new DonorCardRequestMapper());
     }
 
+    @Override
+    public DonorCardRequest updateDonorCardRequest(DonorCardRequest donorCardRequest) {
+        String sql = "UPDATE donorCardRequest SET donorcard_request_permission = ?," +
+                " donorcard_request_reject_reason = ?," +
+                " user_id = ?" +
+                " WHERE donorcard_request_id = ?";
+
+        jdbcTemplate.update(sql, donorCardRequest.getDonorCardRequestPermission(), donorCardRequest.getDonorCardRequestRejectReason(), donorCardRequest.getUserId(), donorCardRequest.getDonorCardRequestId());
+
+        return getDonorCardRequestById(String.valueOf(donorCardRequest.getDonorCardRequestId()));
+    }
+
+
 }
