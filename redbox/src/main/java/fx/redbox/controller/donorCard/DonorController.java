@@ -22,5 +22,12 @@ import java.util.Map;
 public class DonorController {
     private final DonorCardService donorCardService;
 
+    @PostMapping("/save")
+    public ApiResponse save(@RequestBody DonorCard donorCardData){
+        donorCardService.join(donorCardData);
+
+        return ApiResponse.res(HttpStatus.CREATED.value(), "헌혈증 정보 저장 성공");
+    }
+
 
 }
