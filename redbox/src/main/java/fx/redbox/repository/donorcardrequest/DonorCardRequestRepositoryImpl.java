@@ -7,6 +7,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.util.List;
@@ -61,8 +62,6 @@ public class DonorCardRequestRepositoryImpl implements DonorCardRequestRepositor
         return donorCardRequest;
     }
 
-
-
     @Override
     public DonorCardRequest getDonorCardRequestById(String donorCardRequestId) {
 
@@ -82,15 +81,23 @@ public class DonorCardRequestRepositoryImpl implements DonorCardRequestRepositor
     }
 
     @Override
-    public DonorCardRequest updateDonorCardRequest(DonorCardRequestForm donorCardRequestForm) {
+    @Transactional
+    public DonorCardRequest updateDonorCardRequest(DonorCardRequest donorCardRequest, DonorCardRequestForm donorCardRequestForm) {
+        // DonorCardRequest 업데이트 쿼리
+        String sqlRequest = "UPDATE donorcard_request SET donorcard_request_permission = ?," +
+                " donorcard_request_reject_reason = ?," +
+                " user_id = ?" +
+                " WHERE donorcard_request_id = ?";
+        jdbcTemplate.update(sqlRequest, donorCardRequest.getDonorCardRequestPermission(), donorCardRequest.getDonorCardRequestRejectReason(), donorCardRequest.getUserId(), donorCardRequest.getDonorCardRequestId());
 
-        String sql = "UPDATE donorCardRequestForm SET patient_name = ?," +
+        // DonorCardRequestForm 업데이트 쿼리
+        String sqlRequestForm = "UPDATE donorcard_request_form SET patient_name = ?," +
                 " evidence_document = ?," +
                 " patient_gender = ?," +
                 " blood_type = ?," +
                 " donorcard_request_date = ?" +
                 " WHERE donorcard_request_id = ?";
-        jdbcTemplate.update(sql,
+        jdbcTemplate.update(sqlRequestForm,
                 donorCardRequestForm.getPatientName(),
                 donorCardRequestForm.getEvidenceDocument(),
                 donorCardRequestForm.getPatientGender(),
@@ -98,8 +105,10 @@ public class DonorCardRequestRepositoryImpl implements DonorCardRequestRepositor
                 donorCardRequestForm.getDonorCardRequestDate(),
                 donorCardRequestForm.getDonorCardRequestId());
 
-        return getDonorCardRequestById(String.valueOf(donorCardRequestForm.getDonorCardRequestId()));
+        // 업데이트된 DonorCardRequest 반환
+        return getDonorCardRequestById(String.valueOf(donorCardRequest.getDonorCardRequestId()));
     }
+
 
 
     @Override

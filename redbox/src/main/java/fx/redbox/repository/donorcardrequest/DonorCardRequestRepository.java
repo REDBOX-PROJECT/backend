@@ -15,7 +15,7 @@ public interface DonorCardRequestRepository {
 
     List<DonorCardRequest> getAllDonorCardRequests();
 
-    DonorCardRequest updateDonorCardRequest(DonorCardRequestForm donorCardRequestForm);
+    DonorCardRequest updateDonorCardRequest(DonorCardRequest donorCardRequest, DonorCardRequestForm donorCardRequestForm);
 
     void deleteDonorCardRequest(String donorCardRequestId);
 }
