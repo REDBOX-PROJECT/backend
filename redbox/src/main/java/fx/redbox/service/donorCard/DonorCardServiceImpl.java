@@ -38,8 +38,8 @@ public class DonorCardServiceImpl implements DonorCardService{
     }
 
     @Override
-    public List<Map<String, Object>> findAll() {
-        return donorCardRepository.findAll();
+    public List<DonorCard> findAllDonorCards() throws SQLException{
+        return donorCardRepository.findAllDonorCards();
     }
 
     @Override
