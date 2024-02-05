@@ -1,12 +1,14 @@
 package fx.redbox.repository.user;
 
 
+import fx.redbox.common.Exception.EmailNotFoundException;
 import fx.redbox.entity.enums.Grade;
 import fx.redbox.entity.users.User;
 import fx.redbox.entity.users.UserAccount;
 import fx.redbox.entity.users.UserInfo;
 import fx.redbox.repository.mappper.UserMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
@@ -45,7 +47,12 @@ public class UserRepositoryImpl implements UserRepository {
                 " JOIN user_accounts ON users.account_id = user_accounts.account_id" +
                 " JOIN user_info ON users.user_info_id = user_info.user_info_id" +
                 " WHERE user_accounts.email = ?";
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, new Object[]{email}, userMapper));
+        try {
+            User user = jdbcTemplate.queryForObject(sql, new Object[]{email}, userMapper);
+            return Optional.ofNullable(user);
+        } catch (EmptyResultDataAccessException e) {
+            throw new EmailNotFoundException(1);
+        }
     }
 
     @Override
@@ -89,7 +96,12 @@ public class UserRepositoryImpl implements UserRepository {
                 " JOIN user_info ON users.user_info_id = user_info.user_info_id" +
                 " JOIN user_accounts ON users.account_id = user_accounts.account_id" +
                 " WHERE users.name = ? AND user_info.phone = ?";
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, new Object[]{name, phone}, userMapper));
+        try {
+            User user = jdbcTemplate.queryForObject(sql, new Object[]{name, phone}, userMapper);
+            return Optional.ofNullable(user);
+        } catch (EmptyResultDataAccessException e) {
+            throw new EmailNotFoundException(1);
+        }
     }
 
     @Override

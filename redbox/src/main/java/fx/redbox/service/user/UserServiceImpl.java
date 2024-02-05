@@ -1,6 +1,9 @@
 package fx.redbox.service.user;
 
-import fx.redbox.controller.api.ResponseMessage;
+import fx.redbox.common.Exception.DuplicateEmailException;
+import fx.redbox.common.Exception.EmailNotFoundException;
+import fx.redbox.common.Exception.PasswordMismatchException;
+import fx.redbox.common.Exception.UserNotFoundException;
 import fx.redbox.controller.user.form.*;
 import fx.redbox.entity.enums.Permission;
 import fx.redbox.entity.users.User;
@@ -24,30 +27,27 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public boolean signUp(SignUpForm signUpForm) { // 기술 누수
+    public boolean signUp(SignUpForm signUpForm){ // 기술 누수
 
-        try {
-            CreateUserData userData = getCreateUserData(signUpForm);
-            //중복 이메일 검증
-            if(userRepository.existsByEmail(userData.userAccount().getEmail()))
-                throw new RuntimeException();
+        CreateUserData userData = getCreateUserData(signUpForm);
 
-            userRepository.saveUser(userData.userAccount(), userData.userInfo(), userData.user());
-
-        } catch (Exception e) {
-            throw new RuntimeException(String.valueOf(ResponseMessage.NOT_FOUND_USER));
-
+        //중복 이메일 검증
+        boolean existsUserMail = userRepository.existsByEmail(userData.userAccount().getEmail());
+        if(existsUserMail) {
+            throw new DuplicateEmailException();
         }
+
+        userRepository.saveUser(userData.userAccount(), userData.userInfo(), userData.user());
         return true;
     }
 
     @Override
     public SignInForm signIn(SignInForm signInForm) {
-        User user = userRepository.findByEmail(signInForm.getEmail()).orElseThrow(() ->
-                new RuntimeException(String.valueOf(ResponseMessage.NOT_FOUND_USER)));
+        User user = userRepository.findByEmail(signInForm.getEmail())
+                .orElseThrow(() -> new EmailNotFoundException(1));
 
         if(!signInForm.getPassword().equals(user.getUserAccount().getPassword())){
-            throw new RuntimeException(String.valueOf(ResponseMessage.NOT_FOUND_USER));
+            throw new PasswordMismatchException();
         }
 
         return SignInForm.builder()
@@ -55,42 +55,46 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserInfoForm getUser(String email) throws Exception {
+    public UserInfoForm getUser(String email) {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new Exception(String.valueOf(ResponseMessage.NOT_FOUND_USER)));
+                .orElseThrow(() -> new UserNotFoundException());
         return new UserInfoForm(user);
     }
 
     @Override
-    public Optional<User> findByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public Optional<User> findByEmail(String email){
+        User userEmail = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException());
+        return Optional.ofNullable(userEmail);
     }
 
     @Override
     public Optional<User> findByUserId(Long userId) {
-        return userRepository.findByUserId(userId);
+       User byUserId = userRepository.findByUserId(userId)
+               .orElseThrow(() -> new UserNotFoundException());
+        return Optional.ofNullable(byUserId);
     }
 
     @Override
-    public String getEmail(FindMailForm findMailForm) throws Exception {
+    public String getEmail(FindMailForm findMailForm) {
         User user = userRepository.findEmail(findMailForm.getName(), findMailForm.getPhone())
-                .orElseThrow(() -> new Exception(String.valueOf(ResponseMessage.NOT_FOUND_USER)));
+                .orElseThrow(() -> new UserNotFoundException());
         return user.getUserAccount().getEmail();
     }
 
     @Override
-    public void editUserInfo(String email, UpdateForm updateForm) throws Exception {
+    public void editUserInfo(String email, UpdateForm updateForm) {
         User user = userRepository.findByEmail(email)
-                        .orElseThrow(() -> new Exception(String.valueOf(ResponseMessage.NOT_FOUND_USER)));
+                        .orElseThrow(() -> new UserNotFoundException());
         userRepository.update(user.getUserId(), updateForm.getBirth(), updateForm.getPhone(), updateForm.getAddress() );
     }
 
     @Override
     public String findPassword(FindPasswordForm findPasswordForm) {
         //name과 email로 계정 존재 유뮤 확인
-        if(!userRepository.existsByNameAndEmail(findPasswordForm.getName(), findPasswordForm.getEmail()))
-            throw new RuntimeException();
-
+        if(!userRepository.existsByNameAndEmail(findPasswordForm.getName(), findPasswordForm.getEmail())) {
+            throw new UserNotFoundException();
+        }
         //SMTP를 사용해 사용자의 이메일에 인증번호 전송
         /*
         *
@@ -108,10 +112,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(String email) throws Exception {
-        User userId = userRepository.findByEmail(email).
-                orElseThrow(() -> new Exception(String.valueOf(ResponseMessage.NOT_FOUND_USER)));
-        userRepository.deleteByUserId(userId.getUserId());
+    public void deleteUser(String email) {
+        User user = userRepository.findByEmail(email).
+                orElseThrow(() -> new UserNotFoundException());
+        userRepository.deleteByUserId(user.getUserId());
     }
 
 
