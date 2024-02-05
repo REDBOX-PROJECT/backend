@@ -58,7 +58,7 @@ public class DonorCardRepositoryImpl implements DonorCardRepository{
     }
 
     @Override
-    public void update(String certificateNumber, DonorCard updateDonorCard) {
+    public void updateDonorCard(String certificateNumber, DonorCard updateDonorCard) throws SQLException{
         String UPDATE = "update donor_cards set donor_name=?," +
                 "donor_birth=?, donor_blood_kind=?, donor_gender=?" +
                 "donor_blood_center=? where cefiticate_number=?";
