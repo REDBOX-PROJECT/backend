@@ -50,9 +50,10 @@ public class DonorCardRepositoryImpl implements DonorCardRepository{
     }
 
     @Override
-    public List<Map<String, Object>> findAll() {
+    public List<DonorCard> findAllDonorCards() throws SQLException{
         String FIND_ALL = "select * from donor_cards";
-        List<Map<String, Object>> donorCards =  jdbcTemplate.queryForList(FIND_ALL);
+        List<DonorCard> donorCards =  jdbcTemplate.query(FIND_ALL,donorCardRowMapper());
+
         return donorCards;
     }
 
