@@ -77,4 +77,17 @@ public class DonorCardRepositoryImpl implements DonorCardRepository{
         jdbcTemplate.queryForList(DELETE, certificateNumber);
     }
 
+    private RowMapper<DonorCard> donorCardRowMapper(){
+        return((rs, rowNum) -> {
+            DonorCard donorCard = DonorCard.builder()
+                    .certificateNumber(rs.getString("certificate_number"))
+                    .donorName(rs.getString("donor_name"))
+                    .donorBloodKind(DonorBloodKind.valueOf(rs.getString("donor_blood_kind")))
+                    .donorGender(Gender.valueOf(rs.getString("donor_gender")))
+                    .bloodCenter(rs.getString("blood_center"))
+                    .userId(rs.getLong("user_id")).build();
+            return donorCard;
+        });
+    }
+
 }
