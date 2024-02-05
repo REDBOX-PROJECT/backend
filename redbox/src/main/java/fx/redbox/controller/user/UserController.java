@@ -19,23 +19,6 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/login") //로그인
-    public ApiResponse<SignResponseForm> signIn(@RequestBody SignRequestForm signRequestForm) {
-        try {
-            return ApiResponse.res(HttpStatus.OK.value(), "로그인 성공", userService.signIn(signRequestForm));
-        } catch (Exception e) {
-            return ApiResponse.res(HttpStatus.BAD_REQUEST.value(), "로그인 실패");
-        }
-    }
-
-    @PostMapping("/register") //회원가입
-    public ApiResponse<Boolean> signUp(@RequestBody SignRequestForm signRequestForm) {
-        try {
-            return ApiResponse.res(HttpStatus.OK.value(), "회원가입 성공", userService.signUp(signRequestForm));
-        } catch (Exception e) {
-            return  ApiResponse.res(HttpStatus.BAD_REQUEST.value(), "계정이 존재하거나 잘못된 요청입니다.");
-        }
-    }
 
     @GetMapping("/user/{email}") //회원조회
     public ApiResponse<SignResponseForm> getUser(@PathVariable String email) {
