@@ -9,7 +9,7 @@ import java.sql.Date;
 
 @Getter
 @Setter
-public class SignRequestForm {
+public class SignUpForm {
 
     //User
     private String name;
@@ -25,3 +25,7 @@ public class SignRequestForm {
     private String phone;
     private String address;
 }
+
+// 메모리
+// java 변수 선언할때 Memory 일어나는 일
+// 공간 복잡도 위험

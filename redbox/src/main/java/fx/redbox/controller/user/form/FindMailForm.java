@@ -8,15 +8,20 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class FindMailOrPasswordForm {
+public class FindMailForm {
 
     private String name;
     private String phone;
-    private String email;
 
-    public FindMailOrPasswordForm(User user) {
+    public FindMailForm(User user) {
         this.name = user.getName();
         this.phone = user.getUserInfo().getPhone();
-        this.email = user.getUserAccount().getEmail();
     }
 }
+
+
+// Mail
+// Phone , 이름
+
+// password
+// mail , 이름
