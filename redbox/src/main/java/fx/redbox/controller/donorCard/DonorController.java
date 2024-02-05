@@ -48,7 +48,7 @@ public class DonorController {
     }
 
     @PatchMapping("/{certificateNumber}")
-    public ApiResponse updateDonorCardByCertificateNumber(@PathVariable String certificateNumber, @RequestBody DonorCard updateDonorCard){
+    public ApiResponse updateDonorCardByCertificateNumber(@PathVariable String certificateNumber, @RequestBody DonorCard updateDonorCard) throws SQLException{
         donorCardService.updateDonorCard(certificateNumber, updateDonorCard);
        
         return ApiResponse.res(HttpStatus.OK.value(), "헌혈증 정보 수정 성공");
