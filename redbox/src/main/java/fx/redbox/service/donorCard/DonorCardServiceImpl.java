@@ -43,8 +43,12 @@ public class DonorCardServiceImpl implements DonorCardService{
     }
 
     @Override
-    public void deleteDonorCard(String certificateNumber) {
-        donorCardRepository.delete(certificateNumber);
+    public void deleteDonorCard(String certificateNumber) throws SQLException{
+        Optional<DonorCard> findDonorCard = donorCardRepository.findDonorCardByCertificateNumber(certificateNumber);
+        if(!findDonorCard.isEmpty()){
+            // return 해당 증서번호의 헌혈증이 없어요 라는 에러 발생
+        }
+        donorCardRepository.deleteDonorCard(certificateNumber);
     }
 
     @Override
