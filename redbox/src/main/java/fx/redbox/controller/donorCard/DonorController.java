@@ -34,8 +34,8 @@ public class DonorController {
     }
 
     @GetMapping("/{certificateNumber}")
-    public ApiResponse showDonorCardByCertificateNumber(@PathVariable String certificateNumber){
-        List<Map<String, Object>> findDonorCard = donorCardService.findDonorCard(certificateNumber);
+    public ApiResponse showDonorCardByCertificateNumber(@PathVariable String certificateNumber) throws SQLException{
+        Optional<DonorCard> findDonorCard = donorCardService.findDonorCard(certificateNumber);
 
         return ApiResponse.res(HttpStatus.OK.value(), "헌혈증 단일 정보 조회 성공", findDonorCard);
     }
