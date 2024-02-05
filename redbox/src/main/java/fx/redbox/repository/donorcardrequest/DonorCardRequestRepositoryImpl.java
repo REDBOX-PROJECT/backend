@@ -33,7 +33,7 @@ public class DonorCardRequestRepositoryImpl implements DonorCardRequestRepositor
             PreparedStatement ps = connection
                     .prepareStatement(sqlRequest, new String[] {"donorcard_request_id"});
             ps.setString(1, donorCardRequest.getDonorCardRequestPermission().toString());
-            ps.setString(2, donorCardRequest.getDonorCardRequestRejectReason());
+            ps.setString(2, String.valueOf(donorCardRequest.getDonorCardRequestRejectReason()));
             ps.setLong(3, donorCardRequest.getUserId());
             return ps;
         }, keyHolder);

@@ -2,13 +2,13 @@ package fx.redbox.entity.donorCards;
 
 import fx.redbox.entity.enums.RejectPermission;
 import fx.redbox.entity.enums.DonorCardRequestRejectReason;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class DonorCardRequest {
     private Long donorCardRequestId;
     private RejectPermission donorCardRequestPermission;
