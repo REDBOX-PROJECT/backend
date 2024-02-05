@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
             if(userRepository.existsByEmail(userData.userAccount().getEmail()))
                 throw new RuntimeException();
 
-            userRepository.save(userData.userAccount(), userData.userInfo(), userData.user());
+            userRepository.saveUser(userData.userAccount(), userData.userInfo(), userData.user());
 
         } catch (Exception e) {
             throw new RuntimeException(String.valueOf(ResponseMessage.NOT_FOUND_USER));

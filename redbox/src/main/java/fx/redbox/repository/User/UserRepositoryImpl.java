@@ -25,7 +25,7 @@ public class UserRepositoryImpl implements UserRepository {
     private final UserMapper userMapper;
 
     @Override
-    public User save(UserAccount userAccount, UserInfo userInfo, User user) {
+    public User saveUser(UserAccount userAccount, UserInfo userInfo, User user) {
         saveUserData(userAccount, userInfo, user);
         return user;
     }
@@ -49,7 +49,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<User> findAll() {
+    public List<User> findAllUser() {
         String sql = "SELECT * FROM users" +
                 " JOIN user_accounts ON users.account_id = user_accounts.account_id" +
                 " JOIN user_info ON users.user_info_id = user_info.user_info_id";

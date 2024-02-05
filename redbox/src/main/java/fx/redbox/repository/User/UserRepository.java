@@ -10,13 +10,13 @@ import java.util.Optional;
 
 public interface UserRepository {
 
-    User save (UserAccount userAccount, UserInfo userInfo, User user);
+    User saveUser (UserAccount userAccount, UserInfo userInfo, User user);
 
     Optional<User> findByUserId(Long userId);
 
     Optional<User> findByEmail(String email);
 
-    List<User> findAll();
+    List<User> findAllUser();
 
     void update(Long userId, Date birth, String phone, String address);
 
