@@ -1,28 +1,40 @@
 package fx.redbox.repository.donorCard;
 
 import fx.redbox.entity.donorCards.DonorCard;
+import fx.redbox.entity.enums.DonorBloodKind;
+import fx.redbox.entity.enums.Gender;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class DonorCardRepositoryImpl implements DonorCardRepository{
+    private SimpleJdbcInsert simpleJdbcInsert;
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public void save(DonorCard donorCard) {
-        String INSERT = "insert into donor_cards values(?,?,?,?,?,?,?)";
-        jdbcTemplate.update(INSERT,
-                donorCard.getCertificateNumber(),
-                donorCard.getDonorName(),
-                donorCard.getDonorBirth(),
-                donorCard.getDonorBloodKind(),
-                donorCard.getDonorGender(),
-                donorCard.getBloodCenter(),
-                donorCard.getUserId());
+    public Optional<DonorCard> saveDonorCard(DonorCard donorCard) {
+        Map<String,Object> donorCardParam = new HashMap<>();
 
+        donorCardParam.put("certificate_number",donorCard.getCertificateNumber());
+        donorCardParam.put("donor_name",donorCard.getDonorName());
+        donorCardParam.put("donor_birth",donorCard.getDonorBirth());
+        donorCardParam.put("donor_blood_kind",donorCard.getDonorBloodKind());
+        donorCardParam.put("donor_gender",donorCard.getDonorGender());
+        donorCardParam.put("blood_center",donorCard.getBloodCenter());
+        donorCardParam.put("user_id",donorCard.getUserId());
+
+        simpleJdbcInsert.execute(donorCardParam);
+
+        return Optional.of(donorCard);
     }
 
     @Override
