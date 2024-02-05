@@ -9,11 +9,7 @@ import fx.redbox.entity.users.User;
 import fx.redbox.entity.users.UserAccount;
 import fx.redbox.entity.users.UserInfo;
 import fx.redbox.repository.user.UserRepository;
-import fx.redbox.token.JwtProvider;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,15 +20,7 @@ import java.util.UUID;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
-    private final PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
-    private final JwtProvider jwtProvider;
 
-    public UserServiceImpl(@Lazy PasswordEncoder passwordEncoder, UserRepository userRepository, @Lazy JwtProvider jwtProvider) {
-        this.passwordEncoder = passwordEncoder;
-        this.userRepository = userRepository;
-        this.jwtProvider = jwtProvider;
-    }
 
     @Override
     public boolean signUp(SignRequestForm signRequestForm) {
@@ -54,7 +42,6 @@ public class UserServiceImpl implements UserService {
 
             userInfo.setPermission(Permission.ROLE_USER); // 기본값 USER 로 지정
 
-            userAccount.setPassword(passwordEncoder.encode(userAccount.getPassword()));
             //중복 이메일 검증
             if(userRepository.existsByEmail(userAccount.getEmail()))
                 throw new RuntimeException();

@@ -5,13 +5,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.security.core.GrantedAuthority;
 
 @Getter
 @Setter
 @ToString
 @Builder
-public class UserInfo implements GrantedAuthority {
+public class UserInfo {
 
     private Long userInfoId;
     private String phone;
@@ -19,8 +18,4 @@ public class UserInfo implements GrantedAuthority {
     private int donationCount;
     private Permission permission;
 
-    @Override
-    public String getAuthority() {
-        return permission.name();
-    }
 }
