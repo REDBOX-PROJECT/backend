@@ -7,16 +7,19 @@ import fx.redbox.entity.enums.Gender;
 import fx.redbox.entity.users.User;
 import fx.redbox.entity.users.UserAccount;
 import fx.redbox.entity.users.UserInfo;
+import fx.redbox.repository.donorCard.DonorCardRepository;
 import fx.redbox.service.donorCard.DonorCardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
-@RequestMapping("/redbox/donorcards")
+@RequestMapping("/donorcards")
 @RestController
 @RequiredArgsConstructor
 public class DonorController {
