@@ -25,9 +25,10 @@ import java.util.Optional;
 public class DonorController {
     private final DonorCardService donorCardService;
 
-    @PostMapping("/save")
-    public ApiResponse save(@RequestBody DonorCard donorCardData){
-        donorCardService.join(donorCardData);
+
+    @PostMapping
+    public ApiResponse saveDonorCard(@RequestBody DonorCard donorCardData) throws SQLException {
+        donorCardService.saveDonorCard(donorCardData);
 
         return ApiResponse.res(HttpStatus.CREATED.value(), "헌혈증 정보 저장 성공");
     }
