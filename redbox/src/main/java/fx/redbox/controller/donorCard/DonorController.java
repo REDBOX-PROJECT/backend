@@ -55,7 +55,7 @@ public class DonorController {
     }
     
     @DeleteMapping("/{certificateNumber}")
-    public ApiResponse deleteDonorCardByCertificateNumber(@PathVariable String certificateNumber){
+    public ApiResponse deleteDonorCardByCertificateNumber(@PathVariable String certificateNumber) throws SQLException{
         donorCardService.deleteDonorCard(certificateNumber);
         
         return ApiResponse.res(HttpStatus.OK.value(), "헌혈증 정보 삭제 성공");
