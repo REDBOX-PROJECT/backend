@@ -17,4 +17,5 @@ public class UserInfo {
     private String address;
     private int donationCount;
     private Permission permission;
+
 }

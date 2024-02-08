@@ -1,24 +1,22 @@
 package fx.redbox.service.user;
 
+import fx.redbox.controller.user.form.*;
 import fx.redbox.entity.users.User;
-import fx.redbox.entity.users.UserAccount;
-import fx.redbox.entity.users.UserInfo;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.NoSuchAlgorithmException;
-import java.util.List;
+import java.sql.SQLException;
 import java.util.Optional;
 
 @Transactional
 public interface UserService {
 
-    void signUp(UserAccount userAccount, UserInfo userInfo, User user) throws NoSuchAlgorithmException;
-
+    boolean signUp(SignUpForm signUpForm);
+    SignInForm signIn(SignInForm signInForm);
+    UserInfoForm getUser(String email);
+    Optional<User> findByEmail(String email);
     Optional<User> findByUserId(Long userId);
-
-    List<User> findAll();
-
-    Long update(Long userId, User user);
-
-    void deleteByUserId(Long userId);
+    String getEmail(FindMailForm findMailForm);
+    void editUserInfo(String email, UpdateForm updateForm);
+    String findPassword(FindPasswordForm findPasswordForm);
+    void deleteUser(String email);
 }
