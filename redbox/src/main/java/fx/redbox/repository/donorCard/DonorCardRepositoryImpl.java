@@ -3,6 +3,7 @@ package fx.redbox.repository.donorCard;
 import fx.redbox.entity.donorCards.DonorCard;
 import fx.redbox.entity.enums.DonorBloodKind;
 import fx.redbox.entity.enums.Gender;
+import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -14,32 +15,35 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
+@AllArgsConstructor
 public class DonorCardRepositoryImpl implements DonorCardRepository{
-    private SimpleJdbcInsert simpleJdbcInsert;
     private JdbcTemplate jdbcTemplate;
 
     @Override
     public Optional<DonorCard> saveDonorCard(DonorCard donorCard) {
-        Map<String,Object> donorCardParam = new HashMap<>();
-
+        SimpleJdbcInsert donorCardJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("donor_cards");
+//                .usingGeneratedKeyColumns("certificate_number"); //자동으로 증가하는 값이 아님
+        Map<String, Object> donorCardParam = new ConcurrentHashMap<>();
         donorCardParam.put("certificate_number",donorCard.getCertificateNumber());
         donorCardParam.put("donor_name",donorCard.getDonorName());
         donorCardParam.put("donor_birth",donorCard.getDonorBirth());
         donorCardParam.put("donor_blood_kind",donorCard.getDonorBloodKind());
-        donorCardParam.put("donor_gender",donorCard.getDonorGender());
+        donorCardParam.put("donor_gender", donorCard.getDonorGender().name()); //enum 을 string 형으로
         donorCardParam.put("blood_center",donorCard.getBloodCenter());
         donorCardParam.put("user_id",donorCard.getUserId());
 
-        simpleJdbcInsert.execute(donorCardParam);
+        donorCardJdbcInsert.execute(donorCardParam);
 
         return Optional.of(donorCard);
     }
 
     @Override
     public Optional<DonorCard> findDonorCardByCertificateNumber(String certificateNumber){
-        String FIND = "select * from donor_cards where cefiticate_number=?";
+        String FIND = "select * from donor_cards where certificate_number=?";
         try{
             DonorCard donorCard = jdbcTemplate.queryForObject(FIND, donorCardRowMapper(),certificateNumber);
             return Optional.of(donorCard);

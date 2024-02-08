@@ -30,35 +30,35 @@ public class DonorController {
     public ApiResponse saveDonorCard(@RequestBody DonorCard donorCardData) throws SQLException {
         donorCardService.saveDonorCard(donorCardData);
 
-        return ApiResponse.res(HttpStatus.CREATED.value(), "헌혈증 정보 저장 성공");
+        return ApiResponse.success("헌혈증 정보 저장 성공", null);
     }
 
     @GetMapping("/{certificateNumber}")
     public ApiResponse showDonorCardByCertificateNumber(@PathVariable String certificateNumber) throws SQLException{
         Optional<DonorCard> findDonorCard = donorCardService.findDonorCard(certificateNumber);
 
-        return ApiResponse.res(HttpStatus.OK.value(), "헌혈증 단일 정보 조회 성공", findDonorCard);
+        return ApiResponse.success("헌혈증 단일 정보 조회 성공", findDonorCard);
     }
 
     @GetMapping
     public ApiResponse showAllDonorCards() throws SQLException{
         List<DonorCard> donorCards = donorCardService.findAllDonorCards();
 
-        return ApiResponse.res(HttpStatus.OK.value(), "헌혈증 전체 정보 조회 성공", donorCards);
+        return ApiResponse.success("헌혈증 전체 정보 조회 성공", donorCards);
     }
 
     @PatchMapping("/{certificateNumber}")
     public ApiResponse updateDonorCardByCertificateNumber(@PathVariable String certificateNumber, @RequestBody DonorCard updateDonorCard) throws SQLException{
         donorCardService.updateDonorCard(certificateNumber, updateDonorCard);
        
-        return ApiResponse.res(HttpStatus.OK.value(), "헌혈증 정보 수정 성공");
+        return ApiResponse.success("헌혈증 정보 수정 성공", null);
     }
     
     @DeleteMapping("/{certificateNumber}")
     public ApiResponse deleteDonorCardByCertificateNumber(@PathVariable String certificateNumber) throws SQLException{
         donorCardService.deleteDonorCard(certificateNumber);
         
-        return ApiResponse.res(HttpStatus.OK.value(), "헌혈증 정보 삭제 성공");
+        return ApiResponse.success("헌혈증 정보 삭제 성공", null);
     }
 
 }
