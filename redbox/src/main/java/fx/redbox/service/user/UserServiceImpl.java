@@ -3,7 +3,7 @@ package fx.redbox.service.user;
 import fx.redbox.entity.users.User;
 import fx.redbox.entity.users.UserAccount;
 import fx.redbox.entity.users.UserInfo;
-import fx.redbox.repository.User.UserRepository;
+import fx.redbox.repository.user.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
