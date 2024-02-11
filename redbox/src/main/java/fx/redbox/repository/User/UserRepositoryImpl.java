@@ -1,4 +1,4 @@
-package fx.redbox.repository.user;
+package fx.redbox.repository.User;
 
 
 import fx.redbox.common.Exception.EmailNotFoundException;
