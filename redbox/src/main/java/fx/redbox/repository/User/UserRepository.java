@@ -1,4 +1,4 @@
-package fx.redbox.repository.User;
+package fx.redbox.repository.user;
 
 import fx.redbox.entity.users.User;
 import fx.redbox.entity.users.UserAccount;
