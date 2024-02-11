@@ -7,12 +7,12 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class DonorCardRequest {
     private Long donorCardRequestId;
     private RejectPermission donorCardRequestPermission;
     private DonorCardRequestRejectReason donorCardRequestRejectReason;
     private Long userId;
-    private DonorCardRequestForm donorCardRequestForm; // RequestForm 필드 추가
+    private Long donorCardRequestFormId;
+
+    private DonorCardRequestForm donorCardRequestForm;
 }

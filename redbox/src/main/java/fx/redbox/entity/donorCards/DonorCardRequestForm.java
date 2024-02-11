@@ -9,8 +9,6 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class DonorCardRequestForm {
     private Long donorCardRequestId;
     private String patientName;
