@@ -4,21 +4,19 @@ import fx.redbox.entity.donorCards.DonorCardRequest;
 import fx.redbox.entity.donorCards.DonorCardRequestForm;
 import fx.redbox.entity.enums.DonorCardRequestRejectReason;
 import fx.redbox.entity.enums.RejectPermission;
-import fx.redbox.repository.donorcardrequest.DonorCardRequestRepository;
+import fx.redbox.repository.donorCardRequest.DonorCardRequestRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class DonorCardRequestServiceImpl implements DonorCardRequestService {
 
     private final DonorCardRequestRepository donorCardRequestRepository;
-
-    @Autowired
-    public DonorCardRequestServiceImpl(DonorCardRequestRepository donorCardRequestRepository) {
-        this.donorCardRequestRepository = donorCardRequestRepository;
-    }
 
     @Override
     public DonorCardRequest createDonorCardRequest(DonorCardRequest donorCardRequest, DonorCardRequestForm donorCardRequestForm) {
@@ -26,8 +24,8 @@ public class DonorCardRequestServiceImpl implements DonorCardRequestService {
     }
 
     @Override
-    public DonorCardRequest getDonorCardRequestById(String donorCardRequestId) {
-        return donorCardRequestRepository.getDonorCardRequestById(donorCardRequestId);
+    public Optional<DonorCardRequest> getDonorCardRequestById(Long donorCardRequestId) {
+        return donorCardRequestRepository.getDonorCardRequestById(Long.valueOf(donorCardRequestId));
     }
 
     @Override
@@ -36,42 +34,41 @@ public class DonorCardRequestServiceImpl implements DonorCardRequestService {
     }
 
     @Override
-    public DonorCardRequest updateDonorCardRequest(DonorCardRequest donorCardRequest, DonorCardRequestForm donorCardRequestForm) {
-        return donorCardRequestRepository.updateDonorCardRequest(donorCardRequest, donorCardRequestForm);
+    public void updateDonorCardRequest(Long donorCardRequestId, RejectPermission donorCardRequestPermission, DonorCardRequestRejectReason donorCardRequestRejectReason) {
+        donorCardRequestRepository.updateDonorCardRequest(donorCardRequestId, donorCardRequestPermission, donorCardRequestRejectReason);
+    }
+
+    @Override
+    public void updateDonorCardRequestForm(Long donorCardRequestId, String evidenceDocument) {
+        donorCardRequestRepository.updateDonorCardRequestForm(donorCardRequestId, evidenceDocument);
     }
 
     @Override
     public void deleteDonorCardRequest(String donorCardRequestId) {
-        donorCardRequestRepository.deleteDonorCardRequest(donorCardRequestId);
+        donorCardRequestRepository.deleteDonorCardRequest(Long.valueOf(donorCardRequestId));
     }
 
     @Override
     public void acceptDonorCardRequest(String donorCardRequestId) {
-        // 해당 ID로 헌혈증 요청을 찾는다.
-        DonorCardRequest donorCardRequest = donorCardRequestRepository.getDonorCardRequestById(donorCardRequestId);
+        // 헌혈증 요청을 조회
+        Optional<DonorCardRequest> donorCardRequestOpt = getDonorCardRequestById(Long.valueOf(donorCardRequestId));
 
-        // DonorCardRequestForm 객체를 가져온다
-        DonorCardRequestForm donorCardRequestForm = donorCardRequest.getDonorCardRequestForm();
+        if (donorCardRequestOpt.isPresent()) {
+            DonorCardRequest donorCardRequest = donorCardRequestOpt.get();
 
-        // 증빙 서류가 첨부되어있는지 확인한다.
-        if (donorCardRequestForm.getEvidenceDocument() != null) {
-            // 증빙서류가 첨부되어 있으면 요청 상태를 '수락됨'으로 변경한다.
-            donorCardRequest.setDonorCardRequestPermission(RejectPermission.승인);
-        } else {
-            // 증빙서류가 첨부되어 있지 않으면 요청 상태를 '거절'로 변경한다.
-            donorCardRequest.setDonorCardRequestPermission(RejectPermission.거절);
-
-            // 증빙서류의 길이가 200자 이하인지 확인하고, 거절 사유를 설정한다.
-            if (donorCardRequestForm.getEvidenceDocument() != null && donorCardRequestForm.getEvidenceDocument().length() <= 200) {
-                donorCardRequest.setDonorCardRequestRejectReason(DonorCardRequestRejectReason.자료부족);
+            // 증명서류의 적절성 확인(일단 200자 이상)
+            if (donorCardRequest.getDonorCardRequestForm().getEvidenceDocument().length() >= 200) {
+                // 증명서류가 200자 이상이므로 요청 수락
+                donorCardRequestRepository.updateDonorCardRequest(Long.parseLong(donorCardRequestId), RejectPermission.승인, null);
             } else {
-                donorCardRequest.setDonorCardRequestRejectReason(DonorCardRequestRejectReason.적합한사유가아님);
+                // 증명서류가 200자 미만이므로 요청 거절
+                donorCardRequestRepository.updateDonorCardRequest(Long.parseLong(donorCardRequestId), RejectPermission.거절, DonorCardRequestRejectReason.자료부족);
             }
+        } else {
+            throw new RuntimeException("Cannot find DonorCardRequest with id: " + donorCardRequestId);
         }
-
-        // 변경된 상태를 데이터베이스에 저장한다.
-        donorCardRequestRepository.updateDonorCardRequest(donorCardRequest, donorCardRequestForm);
     }
+
 
 
 }
