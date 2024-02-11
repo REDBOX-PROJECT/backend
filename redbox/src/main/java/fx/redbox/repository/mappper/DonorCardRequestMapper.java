@@ -17,6 +17,14 @@ public class DonorCardRequestMapper implements RowMapper<DonorCardRequest> {
     @Override
     public DonorCardRequest mapRow(ResultSet rs, int rowNum) throws SQLException {
 
+        DonorCardRequest donorCardRequest = DonorCardRequest.builder()
+                .donorCardRequestId(rs.getLong("donorcard_request_id"))
+                .donorCardRequestPermission(RejectPermission.valueOf(rs.getString("donorcard_request_permission")))
+                .donorCardRequestRejectReason(DonorCardRequestRejectReason.valueOf(rs.getString("donorcard_request_reject_reason")))
+                .userId(rs.getLong("user_id"))
+                .donorCardRequestFormId(rs.getLong("donorcard_request_form_id"))
+                .build();
+
         DonorCardRequestForm donorCardRequestForm = DonorCardRequestForm.builder()
                 .donorCardRequestId(rs.getLong("donorcard_request_id"))
                 .patientName(rs.getString("patient_name"))
@@ -25,14 +33,7 @@ public class DonorCardRequestMapper implements RowMapper<DonorCardRequest> {
                 .bloodType(BloodType.valueOf(rs.getString("blood_type")))
                 .donorCardRequestDate(rs.getTimestamp("donorcard_request_date"))
                 .build();
-
-        DonorCardRequest donorCardRequest = DonorCardRequest.builder()
-                .donorCardRequestId(rs.getLong("donorcard_request_id"))
-                .donorCardRequestPermission(RejectPermission.valueOf(rs.getString("donorcard_request_permission")))
-                .donorCardRequestRejectReason(DonorCardRequestRejectReason.valueOf(rs.getString("donorcard_request_reject_reason")))
-                .userId(rs.getLong("user_id"))
-                .donorCardRequestForm(donorCardRequestForm)  // RequestForm 객체 설정
-                .build();
+        donorCardRequest.setDonorCardRequestForm(donorCardRequestForm);
 
         return donorCardRequest;
     }
