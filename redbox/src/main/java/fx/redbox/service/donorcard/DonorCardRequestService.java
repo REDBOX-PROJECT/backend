@@ -20,8 +20,8 @@ public interface DonorCardRequestService {
 
     void updateDonorCardRequestForm(Long donorCardRequestId, String evidenceDocument);
 
-    void deleteDonorCardRequest(String donorCardRequestId);
+    void deleteDonorCardRequest(Long donorCardRequestId);
 
-    void acceptDonorCardRequest(String donorCardRequestId);
+    void acceptDonorCardRequest(Long donorCardRequestId);
 
 }
