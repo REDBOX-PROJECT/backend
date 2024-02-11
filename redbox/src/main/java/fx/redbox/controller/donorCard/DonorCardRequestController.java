@@ -2,13 +2,12 @@ package fx.redbox.controller.donorCard;
 
 import fx.redbox.controller.api.ApiResponse;
 import fx.redbox.entity.donorCards.DonorCardRequest;
-import fx.redbox.entity.donorCards.DonorCardRequestForm;
 import fx.redbox.service.donorcard.DonorCardRequestService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,71 +16,44 @@ public class DonorCardRequestController {
 
     private final DonorCardRequestService donorCardRequestService;
 
-    @Autowired
-    public DonorCardRequestController(DonorCardRequestService donorCardRequestService) {
-        this.donorCardRequestService = donorCardRequestService;
-    }
-
     @PostMapping
-    public ApiResponse<DonorCardRequest> createDonorCardRequest(@RequestBody DonorCardRequestDto donorCardRequestDto) {
-
-        // DonorCardRequestDto를 DonorCardRequest로 변환
-        DonorCardRequest donorCardRequest = new DonorCardRequest();
-        donorCardRequest.setDonorCardRequestPermission(donorCardRequestDto.getDonorCardRequestPermission());
-        donorCardRequest.setDonorCardRequestRejectReason(donorCardRequestDto.getDonorCardRequestRejectReason());
-        donorCardRequest.setUserId(donorCardRequestDto.getUserId());
-
-        // DonorCardRequestDto를 DonorCardRequestForm으로 변환
-        DonorCardRequestForm donorCardRequestForm = new DonorCardRequestForm();
-        donorCardRequestForm.setPatientName(donorCardRequestDto.getPatientName());
-        donorCardRequestForm.setEvidenceDocument(donorCardRequestDto.getEvidenceDocument());
-        donorCardRequestForm.setPatientGender(donorCardRequestDto.getPatientGender());
-        donorCardRequestForm.setBloodType(donorCardRequestDto.getBloodType());
-        donorCardRequestForm.setDonorCardRequestDate(donorCardRequestDto.getDonorCardRequestDate());
-
-        // 서비스 메소드 호출
-        DonorCardRequest newDonorCardRequest = donorCardRequestService.createDonorCardRequest(donorCardRequest, donorCardRequestForm);
-        return ApiResponse.res(HttpStatus.CREATED.value(), "헌혈증 요청 생성 성공", newDonorCardRequest);
+    public ApiResponse createDonorCardRequest(@RequestBody DonorCardRequestDto donorCardRequestDto) {
+        DonorCardRequest createdDonorCardRequest = donorCardRequestService.createDonorCardRequest(donorCardRequestDto.getDonorCardRequest(), donorCardRequestDto.getDonorCardRequestForm());
+        return ApiResponse.success("헌혈증 요청 생성 성공", createdDonorCardRequest);
     }
 
     @GetMapping("/{donorCardRequestId}")
-    public ApiResponse<DonorCardRequest> getDonorCardRequestById(@PathVariable String donorCardRequestId) {
-        DonorCardRequest donorCardRequest = donorCardRequestService.getDonorCardRequestById(donorCardRequestId);
-        return ApiResponse.res(HttpStatus.OK.value(), "헌혈증 요청 조회 성공", donorCardRequest);
+    public ApiResponse getDonorCardRequestById(@PathVariable String donorCardRequestId) {
+        Optional<DonorCardRequest> getDonorCardRequest = donorCardRequestService.getDonorCardRequestById(Long.valueOf(donorCardRequestId));
+        return ApiResponse.success("헌혈증 요청 조회 성공", getDonorCardRequest);
     }
 
     @GetMapping
-    public ApiResponse<List<DonorCardRequest>> getAllDonorCardRequests() {
-        List<DonorCardRequest> donorCardRequests = donorCardRequestService.getAllDonorCardRequests();
-        return ApiResponse.res(HttpStatus.OK.value(), "전체 헌혈증 조회 성공", donorCardRequests);
+    public ApiResponse getAllDonorCardRequests() {
+        List<DonorCardRequest> getDonorCardRequests = donorCardRequestService.getAllDonorCardRequests();
+        return ApiResponse.success("헌혈증 요청 전체 조회 성공", getDonorCardRequests);
     }
 
     @PutMapping("/{donorCardRequestId}")
-    public ApiResponse<DonorCardRequest> updateDonorCardRequest(@PathVariable Long donorCardRequestId, @RequestBody DonorCardRequestDto donorCardRequestDto) {
-
-        // DonorCardRequestDto를 DonorCardRequest로 변환
-        DonorCardRequest donorCardRequest = new DonorCardRequest();
-        donorCardRequest.setDonorCardRequestPermission(donorCardRequestDto.getDonorCardRequestPermission());
-        donorCardRequest.setDonorCardRequestRejectReason(donorCardRequestDto.getDonorCardRequestRejectReason());
-        donorCardRequest.setUserId(donorCardRequestDto.getUserId());
-
-        // DonorCardRequestDto를 DonorCardRequestForm으로 변환
-        DonorCardRequestForm donorCardRequestForm = new DonorCardRequestForm();
-        donorCardRequestForm.setPatientName(donorCardRequestDto.getPatientName());
-        donorCardRequestForm.setEvidenceDocument(donorCardRequestDto.getEvidenceDocument());
-        donorCardRequestForm.setPatientGender(donorCardRequestDto.getPatientGender());
-        donorCardRequestForm.setBloodType(donorCardRequestDto.getBloodType());
-        donorCardRequestForm.setDonorCardRequestDate(donorCardRequestDto.getDonorCardRequestDate());
-
-        // 서비스 메소드 호출
-        DonorCardRequest updatedDonorCardRequest = donorCardRequestService.updateDonorCardRequest(donorCardRequest, donorCardRequestForm);
-        return ApiResponse.res(HttpStatus.OK.value(), "헌혈증 요청 수정 성공", updatedDonorCardRequest);
+    public ApiResponse updateDonorCardRequest(@PathVariable Long donorCardRequestId, @RequestBody DonorCardRequest donorCardRequest) {
+        donorCardRequestService.updateDonorCardRequest(donorCardRequestId, donorCardRequest.getDonorCardRequestPermission(), donorCardRequest.getDonorCardRequestRejectReason());
+        return ApiResponse.success("헌혈증 요청 상태 수정 성공", null);
     }
 
+    @PostMapping("/{donorCardRequestId}")
+    public ApiResponse updateDonorCardRequestForm(@PathVariable Long donorCardRequestId, @RequestBody String evidenceDocument){
+        donorCardRequestService.updateDonorCardRequestForm(donorCardRequestId, evidenceDocument);
+        return ApiResponse.success("헌혈증 요청서 수정 성공", null);
+    }
 
     @DeleteMapping("/{donorCardRequestId}")
-    public ApiResponse<Void> deleteDonorCardRequest(@PathVariable String donorCardRequestId) {
-        donorCardRequestService.deleteDonorCardRequest(donorCardRequestId);
-        return ApiResponse.res(HttpStatus.NO_CONTENT.value(), "헌혈증 요청 삭제 성공");
+    public ApiResponse<Void> deleteDonorCardRequest(@PathVariable Long donorCardRequestId) {
+        donorCardRequestService.deleteDonorCardRequest(Long.valueOf(donorCardRequestId));
+        return ApiResponse.success("헌혈증 요청 삭제 성공", null);
+    }
+
+    @PutMapping("/{donorCardRequestId}")
+    public void acceptDonorCardRequest(@PathVariable Long donorCardRequestId) {
+        donorCardRequestService.acceptDonorCardRequest(donorCardRequestId);
     }
 }
