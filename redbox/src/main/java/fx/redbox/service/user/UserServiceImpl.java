@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean signUp(SignUpForm signUpForm){ // 기술 누수
 
-        CreateUserData userData = getCreateUserData(signUpForm);
+        ConvertSignUpFormToUser userData = getConvertSignUpFormToUser(signUpForm);
 
         //중복 이메일 검증
         boolean existsUserMail = userRepository.existsByEmail(userData.userAccount().getEmail());
@@ -121,7 +121,7 @@ public class UserServiceImpl implements UserService {
 
 
 
-    private static CreateUserData getCreateUserData(SignUpForm signUpForm) {
+    private static ConvertSignUpFormToUser getConvertSignUpFormToUser(SignUpForm signUpForm) {
         User user = User.builder()
                 .name(signUpForm.getName())
                 .birth(signUpForm.getBirth())
@@ -140,11 +140,11 @@ public class UserServiceImpl implements UserService {
         userInfo.setPermission(Permission.ROLE_USER); // 기본값 USER 로 지정
 
         userAccount.setPassword(userAccount.getPassword());
-        CreateUserData userData = new CreateUserData(user, userAccount, userInfo);
+        ConvertSignUpFormToUser userData = new ConvertSignUpFormToUser(user, userAccount, userInfo);
         return userData;
     }
 
-    private record CreateUserData(User user, UserAccount userAccount, UserInfo userInfo) {
+    private record ConvertSignUpFormToUser(User user, UserAccount userAccount, UserInfo userInfo) {
     }
 
 }
