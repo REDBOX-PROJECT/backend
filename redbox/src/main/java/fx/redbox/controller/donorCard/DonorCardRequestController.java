@@ -11,7 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/donorCardRequest")
+@RequiredArgsConstructor
+@RequestMapping("/redbox/donorCardRequest")
 public class DonorCardRequestController {
 
     private final DonorCardRequestService donorCardRequestService;
