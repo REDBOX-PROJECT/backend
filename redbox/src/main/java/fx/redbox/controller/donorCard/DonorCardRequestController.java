@@ -2,7 +2,7 @@ package fx.redbox.controller.donorCard;
 
 import fx.redbox.controller.api.ApiResponse;
 import fx.redbox.entity.donorCards.DonorCardRequest;
-import fx.redbox.service.donorcard.DonorCardRequestService;
+import fx.redbox.service.donorCard.DonorCardRequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,13 +34,13 @@ public class DonorCardRequestController {
         return ApiResponse.success("헌혈증 요청 전체 조회 성공", getDonorCardRequests);
     }
 
-    @PutMapping("/{donorCardRequestId}")
+    /*@PatchMapping("/{donorCardRequestId}")
     public ApiResponse updateDonorCardRequest(@PathVariable Long donorCardRequestId, @RequestBody DonorCardRequest donorCardRequest) {
         donorCardRequestService.updateDonorCardRequest(donorCardRequestId, donorCardRequest.getDonorCardRequestPermission(), donorCardRequest.getDonorCardRequestRejectReason());
         return ApiResponse.success("헌혈증 요청 상태 수정 성공", null);
-    }
+    }*/
 
-    @PostMapping("/{donorCardRequestId}")
+    @PatchMapping("/{donorCardRequestId}")
     public ApiResponse updateDonorCardRequestForm(@PathVariable Long donorCardRequestId, @RequestBody String evidenceDocument){
         donorCardRequestService.updateDonorCardRequestForm(donorCardRequestId, evidenceDocument);
         return ApiResponse.success("헌혈증 요청서 수정 성공", null);
