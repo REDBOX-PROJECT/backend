@@ -7,9 +7,9 @@ import fx.redbox.entity.enums.Grade;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.sql.Date;
+
 
 @Getter
 @Setter
@@ -28,23 +28,4 @@ public class User {
     private UserAccount userAccount;
     private UserInfo userInfo;
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", name='" + name + '\'' +
-                ", birth=" + birth +
-                ", gender=" + gender +
-                ", bloodType=" + bloodType +
-                ", grade=" + grade +
-                ", accountId=" + accountId +
-                ", email='" + userAccount.getEmail() + '\'' +
-                ", password='" + userAccount.getPassword() + '\'' +
-                ", userInfoId=" + userInfoId +
-                ", phone='" + userInfo.getPhone() + '\'' +
-                ", address='" + userInfo.getAddress() + '\'' +
-                ", donationCount=" + userInfo.getDonationCount() +
-                ", permission=" + userInfo.getPermission() +
-                '}';
-    }
 }

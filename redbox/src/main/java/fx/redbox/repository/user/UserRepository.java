@@ -4,20 +4,29 @@ import fx.redbox.entity.users.User;
 import fx.redbox.entity.users.UserAccount;
 import fx.redbox.entity.users.UserInfo;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository {
-    User save (UserAccount userAccount, UserInfo userInfo, User user);
+
+    User saveUser (UserAccount userAccount, UserInfo userInfo, User user);
 
     Optional<User> findByUserId(Long userId);
 
-    List<User> findAll();
+    Optional<User> findByEmail(String email);
 
-    Long update(Long userId, User updateUser);
+    List<User> findAllUser();
+
+    void update(Long userId, Date birth, String phone, String address);
 
     void deleteByUserId(Long userId);
 
     boolean existsByEmail(String email);
+
+    Optional<User> findEmail(String name, String phone);
+    boolean existsByNameAndEmail(String name, String email);
+    void insertPassword(String email, String password);
+
 
 }
