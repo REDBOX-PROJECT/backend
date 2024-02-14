@@ -5,6 +5,7 @@ import fx.redbox.controller.api.UserResponseMessage;
 import fx.redbox.controller.user.form.SignInForm;
 import fx.redbox.controller.user.form.SignUpForm;
 import fx.redbox.service.user.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +22,7 @@ public class SignController {
     private final UserService userService;
 
     @PostMapping("/login") //로그인
-    public ApiResponse signIn(@RequestBody SignInForm signInForm) {
+    public ApiResponse signIn(@RequestBody @Valid SignInForm signInForm) {
         return ApiResponse.success(UserResponseMessage.LOGIN_SUCCESS.getMessage(), userService.signIn(signInForm));
     }
 
@@ -30,7 +31,7 @@ public class SignController {
 //    @RestControllerAdvice
 
     @PostMapping("/register") //회원가입
-    public ApiResponse<Boolean> signUp(@RequestBody SignUpForm signUpForm) {
+    public ApiResponse<Boolean> signUp(@RequestBody @Valid SignUpForm signUpForm) {
         boolean resultBoolean = userService.signUp(signUpForm);
         return ApiResponse.success(UserResponseMessage.CREATED_USER.getMessage(), resultBoolean);
     }
