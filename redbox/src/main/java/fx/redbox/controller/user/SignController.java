@@ -1,6 +1,6 @@
 package fx.redbox.controller.user;
 
-import fx.redbox.controller.api.ApiResponse;
+import fx.redbox.controller.api.ResponseApi;
 import fx.redbox.controller.api.UserResponseMessage;
 import fx.redbox.controller.user.form.SignInForm;
 import fx.redbox.controller.user.form.SignUpForm;
@@ -22,8 +22,8 @@ public class SignController {
     private final UserService userService;
 
     @PostMapping("/login") //로그인
-    public ApiResponse signIn(@RequestBody @Valid SignInForm signInForm) {
-        return ApiResponse.success(UserResponseMessage.LOGIN_SUCCESS.getMessage(), userService.signIn(signInForm));
+    public ResponseApi signIn(@RequestBody @Valid SignInForm signInForm) {
+        return ResponseApi.success(UserResponseMessage.LOGIN_SUCCESS.getMessage(), userService.signIn(signInForm));
     }
 
 //    @ResponseStatus
@@ -31,9 +31,9 @@ public class SignController {
 //    @RestControllerAdvice
 
     @PostMapping("/register") //회원가입
-    public ApiResponse<Boolean> signUp(@RequestBody @Valid SignUpForm signUpForm) {
+    public ResponseApi<Boolean> signUp(@RequestBody @Valid SignUpForm signUpForm) {
         boolean resultBoolean = userService.signUp(signUpForm);
-        return ApiResponse.success(UserResponseMessage.CREATED_USER.getMessage(), resultBoolean);
+        return ResponseApi.success(UserResponseMessage.CREATED_USER.getMessage(), resultBoolean);
     }
 
 }

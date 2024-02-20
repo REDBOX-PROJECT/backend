@@ -1,20 +1,19 @@
 package fx.redbox.controller.api;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
 
 @Data
 @Builder
-public class ApiResponse<T> {
+public class ResponseApi<T> {
 
     //상태코드, 응답메시지, 데이터
     private int statusCode;
     private String responseMessage;
     private T data;
 
-    public ApiResponse(final int statusCode, final String responseMessage, final T data) {
+    public ResponseApi(final int statusCode, final String responseMessage, final T data) {
         this.statusCode = statusCode;
         this.responseMessage = responseMessage;
         this.data = data;
@@ -31,16 +30,23 @@ public class ApiResponse<T> {
         // 반환
     }
      */
-    public static<T> ApiResponse<T> fail(final int statusCode, final String responseMessage) {
-        return ApiResponse.<T>builder()
+    public static<T> ResponseApi<T> fail(final int statusCode, final String responseMessage) {
+        return ResponseApi.<T>builder()
                 .statusCode(statusCode)
                 .responseMessage(responseMessage)
                 .build();
     }
 
-    public static<T> ApiResponse<T> success(final String responseMessage, final T data) {
-        return ApiResponse.<T>builder()
+    public static<T> ResponseApi<T> success(final String responseMessage, final T data) {
+        return ResponseApi.<T>builder()
                 .data(data)
+                .statusCode(StatusCode.OK) // success 는 기본으로 StatusCode.OK 를 가진다.
+                .responseMessage(responseMessage)
+                .build();
+    }
+
+    public static<T> ResponseApi<T> success(final String responseMessage) {
+        return ResponseApi.<T>builder()
                 .statusCode(StatusCode.OK) // success 는 기본으로 StatusCode.OK 를 가진다.
                 .responseMessage(responseMessage)
                 .build();
