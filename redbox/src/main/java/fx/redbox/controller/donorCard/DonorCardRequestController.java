@@ -1,6 +1,6 @@
 package fx.redbox.controller.donorCard;
 
-import fx.redbox.controller.api.ResponseApi;
+import fx.redbox.controller.api.ApiResponse;
 import fx.redbox.entity.donorCards.DonorCardRequest;
 import fx.redbox.service.donorCard.DonorCardRequestService;
 import lombok.RequiredArgsConstructor;
@@ -17,21 +17,21 @@ public class DonorCardRequestController {
     private final DonorCardRequestService donorCardRequestService;
 
     @PostMapping
-    public ResponseApi createDonorCardRequest(@RequestBody DonorCardRequestDto donorCardRequestDto) {
+    public ApiResponse createDonorCardRequest(@RequestBody DonorCardRequestDto donorCardRequestDto) {
         DonorCardRequest createdDonorCardRequest = donorCardRequestService.createDonorCardRequest(donorCardRequestDto.getDonorCardRequest(), donorCardRequestDto.getDonorCardRequestForm());
-        return ResponseApi.success("헌혈증 요청 생성 성공", createdDonorCardRequest);
+        return ApiResponse.success("헌혈증 요청 생성 성공", createdDonorCardRequest);
     }
 
     @GetMapping("/{donorCardRequestId}")
-    public ResponseApi getDonorCardRequestById(@PathVariable String donorCardRequestId) {
+    public ApiResponse getDonorCardRequestById(@PathVariable String donorCardRequestId) {
         Optional<DonorCardRequest> getDonorCardRequest = donorCardRequestService.getDonorCardRequestById(Long.valueOf(donorCardRequestId));
-        return ResponseApi.success("헌혈증 요청 조회 성공", getDonorCardRequest);
+        return ApiResponse.success("헌혈증 요청 조회 성공", getDonorCardRequest);
     }
 
     @GetMapping
-    public ResponseApi getAllDonorCardRequests() {
+    public ApiResponse getAllDonorCardRequests() {
         List<DonorCardRequest> getDonorCardRequests = donorCardRequestService.getAllDonorCardRequests();
-        return ResponseApi.success("헌혈증 요청 전체 조회 성공", getDonorCardRequests);
+        return ApiResponse.success("헌혈증 요청 전체 조회 성공", getDonorCardRequests);
     }
 
     /*@PatchMapping("/{donorCardRequestId}")
@@ -41,15 +41,15 @@ public class DonorCardRequestController {
     }*/
 
     @PatchMapping("/{donorCardRequestId}")
-    public ResponseApi updateDonorCardRequestForm(@PathVariable Long donorCardRequestId, @RequestBody String evidenceDocument){
+    public ApiResponse updateDonorCardRequestForm(@PathVariable Long donorCardRequestId, @RequestBody String evidenceDocument){
         donorCardRequestService.updateDonorCardRequestForm(donorCardRequestId, evidenceDocument);
-        return ResponseApi.success("헌혈증 요청서 수정 성공", null);
+        return ApiResponse.success("헌혈증 요청서 수정 성공", null);
     }
 
     @DeleteMapping("/{donorCardRequestId}")
-    public ResponseApi<Void> deleteDonorCardRequest(@PathVariable Long donorCardRequestId) {
+    public ApiResponse<Void> deleteDonorCardRequest(@PathVariable Long donorCardRequestId) {
         donorCardRequestService.deleteDonorCardRequest(Long.valueOf(donorCardRequestId));
-        return ResponseApi.success("헌혈증 요청 삭제 성공", null);
+        return ApiResponse.success("헌혈증 요청 삭제 성공", null);
     }
 
     @PutMapping("/{donorCardRequestId}")

@@ -4,7 +4,7 @@ import fx.redbox.common.Exception.DuplicateEmailException;
 import fx.redbox.common.Exception.EmailNotFoundException;
 import fx.redbox.common.Exception.PasswordMismatchException;
 import fx.redbox.common.Exception.UserNotFoundException;
-import fx.redbox.controller.api.ResponseApi;
+import fx.redbox.controller.api.ApiResponse;
 import fx.redbox.controller.api.UserResponseMessage;
 import fx.redbox.controller.api.StatusCode;
 import lombok.extern.slf4j.Slf4j;
@@ -25,31 +25,31 @@ public class ExceptionAdvice {
 
     @ExceptionHandler(UserNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseApi userNotFoundException(UserNotFoundException e) {
+    public ApiResponse userNotFoundException(UserNotFoundException e) {
         log.error("회원을 찾을 수 없습니다.");
-        return ResponseApi.fail(StatusCode.NOT_FOUND, UserResponseMessage.NOT_FOUND_USER.getMessage());
+        return ApiResponse.fail(StatusCode.NOT_FOUND, UserResponseMessage.NOT_FOUND_USER.getMessage());
     }
 
     @ExceptionHandler(DuplicateEmailException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseApi duplicateEmailException(Exception e) {
+    public ApiResponse duplicateEmailException(Exception e) {
         log.error("이미 존재하는 회원입니다.");
-        return ResponseApi.fail(StatusCode.BAD_REQUEST, UserResponseMessage.FAIL_CREATED_USER.getMessage());
+        return ApiResponse.fail(StatusCode.BAD_REQUEST, UserResponseMessage.FAIL_CREATED_USER.getMessage());
     }
 
     @ExceptionHandler(PasswordMismatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseApi passwordMismatchException(Exception e) {
+    public ApiResponse passwordMismatchException(Exception e) {
         log.error("비밀번호가 일치하지 않습니다.");
-        return ResponseApi.fail(StatusCode.BAD_REQUEST, UserResponseMessage.PASSWORD_MISMATCH.getMessage());
+        return ApiResponse.fail(StatusCode.BAD_REQUEST, UserResponseMessage.PASSWORD_MISMATCH.getMessage());
     }
 
 
     @ExceptionHandler(EmailNotFoundException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseApi emailNotFoundException(Exception e) {
+    public ApiResponse emailNotFoundException(Exception e) {
         log.error("이메일을 찾을 수 없습니다.");
-        return ResponseApi.fail(StatusCode.BAD_REQUEST, UserResponseMessage.NOT_FOUND_EMAIL.getMessage());
+        return ApiResponse.fail(StatusCode.BAD_REQUEST, UserResponseMessage.NOT_FOUND_EMAIL.getMessage());
     }
 
 }
