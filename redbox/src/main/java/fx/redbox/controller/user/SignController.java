@@ -1,10 +1,14 @@
 package fx.redbox.controller.user;
 
-import fx.redbox.controller.api.ApiResponse;
+import fx.redbox.controller.api.ResponseApi;
 import fx.redbox.controller.api.UserResponseMessage;
 import fx.redbox.controller.user.form.SignInForm;
 import fx.redbox.controller.user.form.SignUpForm;
 import fx.redbox.service.user.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
+@Tag(name = "SIGN API", description = "사용자 인증 관리 API")
 @RestController
 @Slf4j
 @RequiredArgsConstructor
@@ -21,8 +26,13 @@ public class SignController {
     private final UserService userService;
 
     @PostMapping("/login") //로그인
-    public ApiResponse signIn(@RequestBody SignInForm signInForm) {
-        return ApiResponse.success(UserResponseMessage.LOGIN_SUCCESS.getMessage(), userService.signIn(signInForm));
+    @Operation(summary = "로그인",
+            description = "로그인 API"
+    )
+    @ApiResponse(responseCode = "200", description = "성공")
+    @ApiResponse(responseCode = "400", description = "사용자를 찾을 수 없습니다.")
+    public ResponseApi signIn(@RequestBody @Valid SignInForm signInForm) {
+        return ResponseApi.success(UserResponseMessage.LOGIN_SUCCESS.getMessage(), userService.signIn(signInForm));
     }
 
 //    @ResponseStatus
@@ -30,9 +40,14 @@ public class SignController {
 //    @RestControllerAdvice
 
     @PostMapping("/register") //회원가입
-    public ApiResponse<Boolean> signUp(@RequestBody SignUpForm signUpForm) {
+    @Operation(summary = "회원가입",
+            description = "회원가입 API"
+    )
+    @ApiResponse(responseCode = "200", description = "성공")
+    @ApiResponse(responseCode = "400", description = "이미 존재하는 회원입니다.")
+    public ResponseApi<Boolean> signUp(@RequestBody @Valid SignUpForm signUpForm) {
         boolean resultBoolean = userService.signUp(signUpForm);
-        return ApiResponse.success(UserResponseMessage.CREATED_USER.getMessage(), resultBoolean);
+        return ResponseApi.success(UserResponseMessage.CREATED_USER.getMessage(), resultBoolean);
     }
 
 }
