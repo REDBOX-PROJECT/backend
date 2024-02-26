@@ -2,6 +2,9 @@ package fx.redbox.controller.user.form;
 
 import fx.redbox.entity.enums.Permission;
 import fx.redbox.entity.users.User;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,8 +19,11 @@ public class UserInfoForm {
 
     private Long userId;
 
+    @Email
     private String email;
 
+    @NotBlank
+    @Size(min=2, max=8, message="이름은 2~8자 입니다.")
     private String name;
 
     private Permission permission;
