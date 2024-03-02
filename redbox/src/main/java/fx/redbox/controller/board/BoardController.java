@@ -55,7 +55,7 @@ public class BoardController {
 
         //문의 게시글이면
         boardService.saveInquiryAnswer(board.getBoardId(), inquiryAnswerForm);
-        return ResponseApi.success(BoardResponseMessage.CREATED_INQUIRY_BOARD.getMessage());
+        return ResponseApi.success(BoardResponseMessage.CREATED_INQUIRY_ANSWER_BOARD.getMessage());
     }
 
 
