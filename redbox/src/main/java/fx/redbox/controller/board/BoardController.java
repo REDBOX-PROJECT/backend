@@ -14,12 +14,14 @@ import fx.redbox.service.board.BoardService;
 import fx.redbox.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
+@Tag(name = "BOARD API", description = "게시글 관리 API")
 @RestController
 @RequestMapping("/redbox")
 @RequiredArgsConstructor
