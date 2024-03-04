@@ -1,9 +1,6 @@
 package fx.redbox.service.board;
 
-import fx.redbox.controller.board.form.AllBoardForm;
-import fx.redbox.controller.board.form.BoardForm;
-import fx.redbox.controller.board.form.InquiryAnswerForm;
-import fx.redbox.controller.board.form.InquiryListForm;
+import fx.redbox.controller.board.form.*;
 import fx.redbox.entity.users.User;
 
 import java.util.List;
@@ -17,5 +14,7 @@ public interface BoardService {
     AllBoardForm getBoard(Long boardId);
 
     List<InquiryListForm> showInquiryList();
+
+    List<NoticeListForm> showNoticeList();
 
 }

@@ -4,10 +4,7 @@ import fx.redbox.common.Exception.BoardNotFoundException;
 import fx.redbox.common.Exception.UserNotFoundException;
 import fx.redbox.controller.api.BoardResponseMessage;
 import fx.redbox.controller.api.ResponseApi;
-import fx.redbox.controller.board.form.AllBoardForm;
-import fx.redbox.controller.board.form.BoardForm;
-import fx.redbox.controller.board.form.InquiryAnswerForm;
-import fx.redbox.controller.board.form.InquiryListForm;
+import fx.redbox.controller.board.form.*;
 import fx.redbox.entity.enums.BoardType;
 import fx.redbox.entity.users.User;
 import fx.redbox.service.board.BoardService;
@@ -16,6 +13,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -82,5 +80,12 @@ public class BoardController {
     public ResponseApi<List<InquiryListForm>> showInquiryList() {
         List<InquiryListForm> inquiryListForm = boardService.showInquiryList();
         return ResponseApi.success(BoardResponseMessage.SUCCESS_SHOW_INQUIRY_LIST.getMessage(), inquiryListForm);
+    }
+
+
+    @GetMapping("/notice/list")
+    public ResponseApi<List<NoticeListForm>> showNoticeList() {
+        List<NoticeListForm> noticeListForm = boardService.showNoticeList();
+        return ResponseApi.success("공지사항 리스트", noticeListForm);
     }
  }

@@ -1,10 +1,7 @@
 package fx.redbox.service.board;
 
 
-import fx.redbox.controller.board.form.AllBoardForm;
-import fx.redbox.controller.board.form.BoardForm;
-import fx.redbox.controller.board.form.InquiryAnswerForm;
-import fx.redbox.controller.board.form.InquiryListForm;
+import fx.redbox.controller.board.form.*;
 import fx.redbox.entity.boards.Board;
 import fx.redbox.entity.boards.Inquiry;
 import fx.redbox.entity.users.User;
@@ -61,6 +58,22 @@ public class BoardServiceImpl implements BoardService {
                     .registrationDate(inquiry.getRegistrationDate())
                     .build();
             result.add(build);
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<NoticeListForm> showNoticeList() {
+        List<Board> notices = boardRepository.findAllNotice();
+        List<NoticeListForm> result = new ArrayList<>();
+
+        for (Board board : notices) {
+            NoticeListForm noticeListForm = NoticeListForm.builder()
+                    .title(board.getTitle())
+                    .registrationDate(board.getRegistrationDate())
+                    .build();
+            result.add(noticeListForm);
         }
 
         return result;

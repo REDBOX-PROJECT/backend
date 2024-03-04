@@ -2,6 +2,7 @@ package fx.redbox.repository.board;
 
 import fx.redbox.entity.boards.Board;
 import fx.redbox.entity.boards.Inquiry;
+import fx.redbox.entity.boards.Notice;
 import fx.redbox.entity.enums.BoardType;
 import fx.redbox.repository.mappper.BoardMapper;
 import fx.redbox.repository.mappper.InquiryMapper;
@@ -49,6 +50,14 @@ public class BoardRepositoryImpl implements BoardRepository {
                 "WHERE boards.board_type = '문의'";
         return jdbcTemplate.query(sql, new InquiryMapper());
     }
+
+    @Override
+    public List<Board> findAllNotice() {
+        String sql = "SELECT * FROM boards WHERE board_type = '공지사항'";
+        return jdbcTemplate.query(sql, new BoardMapper());
+    }
+
+
 
     private long insertBoardData(Board board) {
         SimpleJdbcInsert boardsJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)

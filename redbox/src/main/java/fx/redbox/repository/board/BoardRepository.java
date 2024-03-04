@@ -3,6 +3,7 @@ package fx.redbox.repository.board;
 
 import fx.redbox.entity.boards.Board;
 import fx.redbox.entity.boards.Inquiry;
+import fx.redbox.entity.boards.Notice;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,5 +18,7 @@ public interface BoardRepository {
     void saveInquiryAnswer(Long boardId, String inquiryAnswerContent);
 
     List<Inquiry> findAllInquiry();
+
+    List<Board> findAllNotice();
 
 }
