@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/redbox/users")
+@RequestMapping("/users")
 public class UserController { // resource : users
 
     private final UserService userService;
