@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class BoardExceptionAdvice {
 
-    @ExceptionHandler(BoardNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(BoardNotFoundException.class)
     public ResponseApi boardNotFoundException() {
         log.error("게시글을 불러올 수 없습니다.");
-        return ResponseApi.fail(StatusCode.NOT_FOUND, BoardResponseMessage.NOT_FOUND_BOARD.getMessage());
+        return ResponseApi.fail(BoardResponseMessage.NOT_FOUND_BOARD.getStatusCode(), BoardResponseMessage.NOT_FOUND_BOARD.getMessage());
     }
 
 
