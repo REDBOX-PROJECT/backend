@@ -45,7 +45,7 @@ public class SignController {
     )
     @ApiResponse(responseCode = "200", description = "회원 가입 성공")
     @ApiResponse(responseCode = "400", description = "회원 가입 실패")
-    public ResponseApi<Boolean> signUp(@RequestBody @Valid SignUpForm signUpForm) {
+    public ResponseApi signUp(@RequestBody @Valid SignUpForm signUpForm) {
         boolean resultBoolean = userService.signUp(signUpForm);
         return ResponseApi.success(UserResponseMessage.CREATED_USER.getMessage(), resultBoolean);
     }

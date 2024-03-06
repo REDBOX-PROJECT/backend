@@ -26,7 +26,7 @@ public class StatisticsController {
     )
     @ApiResponse(responseCode = "200", description = "통계 성공")
     @ApiResponse(responseCode = "400", description = "통계값을 불러올 수 없습니다.")
-    public ResponseApi<StatisticsForm> showStatistics() throws SQLException {
+    public ResponseApi showStatistics() throws SQLException {
         StatisticsForm statisticsForm = statisticsService.showStatistics();
         return ResponseApi.success(StatisticsResponseMessage.STATISTICS_SUCCESS.getMessage(), statisticsForm);
     }

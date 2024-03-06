@@ -29,7 +29,7 @@ public class UserController { // resource : users
     )
     @ApiResponse(responseCode = "200", description = "회원 정보 조회 성공")
     @ApiResponse(responseCode = "400", description = "이메일을 찾을 수 없습니다.")
-    public ResponseApi<String> getEmail(@RequestBody @Valid FindMailForm findMailForm) {
+    public ResponseApi getEmail(@RequestBody @Valid FindMailForm findMailForm) {
         String email = userService.getEmail(findMailForm);
         return ResponseApi.success(UserResponseMessage.READ_USER.getMessage(), email);
     }
@@ -52,7 +52,7 @@ public class UserController { // resource : users
     )
     @ApiResponse(responseCode = "200", description = "회원 정보 조회 성공")
     @ApiResponse(responseCode = "400", description = "회원을 찾을 수 없습니다.")
-    public ResponseApi<String> getPassword(@RequestBody @Valid FindPasswordForm findPasswordForm) {
+    public ResponseApi getPassword(@RequestBody @Valid FindPasswordForm findPasswordForm) {
         return ResponseApi.success(UserResponseMessage.READ_USER.getMessage(), userService.findPassword(findPasswordForm));
     }
 

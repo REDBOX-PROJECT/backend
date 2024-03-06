@@ -77,14 +77,14 @@ public class BoardController {
             description = "문의 게시글을 모두 나타냅니다."
     )
     @ApiResponse(responseCode = "200", description = "문의게시글 목록 불러오기 성공")
-    public ResponseApi<List<InquiryListForm>> showInquiryList() {
+    public ResponseApi showInquiryList() {
         List<InquiryListForm> inquiryListForm = boardService.showInquiryList();
         return ResponseApi.success(BoardResponseMessage.SUCCESS_SHOW_INQUIRY_LIST.getMessage(), inquiryListForm);
     }
 
 
     @GetMapping("/notice/list")
-    public ResponseApi<List<NoticeListForm>> showNoticeList() {
+    public ResponseApi showNoticeList() {
         List<NoticeListForm> noticeListForm = boardService.showNoticeList();
         return ResponseApi.success("공지사항 리스트", noticeListForm);
     }
