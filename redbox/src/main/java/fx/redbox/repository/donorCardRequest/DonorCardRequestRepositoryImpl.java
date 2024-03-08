@@ -40,7 +40,16 @@ public class DonorCardRequestRepositoryImpl implements DonorCardRequestRepositor
         donorCardRequestFormParam.put("donorcard_request_date", donorCardRequestForm.getDonorCardRequestDate());
         donorCardRequestFormParam.put("user_id", donorCardRequestForm.getUserId());
 
-        donorCardRequestFormJdbcInsert.execute(donorCardRequestFormParam);
+        Long donorcard_request_id = donorCardRequestFormJdbcInsert.executeAndReturnKey(donorCardRequestFormParam).longValue();
+
+        //donorcard_request_approval
+        SimpleJdbcInsert donorCardRequestApprovalInsert = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("donorcard_request_approval");
+        Map<String, Object> donorCardRequestApprovalParam = new ConcurrentHashMap<>();
+        donorCardRequestApprovalParam.put("donorcard_request_id", donorcard_request_id); //default 거절
+        donorCardRequestApprovalParam.put("donorcard_request_permission", RejectPermission.거절.name()); //default 거절
+        donorCardRequestApprovalInsert.execute(donorCardRequestApprovalParam);
+
     }
 
     @Override
