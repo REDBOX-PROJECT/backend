@@ -16,10 +16,10 @@ public class DonorCardRequestController {
 
     private final DonorCardRequestService donorCardRequestService;
 
-    @PostMapping
-    public ResponseApi createDonorCardRequest(@RequestBody DonorCardRequestDto donorCardRequestDto) {
-        DonorCardRequest createdDonorCardRequest = donorCardRequestService.createDonorCardRequest(donorCardRequestDto.getDonorCardRequest(), donorCardRequestDto.getDonorCardRequestForm());
-        return ResponseApi.success("헌혈증 요청 생성 성공", createdDonorCardRequest);
+    @PostMapping("/{email}")
+    public ResponseApi saveDonorCardRequest(@PathVariable String email, @RequestBody DonorCardRequestDto donorCardRequestDto) {
+        donorCardRequestService.saveDonorCardRequest(email, donorCardRequestDto);
+        return ResponseApi.success("헌혈증 요청 생성 성공");
     }
 
     @GetMapping("/{donorCardRequestId}")
