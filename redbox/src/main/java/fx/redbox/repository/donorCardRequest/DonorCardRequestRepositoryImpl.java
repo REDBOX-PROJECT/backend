@@ -1,10 +1,8 @@
 package fx.redbox.repository.donorCardRequest;
 
-import fx.redbox.entity.donorCards.DonorCardRequest;
 import fx.redbox.entity.donorCards.DonorCardRequestForm;
 import fx.redbox.entity.enums.DonorCardRequestRejectReason;
 import fx.redbox.entity.enums.RejectPermission;
-import fx.redbox.entity.users.User;
 import fx.redbox.repository.mappper.DonorCardRequestMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -46,27 +44,27 @@ public class DonorCardRequestRepositoryImpl implements DonorCardRequestRepositor
         SimpleJdbcInsert donorCardRequestApprovalInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("donorcard_request_approval");
         Map<String, Object> donorCardRequestApprovalParam = new ConcurrentHashMap<>();
-        donorCardRequestApprovalParam.put("donorcard_request_id", donorcard_request_id); //default 거절
+        donorCardRequestApprovalParam.put("donorcard_request_id", donorcard_request_id);
         donorCardRequestApprovalParam.put("donorcard_request_permission", RejectPermission.거절.name()); //default 거절
+        donorCardRequestApprovalParam.put("rejection_reason", DonorCardRequestRejectReason.심사중.name()); //default 심사중
         donorCardRequestApprovalInsert.execute(donorCardRequestApprovalParam);
 
     }
 
     @Override
-    public Optional<DonorCardRequest> getDonorCardRequestById(Long donorCardRequestId) {
-        String sql = "SELECT * FROM donorcard_requests " +
-                "JOIN donorcard_request_forms ON donorcard_requests.donorcard_request_id " +
-                "WHERE donorcard_requests.donorcard_request_id = ?";
-
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, new Object[]{donorCardRequestId}, donorCardRequestMapper));
-    }
-
-    @Override
-    public List<DonorCardRequest> getAllDonorCardRequests() {
-        String sql = "SELECT * FROM donorcard_requests " +
-                "JOIN donorcard_request_forms ON donorcard_requests.donorcard_request_id";
+    public List<DonorCardRequestForm> getAllDonorCardRequests() {
+        String sql = "SELECT * FROM donorcard_request_forms dcrf" +
+                " LEFT JOIN donorcard_request_approval dcra" +
+                " ON dcrf.donorcard_request_id = dcra.donorcard_request_id";
 
         return jdbcTemplate.query(sql, donorCardRequestMapper);
+    }
+
+    // @Override
+    public Optional<DonorCardRequestForm> getDonorCardRequestByUserId(Long userId) {
+        String sql = "SELECT * FROM donorcard_requests WHERE user_id = ?";
+
+        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, new Object[]{userId}, donorCardRequestMapper));
     }
 
     @Override

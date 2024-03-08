@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
 @Builder
 public class DonorCardRequestForm {
     private Long donorCardRequestId;
@@ -19,5 +20,5 @@ public class DonorCardRequestForm {
     private BloodType bloodType;
     private LocalDateTime donorCardRequestDate;
     private Long userId;
-
+    private DonorCardRequestApproval donorCardRequestApproval;
 }
