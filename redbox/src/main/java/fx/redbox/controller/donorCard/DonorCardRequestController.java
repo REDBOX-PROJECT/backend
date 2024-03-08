@@ -47,7 +47,7 @@ public class DonorCardRequestController {
     }
 
     @DeleteMapping("/{donorCardRequestId}")
-    public ResponseApi<Void> deleteDonorCardRequest(@PathVariable Long donorCardRequestId) {
+    public ResponseApi deleteDonorCardRequest(@PathVariable Long donorCardRequestId) {
         donorCardRequestService.deleteDonorCardRequest(Long.valueOf(donorCardRequestId));
         return ResponseApi.success("헌혈증 요청 삭제 성공", null);
     }

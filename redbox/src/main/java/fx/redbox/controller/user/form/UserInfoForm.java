@@ -19,11 +19,11 @@ public class UserInfoForm {
 
     private Long userId;
 
-    @Email
+//    @Email
     private String email;
 
-    @NotBlank
-    @Size(min=2, max=8, message="이름은 2~8자 입니다.")
+//    @NotBlank
+//    @Size(min=2, max=8, message="이름은 2~8자 입니다.")
     private String name;
 
     private Permission permission;

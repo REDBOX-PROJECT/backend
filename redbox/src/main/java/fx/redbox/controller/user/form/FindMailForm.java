@@ -13,11 +13,11 @@ import lombok.Setter;
 @NoArgsConstructor
 public class FindMailForm {
 
-    @NotBlank
-    @Size(min=2, max=8, message="이름은 2~8자 입니다.")
+//    @NotBlank
+//    @Size(min=2, max=8, message="이름은 2~8자 입니다.")
     private String name;
 
-    @Pattern(regexp = "\\d{3}-\\d{4}-\\d{4}")
+//    @Pattern(regexp = "\\d{3}-\\d{4}-\\d{4}")
     private String phone;
 
     public FindMailForm(User user) {
