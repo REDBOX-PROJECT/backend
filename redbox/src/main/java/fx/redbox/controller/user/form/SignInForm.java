@@ -10,9 +10,9 @@ import lombok.Getter;
 public class SignInForm {
 
     //UserAccount
-    @Email
+//    @Email
     private String email;
 
-    @Size(min=5, max=20)
+//    @Size(min=5, max=20)
     private String password;
 }

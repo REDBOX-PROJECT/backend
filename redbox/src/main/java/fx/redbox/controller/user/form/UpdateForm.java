@@ -12,12 +12,12 @@ import java.sql.Date;
 @Setter
 public class UpdateForm {
 
-    @Past
+//    @Past
     private Date birth;
 
-    @Pattern(regexp = "\\d{3}-\\d{4}-\\d{4}")
+//    @Pattern(regexp = "\\d{3}-\\d{4}-\\d{4}")
     private String phone;
 
-    @Size(min=2, max=30)
+//    @Size(min=2, max=30)
     private String address;
 }

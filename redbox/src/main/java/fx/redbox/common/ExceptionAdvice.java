@@ -23,33 +23,33 @@ public class ExceptionAdvice {
 //        throw new MyCustomException("NoSuchFieldException!!");
 //    }
 
-    @ExceptionHandler(UserNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseApi userNotFoundException(UserNotFoundException e) {
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseApi userNotFoundException(Exception e) {
         log.error("회원을 찾을 수 없습니다.");
-        return ResponseApi.fail(StatusCode.NOT_FOUND, UserResponseMessage.NOT_FOUND_USER.getMessage());
+        return ResponseApi.fail(UserResponseMessage.CREATED_USER.getStatusCode(), UserResponseMessage.NOT_FOUND_USER.getMessage());
     }
 
-    @ExceptionHandler(DuplicateEmailException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(DuplicateEmailException.class)
     public ResponseApi duplicateEmailException(Exception e) {
         log.error("이미 존재하는 회원입니다.");
-        return ResponseApi.fail(StatusCode.BAD_REQUEST, UserResponseMessage.FAIL_CREATED_USER.getMessage());
+        return ResponseApi.fail(UserResponseMessage.FAIL_CREATED_USER.getStatusCode(), UserResponseMessage.FAIL_CREATED_USER.getMessage());
     }
 
-    @ExceptionHandler(PasswordMismatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(PasswordMismatchException.class)
     public ResponseApi passwordMismatchException(Exception e) {
         log.error("비밀번호가 일치하지 않습니다.");
-        return ResponseApi.fail(StatusCode.BAD_REQUEST, UserResponseMessage.PASSWORD_MISMATCH.getMessage());
+        return ResponseApi.fail(UserResponseMessage.PASSWORD_MISMATCH.getStatusCode(), UserResponseMessage.PASSWORD_MISMATCH.getMessage());
     }
 
 
-    @ExceptionHandler(EmailNotFoundException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(EmailNotFoundException.class)
     public ResponseApi emailNotFoundException(Exception e) {
         log.error("이메일을 찾을 수 없습니다.");
-        return ResponseApi.fail(StatusCode.BAD_REQUEST, UserResponseMessage.NOT_FOUND_EMAIL.getMessage());
+        return ResponseApi.fail(UserResponseMessage.NOT_FOUND_EMAIL.getStatusCode(), UserResponseMessage.NOT_FOUND_EMAIL.getMessage());
     }
 
 }

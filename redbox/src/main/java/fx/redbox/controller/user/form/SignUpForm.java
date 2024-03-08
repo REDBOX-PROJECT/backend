@@ -14,30 +14,30 @@ import java.sql.Date;
 public class SignUpForm {
 
     //User
-    @NotBlank
-    @Size(min=2, max=8, message="이름은 2~8자 입니다.")
+//    @NotBlank
+//    @Size(min=2, max=8, message="이름은 2~8자 입니다.")
     private String name;
 
-    @Past
+//    @Past
     private Date birth; //YYYY-MM-DD
 
-    @ValidEnum(enumClass = Gender.class)
+//    @ValidEnum(enumClass = Gender.class)
     private Gender gender;
 
-    @ValidEnum(enumClass = BloodType.class)
+//    @ValidEnum(enumClass = BloodType.class)
     private BloodType bloodType = BloodType.NULL;
 
     //UserAccount
-    @Email
+//    @Email
     private String email;
 
-    @Size(min=5, max=20)
+//    @Size(min=5, max=20)
     private String password;
 
     //UserInfo
-    @Pattern(regexp = "\\d{3}-\\d{4}-\\d{4}")
+//    @Pattern(regexp = "\\d{3}-\\d{4}-\\d{4}")
     private String phone;
 
-    @Size(min=2, max=30)
+//    @Size(min=2, max=30)
     private String address;
 }
