@@ -4,16 +4,20 @@ import fx.redbox.entity.enums.BloodType;
 import fx.redbox.entity.enums.Gender;
 import lombok.*;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @Builder
 public class DonorCardRequestForm {
     private Long donorCardRequestId;
     private String patientName;
     private String evidenceDocument;
+    private LocalDate birth;
     private Gender patientGender;
+    private String hospitalName;
     private BloodType bloodType;
-    private Timestamp donorCardRequestDate;
+    private LocalDateTime donorCardRequestDate;
+    private Long userId;
+
 }

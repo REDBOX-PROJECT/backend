@@ -4,6 +4,7 @@ import fx.redbox.entity.donorCards.DonorCardRequest;
 import fx.redbox.entity.donorCards.DonorCardRequestForm;
 import fx.redbox.entity.enums.DonorCardRequestRejectReason;
 import fx.redbox.entity.enums.RejectPermission;
+import fx.redbox.entity.users.User;
 import fx.redbox.repository.mappper.DonorCardRequestMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -23,7 +24,7 @@ public class DonorCardRequestRepositoryImpl implements DonorCardRequestRepositor
     private final DonorCardRequestMapper donorCardRequestMapper;
 
     @Override
-    public DonorCardRequest createDonorCardRequest(DonorCardRequest donorCardRequest, DonorCardRequestForm donorCardRequestForm) {
+    public void saveDonorCardRequestForm(DonorCardRequestForm donorCardRequestForm) {
 
         // donorCardRequestForm 테이블
         SimpleJdbcInsert donorCardRequestFormJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
@@ -32,22 +33,14 @@ public class DonorCardRequestRepositoryImpl implements DonorCardRequestRepositor
         Map<String, Object> donorCardRequestFormParam = new ConcurrentHashMap<>();
         donorCardRequestFormParam.put("patient_name", donorCardRequestForm.getPatientName());
         donorCardRequestFormParam.put("evidence_document", donorCardRequestForm.getEvidenceDocument());
-        donorCardRequestFormParam.put("patient_gender", donorCardRequestForm.getPatientGender());
-        donorCardRequestFormParam.put("blood_type", donorCardRequestForm.getBloodType());
+        donorCardRequestFormParam.put("patient_gender", donorCardRequestForm.getPatientGender().name());
+        donorCardRequestFormParam.put("birth", donorCardRequestForm.getBirth());
+        donorCardRequestFormParam.put("hospital_name", donorCardRequestForm.getHospitalName());
+        donorCardRequestFormParam.put("blood_type", donorCardRequestForm.getBloodType().name());
         donorCardRequestFormParam.put("donorcard_request_date", donorCardRequestForm.getDonorCardRequestDate());
+        donorCardRequestFormParam.put("user_id", donorCardRequestForm.getUserId());
 
-        // donorCardRequest 테이블
-        SimpleJdbcInsert donorCardRequestJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName("donorcard_requests")
-                .usingGeneratedKeyColumns("donorcard_request_id");
-        Map<String, Object> donorCardRequestParam = new ConcurrentHashMap<>();
-        donorCardRequestParam.put("donorcard_request_permission", donorCardRequest.getDonorCardRequestPermission());
-        donorCardRequestParam.put("donorcard_request_reject_reason", donorCardRequest.getDonorCardRequestRejectReason());
-        donorCardRequestParam.put("user_id", donorCardRequest.getUserId());
-        donorCardRequestParam.put("donorcard_request_id", donorCardRequestFormJdbcInsert.executeAndReturnKey(donorCardRequestFormParam).longValue());
-        donorCardRequestJdbcInsert.executeAndReturnKey(donorCardRequestParam).longValue();
-
-        return donorCardRequest;
+        donorCardRequestFormJdbcInsert.execute(donorCardRequestFormParam);
     }
 
     @Override

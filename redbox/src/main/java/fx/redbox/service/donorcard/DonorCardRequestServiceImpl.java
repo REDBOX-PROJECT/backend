@@ -1,13 +1,22 @@
 package fx.redbox.service.donorCard;
 
+import fx.redbox.common.Exception.UserNotFoundException;
+import fx.redbox.controller.donorCard.form.DonorCardRequestDto;
+import fx.redbox.controller.user.form.UserInfoForm;
 import fx.redbox.entity.donorCards.DonorCardRequest;
 import fx.redbox.entity.donorCards.DonorCardRequestForm;
+import fx.redbox.entity.enums.BloodType;
 import fx.redbox.entity.enums.DonorCardRequestRejectReason;
+import fx.redbox.entity.enums.Gender;
 import fx.redbox.entity.enums.RejectPermission;
+import fx.redbox.entity.users.User;
 import fx.redbox.repository.donorCardRequest.DonorCardRequestRepository;
+import fx.redbox.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -17,20 +26,27 @@ import java.util.Optional;
 public class DonorCardRequestServiceImpl implements DonorCardRequestService {
 
     private final DonorCardRequestRepository donorCardRequestRepository;
+    private final UserService userService;
 
     @Override
-    public DonorCardRequest createDonorCardRequest(DonorCardRequest donorCardRequest, DonorCardRequestForm donorCardRequestForm) {
-        // 이미 등록된 DonorCardRequest가 있는지 검사
-        Optional<DonorCardRequest> existingDonorCardRequest =
-                donorCardRequestRepository.getDonorCardRequestById(donorCardRequest.getDonorCardRequestId());
+    public void saveDonorCardRequest(String email, DonorCardRequestDto donorCardRequestDto) {
+        Optional<User> userOptional = userService.findByEmail(email);
+        if(userOptional.isEmpty())
+            throw new UserNotFoundException();
+       User user = userOptional.get();
 
-        // 이미 등록된 DonorCardRequest가 있다면 그 정보를 반환
-        if (existingDonorCardRequest.isPresent()) {
-            return existingDonorCardRequest.get();
-        }
+        DonorCardRequestForm donorCardRequestForm = DonorCardRequestForm.builder()
+                .patientName(donorCardRequestDto.getPatientName())
+                .birth(donorCardRequestDto.getBirth())
+                .patientGender(donorCardRequestDto.getGender())
+                .hospitalName(donorCardRequestDto.getHospitalName())
+                .evidenceDocument(donorCardRequestDto.getEvidenceDocument())
 
-        // DonorCardRequest가 존재하지 않는 경우 새로 생성
-        return donorCardRequestRepository.createDonorCardRequest(donorCardRequest, donorCardRequestForm);
+                .donorCardRequestDate(LocalDateTime.now())
+                .bloodType(user.getBloodType())
+                .userId(user.getUserId())
+                .build();
+        donorCardRequestRepository.saveDonorCardRequestForm(donorCardRequestForm);
     }
 
     @Override

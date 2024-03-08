@@ -4,6 +4,7 @@ import fx.redbox.entity.donorCards.DonorCardRequest;
 import fx.redbox.entity.donorCards.DonorCardRequestForm;
 import fx.redbox.entity.enums.DonorCardRequestRejectReason;
 import fx.redbox.entity.enums.RejectPermission;
+import fx.redbox.entity.users.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface DonorCardRequestRepository {
 
-    DonorCardRequest createDonorCardRequest(DonorCardRequest donorCardRequest, DonorCardRequestForm donorCardRequestForm);
+    void saveDonorCardRequestForm(DonorCardRequestForm donorCardRequestForm);
 
     Optional<DonorCardRequest> getDonorCardRequestById(Long donorCardRequestId);
 
