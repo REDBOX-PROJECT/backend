@@ -48,7 +48,7 @@ public class DonorCardRequestController {
     }
 
     @DeleteMapping("/{donorCardRequestId}")
-    public ResponseApi<Void> deleteDonorCardRequest(@PathVariable Long donorCardRequestId) {
+    public ResponseApi deleteDonorCardRequest(@PathVariable Long donorCardRequestId) {
         donorCardRequestService.deleteDonorCardRequest(Long.valueOf(donorCardRequestId));
         return ResponseApi.success(DonorCardRequestResponseMessage.DELETE_DONORCARD_REQUEST.getMessage(), null);
     }

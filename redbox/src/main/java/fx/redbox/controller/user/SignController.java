@@ -6,6 +6,8 @@ import fx.redbox.controller.user.form.SignInForm;
 import fx.redbox.controller.user.form.SignUpForm;
 import fx.redbox.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -21,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/redbox")
+@RequestMapping()
 public class SignController {
     private final UserService userService;
 
@@ -29,8 +31,8 @@ public class SignController {
     @Operation(summary = "로그인",
             description = "로그인 API"
     )
-    @ApiResponse(responseCode = "200", description = "성공")
-    @ApiResponse(responseCode = "400", description = "사용자를 찾을 수 없습니다.")
+    @ApiResponse(responseCode = "200", description = "로그인 성공") //,content = @Content(schema = @Schema(implementation = SignInForm.class)))
+    @ApiResponse(responseCode = "404", description = "회원을 찾을 수 없습니다.")
     public ResponseApi signIn(@RequestBody @Valid SignInForm signInForm) {
         return ResponseApi.success(UserResponseMessage.LOGIN_SUCCESS.getMessage(), userService.signIn(signInForm));
     }
@@ -43,9 +45,9 @@ public class SignController {
     @Operation(summary = "회원가입",
             description = "회원가입 API"
     )
-    @ApiResponse(responseCode = "200", description = "성공")
-    @ApiResponse(responseCode = "400", description = "이미 존재하는 회원입니다.")
-    public ResponseApi<Boolean> signUp(@RequestBody @Valid SignUpForm signUpForm) {
+    @ApiResponse(responseCode = "200", description = "회원 가입 성공")
+    @ApiResponse(responseCode = "404", description = "회원 가입 실패")
+    public ResponseApi signUp(@RequestBody @Valid SignUpForm signUpForm) {
         boolean resultBoolean = userService.signUp(signUpForm);
         return ResponseApi.success(UserResponseMessage.CREATED_USER.getMessage(), resultBoolean);
     }
