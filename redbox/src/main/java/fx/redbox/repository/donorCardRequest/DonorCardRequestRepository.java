@@ -1,8 +1,6 @@
 package fx.redbox.repository.donorCardRequest;
 
 import fx.redbox.entity.donorCards.DonorCardRequestForm;
-import fx.redbox.entity.enums.DonorCardRequestRejectReason;
-import fx.redbox.entity.enums.RejectPermission;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
