@@ -53,6 +53,7 @@ public class DonorCardRequestServiceImpl implements DonorCardRequestService {
 
         for(DonorCardRequestForm donorCardRequest : allDonorCardRequests) {
             DonorCardRequestListForm build = DonorCardRequestListForm.builder()
+                    .donorCardRequestId(donorCardRequest.getDonorCardRequestId())
                     .patientName(donorCardRequest.getPatientName())
                     .bloodType(donorCardRequest.getBloodType())
                     .permission(donorCardRequest.getDonorCardRequestApproval().getDonorCardRequestPermission())

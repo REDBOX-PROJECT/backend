@@ -9,6 +9,7 @@ import lombok.Getter;
 @Builder
 public class DonorCardRequestListForm {
 
+    private Long donorCardRequestId;
     private String patientName;
     private BloodType bloodType;
     private RejectPermission permission;
