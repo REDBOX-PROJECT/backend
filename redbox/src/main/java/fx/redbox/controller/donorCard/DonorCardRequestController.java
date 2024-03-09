@@ -3,6 +3,7 @@ package fx.redbox.controller.donorCard;
 import fx.redbox.controller.api.ResponseApi;
 import fx.redbox.controller.donorCard.form.DonorCardRequestDto;
 import fx.redbox.controller.donorCard.form.DonorCardRequestListForm;
+import fx.redbox.controller.donorCard.form.DonorCardRequestReviewCheckForm;
 import fx.redbox.controller.donorCard.form.DonorCardRequestReviewForm;
 import fx.redbox.service.donorCard.DonorCardRequestService;
 import lombok.RequiredArgsConstructor;
@@ -35,12 +36,14 @@ public class DonorCardRequestController {
         return ResponseApi.success("헌혈증 요청 심사 조회 성공", donorCardRequestReviewForm);
     }
 
-    /*@PatchMapping("/{donorCardRequestId}")
-    public ApiResponse updateDonorCardRequest(@PathVariable Long donorCardRequestId, @RequestBody DonorCardRequest donorCardRequest) {
-        donorCardRequestService.updateDonorCardRequest(donorCardRequestId, donorCardRequest.getDonorCardRequestPermission(), donorCardRequest.getDonorCardRequestRejectReason());
-        return ApiResponse.success("헌혈증 요청 상태 수정 성공", null);
+    @PatchMapping("/{donorCardRequestId}") //헌혈증 요청 심사 (승인 거절) 선택
+    public ResponseApi updateDonorCardRequestReview(@PathVariable Long donorCardRequestId,
+                                                    @RequestBody DonorCardRequestReviewCheckForm donorCardRequestReviewCheckForm) {
+        donorCardRequestService.updateDonorCardRequest(donorCardRequestId, donorCardRequestReviewCheckForm);
+        return ResponseApi.success("헌혈증 요청 상태 수정 성공", null);
     }
 
+    /*
     @PatchMapping("/{donorCardRequestId}")
     public ResponseApi updateDonorCardRequestForm(@PathVariable Long donorCardRequestId, @RequestBody String evidenceDocument){
         donorCardRequestService.updateDonorCardRequestForm(donorCardRequestId, evidenceDocument);

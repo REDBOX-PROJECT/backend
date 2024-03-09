@@ -71,25 +71,14 @@ public class DonorCardRequestRepositoryImpl implements DonorCardRequestRepositor
     }
 
     @Override
-    public void updateDonorCardRequest(Long donorCardRequestId, RejectPermission donorCardRequestPermission, DonorCardRequestRejectReason donorCardRequestRejectReason) {
-        String sql = "UPDATE donorcard_requests SET donorcard_request_permission = ?, donorcard_request_reject_reason = ? WHERE donorcard_request_id = ?";
-        jdbcTemplate.update(sql, donorCardRequestPermission, donorCardRequestRejectReason, donorCardRequestId);
-
+    public void updateDonorCardRequestReview(Long donorCardRequestId,
+                                             String rejectPermission,
+                                             String rejectReason) {
+        String sql = "UPDATE donorcard_request_approval" +
+                " SET donorcard_request_permission = ?, rejection_reason = ?" +
+                " WHERE donorcard_request_id = ?";
+        jdbcTemplate.update(sql, rejectPermission, rejectReason, donorCardRequestId);
     }
 
-    @Override
-    public void updateDonorCardRequestForm(Long donorCardRequestId, String evidenceDocument) {
-        String sql = "UPDATE donorcard_request_forms SET evidence_document = ? WHERE donorcard_request_id = ?";
-        jdbcTemplate.update(sql, evidenceDocument, donorCardRequestId);
-    }
-
-    @Override
-    public void deleteDonorCardRequest(Long donorCardRequestId) {
-        String deleteFormsql = "DELETE FROM donorcard_request_forms WHERE donorcard_request_id = ?";
-        String deleterequestsql = "DELETE FROM donorcard_requests WHERE donorcard_request_id = ?";
-
-        jdbcTemplate.update(deleteFormsql, donorCardRequestId);
-        jdbcTemplate.update(deleterequestsql, donorCardRequestId);
-    }
 
 }

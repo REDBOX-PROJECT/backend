@@ -3,8 +3,11 @@ package fx.redbox.service.donorCard;
 import fx.redbox.common.Exception.UserNotFoundException;
 import fx.redbox.controller.donorCard.form.DonorCardRequestDto;
 import fx.redbox.controller.donorCard.form.DonorCardRequestListForm;
+import fx.redbox.controller.donorCard.form.DonorCardRequestReviewCheckForm;
 import fx.redbox.controller.donorCard.form.DonorCardRequestReviewForm;
 import fx.redbox.entity.donorCards.DonorCardRequestForm;
+import fx.redbox.entity.enums.DonorCardRequestRejectReason;
+import fx.redbox.entity.enums.RejectPermission;
 import fx.redbox.entity.users.User;
 import fx.redbox.repository.donorCardRequest.DonorCardRequestRepository;
 import fx.redbox.service.user.UserService;
@@ -93,25 +96,26 @@ public class DonorCardRequestServiceImpl implements DonorCardRequestService {
                 .build();
         return donorCardRequestReviewForm;
     }
+
+    @Override
+    public void updateDonorCardRequest(Long donorCardRequestId, DonorCardRequestReviewCheckForm donorCardRequestReviewCheckForm) {
+        Optional<DonorCardRequestForm> donorCardRequestByDonorCardRequestId = donorCardRequestRepository.getDonorCardRequestByDonorCardRequestId(donorCardRequestId);
+        if(donorCardRequestByDonorCardRequestId.isEmpty()){
+            //예외 발생
+            log.info("해당 요청 없음");
+        }
+        donorCardRequestRepository.updateDonorCardRequestReview(donorCardRequestId,
+                donorCardRequestReviewCheckForm.getRejectPermission().name(),
+                donorCardRequestReviewCheckForm.getDonorCardRequestRejectReason().name());
+    }
+
     /*
 
         @Override
         public List<DonorCardRequest> getAllDonorCardRequests() {
             return donorCardRequestRepository.getAllDonorCardRequests();
         }
-    @Override
-    public void updateDonorCardRequest(Long donorCardRequestId, RejectPermission donorCardRequestPermission, DonorCardRequestRejectReason donorCardRequestRejectReason) {
-        // 헌혈증 요청 조회
-        Optional<DonorCardRequest> donorCardRequestOpt = donorCardRequestRepository.getDonorCardRequestById(donorCardRequestId);
 
-        // 헌혈증 요청이 존재하지 않는 경우 예외 발생
-        if (!donorCardRequestOpt.isPresent()) {
-            throw new NoSuchElementException("해당 id에 대한 요청 없음. id: " + donorCardRequestId);
-        }
-
-        // 헌혈증 요청이 존재하는 경우 상태 업데이트
-        donorCardRequestRepository.updateDonorCardRequest(donorCardRequestId, donorCardRequestPermission, donorCardRequestRejectReason);
-    }
 
     @Override
     public void updateDonorCardRequestForm(Long donorCardRequestId, String evidenceDocument) {

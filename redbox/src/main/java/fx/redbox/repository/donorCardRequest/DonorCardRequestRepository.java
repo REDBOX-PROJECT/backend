@@ -17,9 +17,6 @@ public interface DonorCardRequestRepository {
 
     Optional<DonorCardRequestForm> getDonorCardRequestByDonorCardRequestId(Long donorCardRequestId);
 
-    void updateDonorCardRequest(Long donorCardRequestId, RejectPermission donorCardRequestPermission, DonorCardRequestRejectReason donorCardRequestRejectReason);
+    void updateDonorCardRequestReview(Long donorCardRequestId, String donorCardRequestPermission, String donorCardRequestRejectReason);
 
-    void updateDonorCardRequestForm(Long donorCardRequestId, String evidenceDocument);
-
-    void deleteDonorCardRequest(Long donorCardRequestId);
 }
