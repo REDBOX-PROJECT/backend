@@ -3,6 +3,7 @@ package fx.redbox.controller.donorCard;
 import fx.redbox.controller.api.ResponseApi;
 import fx.redbox.controller.donorCard.form.DonorCardRequestDto;
 import fx.redbox.controller.donorCard.form.DonorCardRequestListForm;
+import fx.redbox.controller.donorCard.form.DonorCardRequestReviewForm;
 import fx.redbox.service.donorCard.DonorCardRequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -28,12 +29,10 @@ public class DonorCardRequestController {
         return ResponseApi.success("헌혈증 요청 전체 조회 성공", donorCardRequestListForms);
     }
 
-
-/*
     @GetMapping("/{donorCardRequestId}")
-    public ResponseApi getDonorCardRequestById(@PathVariable String donorCardRequestId) {
-        Optional<DonorCardRequest> getDonorCardRequest = donorCardRequestService.getDonorCardRequestById(Long.valueOf(donorCardRequestId));
-        return ResponseApi.success("헌혈증 요청 조회 성공", getDonorCardRequest);
+    public ResponseApi showDonorCardRequestReview(@PathVariable Long donorCardRequestId) {
+        DonorCardRequestReviewForm donorCardRequestReviewForm = donorCardRequestService.showDonorCardRequestReview(donorCardRequestId);
+        return ResponseApi.success("헌혈증 요청 심사 조회 성공", donorCardRequestReviewForm);
     }
 
     /*@PatchMapping("/{donorCardRequestId}")

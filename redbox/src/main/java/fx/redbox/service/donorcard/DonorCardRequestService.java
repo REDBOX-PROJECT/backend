@@ -2,6 +2,7 @@ package fx.redbox.service.donorCard;
 
 import fx.redbox.controller.donorCard.form.DonorCardRequestDto;
 import fx.redbox.controller.donorCard.form.DonorCardRequestListForm;
+import fx.redbox.controller.donorCard.form.DonorCardRequestReviewForm;
 import fx.redbox.entity.donorCards.DonorCardRequestForm;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public interface DonorCardRequestService {
 
     List<DonorCardRequestListForm> showAllDonorCardRequests();
 
-    Optional<DonorCardRequestForm> getDonorCardRequest(String email);
+    DonorCardRequestReviewForm showDonorCardRequestReview(Long donorCardRequestId);
 /*
 
     void updateDonorCardRequest(Long donorCardRequestId, RejectPermission donorCardRequestPermission, DonorCardRequestRejectReason donorCardRequestRejectReason);

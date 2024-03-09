@@ -45,7 +45,7 @@ public class DonorCardRequestRepositoryImpl implements DonorCardRequestRepositor
                 .withTableName("donorcard_request_approval");
         Map<String, Object> donorCardRequestApprovalParam = new ConcurrentHashMap<>();
         donorCardRequestApprovalParam.put("donorcard_request_id", donorcard_request_id);
-        donorCardRequestApprovalParam.put("donorcard_request_permission", RejectPermission.거절.name()); //default 거절
+        donorCardRequestApprovalParam.put("donorcard_request_permission", RejectPermission.심사중.name()); //default 심사중
         donorCardRequestApprovalParam.put("rejection_reason", DonorCardRequestRejectReason.심사중.name()); //default 심사중
         donorCardRequestApprovalInsert.execute(donorCardRequestApprovalParam);
 
@@ -60,11 +60,14 @@ public class DonorCardRequestRepositoryImpl implements DonorCardRequestRepositor
         return jdbcTemplate.query(sql, donorCardRequestMapper);
     }
 
-    // @Override
-    public Optional<DonorCardRequestForm> getDonorCardRequestByUserId(Long userId) {
-        String sql = "SELECT * FROM donorcard_requests WHERE user_id = ?";
+     @Override
+    public Optional<DonorCardRequestForm> getDonorCardRequestByDonorCardRequestId(Long donorCardRequestId) {
+        String sql = "SELECT * FROM donorcard_request_forms" +
+                " INNER JOIN donorcard_request_approval" +
+                " ON donorcard_request_forms.donorcard_request_id = donorcard_request_approval.donorcard_request_id" +
+                " WHERE donorcard_request_forms.donorcard_request_id = ?";
 
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, new Object[]{userId}, donorCardRequestMapper));
+        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, new Object[]{donorCardRequestId}, donorCardRequestMapper));
     }
 
     @Override

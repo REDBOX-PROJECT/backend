@@ -3,11 +3,13 @@ package fx.redbox.service.donorCard;
 import fx.redbox.common.Exception.UserNotFoundException;
 import fx.redbox.controller.donorCard.form.DonorCardRequestDto;
 import fx.redbox.controller.donorCard.form.DonorCardRequestListForm;
+import fx.redbox.controller.donorCard.form.DonorCardRequestReviewForm;
 import fx.redbox.entity.donorCards.DonorCardRequestForm;
 import fx.redbox.entity.users.User;
 import fx.redbox.repository.donorCardRequest.DonorCardRequestRepository;
 import fx.redbox.service.user.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class DonorCardRequestServiceImpl implements DonorCardRequestService {
 
     private final DonorCardRequestRepository donorCardRequestRepository;
@@ -65,18 +68,30 @@ public class DonorCardRequestServiceImpl implements DonorCardRequestService {
 
 
     @Override
-    public Optional<DonorCardRequestForm> getDonorCardRequest(String email) {
-        Optional<User> userOptional = userService.findByEmail(email);
-        if(userOptional.isEmpty())
-            throw new UserNotFoundException();
-        User user = userOptional.get();
+    public DonorCardRequestReviewForm showDonorCardRequestReview(Long donorCardRequestId) {
 
-
-        Optional<DonorCardRequestForm> donorCardRequest = donorCardRequestRepository.getDonorCardRequestByUserId(user.getUserId());
+        Optional<DonorCardRequestForm> donorCardRequest = donorCardRequestRepository.getDonorCardRequestByDonorCardRequestId(donorCardRequestId);
         if (donorCardRequest.isEmpty()) {
-            throw new NoSuchElementException(user.getName() + "에 대한 요청 없음");
+            //예외 발생
+            log.info("해당 요청 없음");
         }
-        return donorCardRequest;
+        DonorCardRequestForm donorCardRequestForm = donorCardRequest.get();
+
+        //요청자 ID 확인
+        Optional<User> byUserId = userService.findByUserId(donorCardRequestForm.getUserId());
+        if(byUserId.isEmpty()) {
+            throw new UserNotFoundException();
+        }
+        User requestUser = byUserId.get();
+
+        DonorCardRequestReviewForm donorCardRequestReviewForm = DonorCardRequestReviewForm.builder()
+                .requestName(requestUser.getName()) //요청자이름
+                .patientName(donorCardRequestForm.getPatientName()) //환자 이름
+                .hospitalName(donorCardRequestForm.getHospitalName())
+                .evidenceDocument(donorCardRequestForm.getEvidenceDocument())
+                .rejectPermission(donorCardRequestForm.getDonorCardRequestApproval().getDonorCardRequestPermission())
+                .build();
+        return donorCardRequestReviewForm;
     }
     /*
 
