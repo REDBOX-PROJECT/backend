@@ -1,5 +1,6 @@
 package fx.redbox.common;
 
+import fx.redbox.common.Exception.DonorCardRequestNotFoundException;
 import fx.redbox.common.Exception.DuplicateDonorCardRequestException;
 import fx.redbox.controller.api.DonorCardRequestResponseMessage;
 import fx.redbox.controller.api.ResponseApi;
@@ -20,4 +21,11 @@ public class DonorCardRequestExceptionAdvice {
                 DonorCardRequestResponseMessage.DONOR_CARD_REQUEST_DUPLICATE.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(DonorCardRequestNotFoundException.class)
+    public ResponseApi donorCardRequestNotFoundException() {
+        log.error("헌혈증 요청 자료를 찾을 수 없습니다.");
+        return ResponseApi.fail(DonorCardRequestResponseMessage.DONOR_CARD_REQUEST_NOT_FOUND.getStatusCode(),
+                DonorCardRequestResponseMessage.DONOR_CARD_REQUEST_NOT_FOUND.getMessage());
+    }
 }

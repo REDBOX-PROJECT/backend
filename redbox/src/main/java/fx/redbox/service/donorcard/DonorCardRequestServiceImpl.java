@@ -1,5 +1,6 @@
 package fx.redbox.service.donorCard;
 
+import fx.redbox.common.Exception.DonorCardRequestNotFoundException;
 import fx.redbox.common.Exception.DuplicateDonorCardRequestException;
 import fx.redbox.common.Exception.UserNotFoundException;
 import fx.redbox.controller.donorCard.form.DonorCardRequestDto;
@@ -83,8 +84,7 @@ public class DonorCardRequestServiceImpl implements DonorCardRequestService {
 
         Optional<DonorCardRequestForm> donorCardRequest = donorCardRequestRepository.getDonorCardRequestByDonorCardRequestId(donorCardRequestId);
         if (donorCardRequest.isEmpty()) {
-            //예외 발생
-            log.info("해당 요청 없음");
+            throw new DonorCardRequestNotFoundException();
         }
         DonorCardRequestForm donorCardRequestForm = donorCardRequest.get();
 
