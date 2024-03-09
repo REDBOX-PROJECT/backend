@@ -80,5 +80,10 @@ public class DonorCardRequestRepositoryImpl implements DonorCardRequestRepositor
         jdbcTemplate.update(sql, rejectPermission, rejectReason, donorCardRequestId);
     }
 
-
+    @Override
+    public Boolean existsByUserId(Long userId) {
+        String sql = "SELECT COUNT(*) FROM donorcard_request_forms WHERE user_id = ?";
+        int cnt = jdbcTemplate.queryForObject(sql, Integer.class, userId);
+        return cnt > 0;
+    }
 }

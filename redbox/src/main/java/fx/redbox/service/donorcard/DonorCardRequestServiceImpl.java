@@ -1,5 +1,6 @@
 package fx.redbox.service.donorCard;
 
+import fx.redbox.common.Exception.DuplicateDonorCardRequestException;
 import fx.redbox.common.Exception.UserNotFoundException;
 import fx.redbox.controller.donorCard.form.DonorCardRequestDto;
 import fx.redbox.controller.donorCard.form.DonorCardRequestListForm;
@@ -33,10 +34,17 @@ public class DonorCardRequestServiceImpl implements DonorCardRequestService {
 
     @Override
     public void saveDonorCardRequest(String email, DonorCardRequestDto donorCardRequestDto) {
+
         Optional<User> userOptional = userService.findByEmail(email);
         if(userOptional.isEmpty())
             throw new UserNotFoundException();
-       User user = userOptional.get();
+        User user = userOptional.get();
+
+        Boolean existDonorCardRequest = donorCardRequestRepository.existsByUserId(user.getUserId());
+        if (existDonorCardRequest) {
+            throw new DuplicateDonorCardRequestException();
+        }
+
 
         DonorCardRequestForm donorCardRequestForm = DonorCardRequestForm.builder()
                 .patientName(donorCardRequestDto.getPatientName())

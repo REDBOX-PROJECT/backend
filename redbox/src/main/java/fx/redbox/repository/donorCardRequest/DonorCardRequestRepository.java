@@ -19,4 +19,5 @@ public interface DonorCardRequestRepository {
 
     void updateDonorCardRequestReview(Long donorCardRequestId, String donorCardRequestPermission, String donorCardRequestRejectReason);
 
+    Boolean existsByUserId(Long userId);
 }
