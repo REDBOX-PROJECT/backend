@@ -109,8 +109,7 @@ public class DonorCardRequestServiceImpl implements DonorCardRequestService {
     public void updateDonorCardRequest(Long donorCardRequestId, DonorCardRequestReviewCheckForm donorCardRequestReviewCheckForm) {
         Optional<DonorCardRequestForm> donorCardRequestByDonorCardRequestId = donorCardRequestRepository.getDonorCardRequestByDonorCardRequestId(donorCardRequestId);
         if(donorCardRequestByDonorCardRequestId.isEmpty()){
-            //예외 발생
-            log.info("해당 요청 없음");
+            throw new DonorCardRequestNotFoundException();
         }
         donorCardRequestRepository.updateDonorCardRequestReview(donorCardRequestId,
                 donorCardRequestReviewCheckForm.getRejectPermission().name(),
