@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 @Component
 public class BoardMapper implements RowMapper<Board> {
@@ -22,7 +23,7 @@ public class BoardMapper implements RowMapper<Board> {
                 .boardId(rs.getLong("board_id"))
                 .title(rs.getString("title"))
                 .content(rs.getString("content"))
-                .registrationDate(rs.getTimestamp("registration_date"))
+                .registrationDate(rs.getTimestamp("registration_date").toLocalDateTime())
                 .boardType(BoardType.valueOf(rs.getString("board_type")))
                 .userId(rs.getLong("user_id"))
                 .build();

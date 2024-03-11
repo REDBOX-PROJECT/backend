@@ -25,7 +25,7 @@ public class BoardServiceImpl implements BoardService {
 
         Board board = Board.builder()
                 .title(boardForm.getTitle())
-                .registrationDate(Timestamp.valueOf(LocalDateTime.now()))
+                .registrationDate(LocalDateTime.now())
                 .content(boardForm.getContent())
                 .boardType(boardForm.getBoardType())
                 .userId(user.getUserId())

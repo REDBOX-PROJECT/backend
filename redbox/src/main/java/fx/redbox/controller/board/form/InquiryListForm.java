@@ -3,19 +3,19 @@ package fx.redbox.controller.board.form;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @Builder
 public class InquiryListForm {
     private String title;
     private boolean hasAnswer;
-    private Timestamp registrationDate;
+    private LocalDateTime registrationDate;
 
     // 생성자, getter, setter 등 필요한 메서드 추가
 
     // 예시로 생성자와 getter를 추가한 코드
-    public InquiryListForm(String title, boolean hasAnswer, Timestamp registrationDate) {
+    public InquiryListForm(String title, boolean hasAnswer, LocalDateTime registrationDate) {
         this.title = title;
         this.hasAnswer = hasAnswer;
         this.registrationDate = registrationDate;

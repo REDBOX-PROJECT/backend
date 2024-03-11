@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 @Component
 public class UserMapper implements RowMapper<User> {
@@ -21,7 +22,7 @@ public class UserMapper implements RowMapper<User> {
         User user = User.builder()
                 .userId(rs.getLong("user_id"))
                 .name(rs.getString("name"))
-                .birth(rs.getDate("birth"))
+                .birth(LocalDate.parse(rs.getString("birth")))
                 .gender(Gender.valueOf(rs.getString("gender"))) //valueof 를 사용해 enum 타입으로 변환
                 .bloodType(BloodType.valueOf(rs.getString("blood_type")))
                 .grade(Grade.valueOf(rs.getString("grade")))

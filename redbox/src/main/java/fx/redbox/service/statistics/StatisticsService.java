@@ -10,10 +10,8 @@ import fx.redbox.service.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.List;
 import java.util.Optional;
 
@@ -114,9 +112,9 @@ public class StatisticsService {
             Long userId = donorCard.getUserId();
             Optional<User> user = userService.findByUserId(userId);
 
-            Date birthDate = user.get().getBirth();
+            LocalDate birthDate = user.get().getBirth();
 
-            int birthYear = birthDate.toLocalDate().getYear();
+            int birthYear = birthDate.getYear();
             int currentYear = LocalDate.now().getYear();
 
             // 한국식 나이 계산

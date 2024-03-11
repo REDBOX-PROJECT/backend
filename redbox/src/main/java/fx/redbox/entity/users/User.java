@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 
 @Getter
@@ -18,7 +19,7 @@ public class User {
 
     private Long userId;
     private String name;
-    private Date birth; //YYYY-MM-DD
+    private LocalDate birth; //YYYY-MM-DD
     private Gender gender;
     private BloodType bloodType;
     private Grade grade;
