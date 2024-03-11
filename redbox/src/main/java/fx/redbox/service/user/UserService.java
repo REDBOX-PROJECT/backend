@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface UserService {
 
     boolean signUp(SignUpForm signUpForm);
-    SignInForm signIn(SignInForm signInForm);
+    User signIn(SignInForm signInForm);
     UserInfoForm getUser(String email);
     Optional<User> findByEmail(String email);
     Optional<User> findByUserId(Long userId);

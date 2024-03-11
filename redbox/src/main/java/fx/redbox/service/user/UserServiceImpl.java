@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public SignInForm signIn(SignInForm signInForm) {
+    public User signIn(SignInForm signInForm) {
         User user = userRepository.findByEmail(signInForm.getEmail())
                 .orElseThrow(() -> new EmailNotFoundException(1));
 
@@ -50,8 +50,7 @@ public class UserServiceImpl implements UserService {
             throw new PasswordMismatchException();
         }
 
-        return SignInForm.builder()
-                .email(user.getUserAccount().getEmail()).build();
+        return user;
     }
 
     @Override
