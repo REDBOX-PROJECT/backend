@@ -64,13 +64,13 @@ public class DonorCardRepositoryImpl implements DonorCardRepository{
     @Override
     public void updateDonorCard(String certificateNumber, DonorCard updateDonorCard) throws SQLException{
         String UPDATE = "update donor_cards set donor_name=?," +
-                "donor_birth=?, donor_blood_kind=?, donor_gender=?" +
-                "donor_blood_center=? where cefiticate_number=?";
+                "donor_birth=?, donor_blood_kind=?, donor_gender=?," +
+                "blood_center=? where certificate_number=?";
         jdbcTemplate.update(UPDATE,
                 updateDonorCard.getDonorName(),
                 updateDonorCard.getDonorBirth(),
-                updateDonorCard.getDonorBloodKind(),
-                updateDonorCard.getDonorGender(),
+                updateDonorCard.getDonorBloodKind().name(),
+                updateDonorCard.getDonorGender().name(),
                 updateDonorCard.getBloodCenter(),
                 certificateNumber);
     }

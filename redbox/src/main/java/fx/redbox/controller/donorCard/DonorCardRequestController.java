@@ -35,11 +35,11 @@ public class DonorCardRequestController {
         return ResponseApi.success("헌혈증 요청 전체 조회 성공", getDonorCardRequests);
     }
 
-    @PatchMapping("/{donorCardRequestId}")
-    public ResponseApi updateDonorCardRequest(@PathVariable Long donorCardRequestId, @RequestBody DonorCardRequest donorCardRequest) {
-        donorCardRequestService.updateDonorCardRequest(donorCardRequestId, donorCardRequest.getDonorCardRequestPermission(), donorCardRequest.getDonorCardRequestRejectReason());
-        return ResponseApi.success(DonorCardRequestResponseMessage.UPDATE_DONORCARD_REQUEST.getMessage(), null);
-    }
+//    @PatchMapping("/{donorCardRequestId}")
+//    public ResponseApi updateDonorCardRequest(@PathVariable Long donorCardRequestId, @RequestBody DonorCardRequest donorCardRequest) {
+//        donorCardRequestService.updateDonorCardRequest(donorCardRequestId, donorCardRequest.getDonorCardRequestPermission(), donorCardRequest.getDonorCardRequestRejectReason());
+//        return ResponseApi.success(DonorCardRequestResponseMessage.UPDATE_DONORCARD_REQUEST.getMessage(), null);
+//    }
 
     @PatchMapping("/{donorCardRequestId}")
     public ResponseApi updateDonorCardRequestForm(@PathVariable Long donorCardRequestId, @RequestBody String evidenceDocument){

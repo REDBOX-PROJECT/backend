@@ -100,7 +100,7 @@ public class StatisticsService {
                 plateletPlasma = plateletPlasma + 1;
             }
 
-            
+
             //성별 수집
             Gender donorGender = donorCard.getDonorGender();
             if(donorGender.equals(Gender.남)) {
@@ -109,7 +109,7 @@ public class StatisticsService {
                 woman++;
             }
 
-            
+
             //나이대 수집
             Long userId = donorCard.getUserId();
             Optional<User> user = userService.findByUserId(userId);
