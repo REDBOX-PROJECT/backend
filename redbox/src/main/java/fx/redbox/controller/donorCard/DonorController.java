@@ -4,16 +4,22 @@ import fx.redbox.controller.api.DonorCardResponseMessage;
 import fx.redbox.controller.api.ResponseApi;
 import fx.redbox.entity.donorCards.DonorCard;
 import fx.redbox.service.donorCard.DonorCardService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
+@Tag(name = "DONORCARD API", description = "헌혈증 관리 API")
 @RequestMapping("/donorcards")
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class DonorController {
     private final DonorCardService donorCardService;
 
@@ -42,10 +48,15 @@ public class DonorController {
 
         return ResponseApi.success(DonorCardResponseMessage.READ_DONORCARD.getMessage());
     }
-
-    @GetMapping
-    public ResponseApi showAllDonorCards() throws SQLException{
-        List<DonorCard> donorCards = donorCardService.findAllDonorCards();
+    @GetMapping("/all/{email}")
+    @Operation(
+            summary = "헌혈증 전체 정보 조회",
+            description = "증서번호, 헌혈종류, 헌혈일자, 혈액원명을 이용해 전체 헌혈증을 조회합니다."
+    )
+    @ApiResponse(responseCode = "200", description = "전체 헌혈증 조회 성공.")
+    @ApiResponse(responseCode = "404", description = "전체 헌혈증 조회 실패.")
+    public ResponseApi showAllDonorCards(@PathVariable String email) {
+        List<DonorCard> donorCards = donorCardService.findAllDonorCards(email);
 
         return ResponseApi.success(DonorCardResponseMessage.READ_ALL_DONORCARD.getMessage(), donorCards);
     }

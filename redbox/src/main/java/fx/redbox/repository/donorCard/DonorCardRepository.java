@@ -12,7 +12,7 @@ public interface DonorCardRepository {
 
     Optional<DonorCard> findDonorCardByCertificateNumber(String certificateNumber) throws SQLException;
 
-    List<DonorCard> findAllDonorCards() throws SQLException;
+    List<DonorCard> findAllDonorCards(Long userId);
 
     void updateDonorCard(String certificateNumber, DonorCard updateDonorCard) throws SQLException;
 

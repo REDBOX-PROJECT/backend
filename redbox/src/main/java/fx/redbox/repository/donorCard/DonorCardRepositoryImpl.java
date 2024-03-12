@@ -11,10 +11,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
@@ -54,9 +51,10 @@ public class DonorCardRepositoryImpl implements DonorCardRepository{
     }
 
     @Override
-    public List<DonorCard> findAllDonorCards() throws SQLException{
-        String FIND_ALL = "select * from donor_cards";
-        List<DonorCard> donorCards =  jdbcTemplate.query(FIND_ALL,donorCardRowMapper());
+    public List<DonorCard> findAllDonorCards(Long userId) {
+        String FIND = "select * from donor_cards where user_id=?";
+        List<DonorCard> donorCards = jdbcTemplate.query(FIND, donorCardRowMapper(), userId);
+
 
         return donorCards;
     }

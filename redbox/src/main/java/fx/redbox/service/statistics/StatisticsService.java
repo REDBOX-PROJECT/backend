@@ -17,13 +17,14 @@ import java.time.Period;
 import java.util.List;
 import java.util.Optional;
 
+
 @AllArgsConstructor
 @Service
 public class StatisticsService {
 
     private DonorCardRepository donorCardRepository;
     private UserService userService;
-
+/*
     public StatisticsForm showStatistics() throws SQLException {
 
         List<DonorCard> allDonorCards = donorCardRepository.findAllDonorCards();
@@ -61,6 +62,7 @@ public class StatisticsService {
                 .build();
     }
 
+*/
 
 
 

@@ -8,11 +8,11 @@ import java.util.Optional;
 
 public interface DonorCardService {
 
-    Optional<DonorCard> saveDonorCard(DonorCard donorCard) throws SQLException;
+    Optional<DonorCard> saveDonorCard(String email, DonorCard donorCard) throws SQLException;
 
-    Optional<DonorCard> findDonorCard(String certificateNumber) throws SQLException;
+    Optional<DonorCard> findDonorCard(String email) throws SQLException;
 
-    List<DonorCard> findAllDonorCards() throws SQLException;
+    List<DonorCard> findAllDonorCards(String email);
 
     void deleteDonorCard(String certificateNumber) throws SQLException;
 
