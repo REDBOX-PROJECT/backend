@@ -69,7 +69,7 @@ public class UserController { // resource : users
         if(loginUser == null)
             throw new UserNotFoundException();
 
-        userService.deleteUser(email);
+        userService.deleteUser(loginUser);
         return ResponseApi.success(UserResponseMessage.DELETE_USER.getMessage());
     }
 
