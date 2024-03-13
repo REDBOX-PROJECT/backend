@@ -21,14 +21,14 @@ public class BoardServiceImpl implements BoardService {
     private final BoardRepository boardRepository;
 
     @Override
-    public void saveBoard(BoardForm boardForm, User user) {
+    public void saveBoard(BoardForm boardForm) {
 
         Board board = Board.builder()
                 .title(boardForm.getTitle())
                 .registrationDate(LocalDateTime.now())
                 .content(boardForm.getContent())
                 .boardType(boardForm.getBoardType())
-                .userId(user.getUserId())
+                .userId(boardForm.getUserId())
                 .build();
 
         boardRepository.saveBoard(board);
@@ -56,6 +56,7 @@ public class BoardServiceImpl implements BoardService {
                     .title(inquiry.getTitle())
                     .hasAnswer(inquiry.getInquiryAnswerContent() != null)
                     .registrationDate(inquiry.getRegistrationDate())
+                    .boardId(inquiry.getBoardId())
                     .build();
             result.add(build);
         }
@@ -72,6 +73,7 @@ public class BoardServiceImpl implements BoardService {
             NoticeListForm noticeListForm = NoticeListForm.builder()
                     .title(board.getTitle())
                     .registrationDate(board.getRegistrationDate())
+                    .boardId(board.getBoardId())
                     .build();
             result.add(noticeListForm);
         }

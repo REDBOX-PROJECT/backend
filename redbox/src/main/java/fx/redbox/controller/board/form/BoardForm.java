@@ -11,4 +11,5 @@ public class BoardForm {
     private String content;
     private String title;
     private BoardType boardType;
+    private Long userId;
 }

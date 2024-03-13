@@ -13,6 +13,7 @@ public class NoticeListForm {
     private String title;
     private LocalDateTime registrationDate;
     //조회수는 나중에 추가하는걸로
+    private Long boardId;
 
 
 }
