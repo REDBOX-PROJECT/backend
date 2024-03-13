@@ -72,4 +72,16 @@ public class SignController {
         return ResponseApi.success(UserResponseMessage.CREATED_USER.getMessage(), resultBoolean);
     }
 
+    public ResponseApi logout(HttpServletRequest request) {
+        //세션을 삭제한다.
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+            ResponseApi.success(UserResponseMessage.LOGIN_SUCCESS.getMessage());
+        }
+
+        return ResponseApi.fail(UserResponseMessage.LOGOUT_SUCCESS.getStatusCode(),
+                UserResponseMessage.LOGOUT_FAIL.getMessage());
+    }
+
 }
