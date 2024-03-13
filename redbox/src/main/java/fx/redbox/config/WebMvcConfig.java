@@ -1,13 +1,11 @@
 package fx.redbox.config;
 
-import fx.redbox.config.argumentresolver.LoginMemberArgumentResolver;
+import fx.redbox.config.argumentresolver.LoginUserArgumentResolver;
 import fx.redbox.config.filter.LogFilter;
-import fx.redbox.config.intercepter.LogInterceptor;
 import fx.redbox.config.filter.LoginCheckFilter;
 import fx.redbox.config.intercepter.LoginCheckInterceptor;
 import jakarta.servlet.Filter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -37,7 +35,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         return filterRegistrationBean;
     }
 
-    @Bean
+    //@Bean
     public FilterRegistrationBean loginCheckFilter() {
         FilterRegistrationBean<Filter> filterRegistrationBean = new
                 FilterRegistrationBean<>();
@@ -58,13 +56,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns(
                         "/", "/register", "/login", "/logout",
-                        "/css/**", "/*.ico", "/error"
+                        "/css/**", "/*.ico", "/error",
+                        "/swagger-ui/**" ,"/swagger-resources/**", "/v3/api-docs/**"
                 );
     }
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver>
                                              resolvers) {
-        resolvers.add(new LoginMemberArgumentResolver());
+        resolvers.add(new LoginUserArgumentResolver());
     }
 }

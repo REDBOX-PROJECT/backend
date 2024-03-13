@@ -51,7 +51,7 @@ public class SignController {
         httpServletRequest.getSession().invalidate();
         HttpSession session = httpServletRequest.getSession(true); //session이 없으면
         //세션에 loginUser 넣음
-        session.setAttribute(SessionConst.LOGIN_MEMBER, loginUser);
+        session.setAttribute(SessionConst.LOGIN_USER, loginUser);
         session.setMaxInactiveInterval(1800); //Session이 30분동안 유지
 
         return ResponseApi.success(UserResponseMessage.LOGIN_SUCCESS.getMessage());

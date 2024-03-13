@@ -12,7 +12,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 @Slf4j
-public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
+public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -34,6 +34,6 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
         if (session == null) {
             return null;
         }
-        return session.getAttribute(SessionConst.LOGIN_MEMBER);
+        return session.getAttribute(SessionConst.LOGIN_USER);
     }
 }
