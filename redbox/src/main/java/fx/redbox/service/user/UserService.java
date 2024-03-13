@@ -16,7 +16,7 @@ public interface UserService {
     Optional<User> findByEmail(String email);
     Optional<User> findByUserId(Long userId);
     String getEmail(FindMailForm findMailForm);
-    void editUserInfo(String email, UpdateForm updateForm);
+    void editUserInfo(User user, UpdateForm updateForm);
     String findPassword(FindPasswordForm findPasswordForm);
     void deleteUser(User user);
 }

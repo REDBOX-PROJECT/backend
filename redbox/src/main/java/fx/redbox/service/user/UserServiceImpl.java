@@ -82,10 +82,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void editUserInfo(String email, UpdateForm updateForm) {
-        User user = userRepository.findByEmail(email)
-                        .orElseThrow(() -> new UserNotFoundException());
-        userRepository.update(user.getUserId(), updateForm.getBirth(), updateForm.getPhone(), updateForm.getAddress() );
+    public void editUserInfo(User user, UpdateForm updateForm) {
+        userRepository.update(user.getUserId(), updateForm.getBirth(), updateForm.getPhone(), updateForm.getAddress());
     }
 
     @Override
