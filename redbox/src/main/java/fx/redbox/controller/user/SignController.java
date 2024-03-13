@@ -72,15 +72,20 @@ public class SignController {
         return ResponseApi.success(UserResponseMessage.CREATED_USER.getMessage(), resultBoolean);
     }
 
+    @PostMapping("/logout") //회원가입
+    @Operation(summary = "로그아웃",
+            description = "로그아웃 API"
+    )
+    @ApiResponse(responseCode = "200", description = "로그아웃 성공")
     public ResponseApi logout(HttpServletRequest request) {
         //세션을 삭제한다.
         HttpSession session = request.getSession(false);
         if (session != null) {
             session.invalidate();
-            ResponseApi.success(UserResponseMessage.LOGIN_SUCCESS.getMessage());
+            return ResponseApi.success(UserResponseMessage.LOGOUT_SUCCESS.getMessage());
         }
 
-        return ResponseApi.fail(UserResponseMessage.LOGOUT_SUCCESS.getStatusCode(),
+        return ResponseApi.fail(UserResponseMessage.LOGOUT_FAIL.getStatusCode(),
                 UserResponseMessage.LOGOUT_FAIL.getMessage());
     }
 
