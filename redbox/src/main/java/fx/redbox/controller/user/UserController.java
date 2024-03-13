@@ -1,8 +1,11 @@
 package fx.redbox.controller.user;
 
+import fx.redbox.common.Exception.UserNotFoundException;
+import fx.redbox.config.argumentresolver.Login;
 import fx.redbox.controller.api.ResponseApi;
 import fx.redbox.controller.api.UserResponseMessage;
 import fx.redbox.controller.user.form.*;
+import fx.redbox.entity.users.User;
 import fx.redbox.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -62,7 +65,10 @@ public class UserController { // resource : users
     )
     @ApiResponse(responseCode = "200", description = "회원 탈퇴 성공")
     @ApiResponse(responseCode = "404", description = "회원을 찾을 수 없습니다.")
-    public ResponseApi deleteUser(@PathVariable String email) {
+    public ResponseApi deleteUser(@PathVariable String email, @Login User loginUser) {
+        if(loginUser == null)
+            throw new UserNotFoundException();
+
         userService.deleteUser(email);
         return ResponseApi.success(UserResponseMessage.DELETE_USER.getMessage());
     }
