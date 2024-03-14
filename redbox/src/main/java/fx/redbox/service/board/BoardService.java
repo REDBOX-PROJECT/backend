@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface BoardService {
 
-    void saveBoard(BoardForm board, User user);
+    void saveBoard(BoardForm board);
 
     void saveInquiryAnswer(Long boardId, InquiryAnswerForm inquiryAnswerForm);
 

@@ -6,14 +6,14 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
 public class UpdateForm {
 
 //    @Past
-    private Date birth;
+    private LocalDate birth;
 
 //    @Pattern(regexp = "\\d{3}-\\d{4}-\\d{4}")
     private String phone;

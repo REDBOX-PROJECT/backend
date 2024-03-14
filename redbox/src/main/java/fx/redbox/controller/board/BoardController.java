@@ -2,6 +2,7 @@ package fx.redbox.controller.board;
 
 import fx.redbox.common.Exception.BoardNotFoundException;
 import fx.redbox.common.Exception.UserNotFoundException;
+import fx.redbox.config.argumentresolver.Login;
 import fx.redbox.controller.api.BoardResponseMessage;
 import fx.redbox.controller.api.ResponseApi;
 import fx.redbox.controller.board.form.*;
@@ -26,22 +27,18 @@ import java.util.Optional;
 public class BoardController {
 
     private final BoardService boardService;
-    private final UserService userService;
 
     @PostMapping("/boards")
     @Operation(
             summary = "게시글(문의 or 공지사항) 저장",
-            description = "게시글 타입에 따라 문의 or 공지사항이 구분됩니다."
+            description = "(Form에 userId값 포함) 게시글 타입에 따라 문의 or 공지사항이 구분됩니다."
     )
     @ApiResponse(responseCode = "200", description = "문의 or 공지사항 게시글이 저장되었습니다.")
-    public ResponseApi saveBoard(@RequestBody BoardForm board) {
+    public ResponseApi saveBoard(@RequestBody BoardForm board, @Login User loginUser) {
 
-        //테스트 아이디입니다.
-        Optional<User> user = userService.findByUserId(1L);
-        if(user.isEmpty())
-            throw new UserNotFoundException();
+        board.setUserId(loginUser.getUserId());
 
-        boardService.saveBoard(board, user.get());
+        boardService.saveBoard(board);
         if(board.getBoardType().equals(BoardType.문의))
             return ResponseApi.success(BoardResponseMessage.CREATED_INQUIRY_BOARD.getMessage());
 
@@ -84,8 +81,13 @@ public class BoardController {
 
 
     @GetMapping("/notice/list")
+    @Operation(
+            summary = "공지사항 리스트",
+            description = "공지사항 게시글을 모두 나타냅니다."
+    )
+    @ApiResponse(responseCode = "200", description = "공지사항 목록 불러오기 성공")
     public ResponseApi showNoticeList() {
         List<NoticeListForm> noticeListForm = boardService.showNoticeList();
-        return ResponseApi.success("공지사항 리스트", noticeListForm);
+        return ResponseApi.success(BoardResponseMessage.SUCCESS_SHOW_NOTICE_LIST.getMessage(), noticeListForm);
     }
  }
