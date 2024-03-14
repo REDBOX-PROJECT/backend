@@ -5,14 +5,10 @@ import fx.redbox.entity.enums.DonorCardRequestRejectReason;
 import lombok.*;
 
 @Getter
-@Setter
 @Builder
-public class DonorCardRequest {
+public class DonorCardRequestApproval {
     private Long donorCardRequestId;
     private RejectPermission donorCardRequestPermission;
     private DonorCardRequestRejectReason donorCardRequestRejectReason;
-    private Long userId;
-    private Long donorCardRequestFormId;
 
-    private DonorCardRequestForm donorCardRequestForm;
 }
