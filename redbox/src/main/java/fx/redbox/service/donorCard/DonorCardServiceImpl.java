@@ -1,6 +1,7 @@
 package fx.redbox.service.donorCard;
 
 import fx.redbox.common.Exception.UserNotFoundException;
+import fx.redbox.controller.donorCard.form.ReadAllDonorCardForm;
 import fx.redbox.entity.donorCards.DonorCard;
 import fx.redbox.entity.users.User;
 import fx.redbox.repository.donorCard.DonorCardRepository;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -38,7 +40,7 @@ public class DonorCardServiceImpl implements DonorCardService{
         }
 
         Optional<DonorCard> savedDonorCard = donorCardRepository.saveDonorCard(donorCard);
-        
+
         return savedDonorCard;
     }
 
@@ -54,13 +56,13 @@ public class DonorCardServiceImpl implements DonorCardService{
     }
 
     @Override
-    public List<DonorCard> findAllDonorCards(String email) {
-
+    public List<ReadAllDonorCardForm> findAllDonorCards(String email) {
         Optional<User> userOptional = userService.findByEmail(email);
         if(userOptional.isEmpty())
             throw new UserNotFoundException();
         User user = userOptional.get();
-        return donorCardRepository.findAllDonorCards(user.getUserId());
+        List<DonorCard> donorCards = donorCardRepository.findAllDonorCards(user.getUserId());
+        return convertToReadAllDonorCardFormList(donorCards);
     }
 
     @Override
@@ -79,5 +81,14 @@ public class DonorCardServiceImpl implements DonorCardService{
 //            // return 해당 증서번호의 헌혈증이 없어요 라는 에러 발생
 //        }
         donorCardRepository.updateDonorCard(certificateNumber, updateDonorCard);
+    public List<ReadAllDonorCardForm> convertToReadAllDonorCardFormList(List<DonorCard> donorCards) {
+        return donorCards.stream().map(donorCard -> {
+            ReadAllDonorCardForm form = new ReadAllDonorCardForm();
+            form.setCertificateNumber(donorCard.getCertificateNumber());
+            form.setDonorBloodKind(donorCard.getDonorBloodKind());
+            form.setDonationDate(donorCard.getDonationDate());
+            form.setBloodCenter(donorCard.getBloodCenter());
+            return form;
+        }).collect(Collectors.toList());
     }
 }

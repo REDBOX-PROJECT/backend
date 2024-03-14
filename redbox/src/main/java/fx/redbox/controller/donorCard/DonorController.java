@@ -2,6 +2,7 @@ package fx.redbox.controller.donorCard;
 
 import fx.redbox.controller.api.DonorCardResponseMessage;
 import fx.redbox.controller.api.ResponseApi;
+import fx.redbox.controller.donorCard.form.ReadAllDonorCardForm;
 import fx.redbox.entity.donorCards.DonorCard;
 import fx.redbox.service.donorCard.DonorCardService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -56,7 +57,7 @@ public class DonorController {
     @ApiResponse(responseCode = "200", description = "전체 헌혈증 조회 성공.")
     @ApiResponse(responseCode = "404", description = "전체 헌혈증 조회 실패.")
     public ResponseApi showAllDonorCards(@PathVariable String email) {
-        List<DonorCard> donorCards = donorCardService.findAllDonorCards(email);
+        List<ReadAllDonorCardForm> donorCards = donorCardService.findAllDonorCards(email);
 
         return ResponseApi.success(DonorCardResponseMessage.READ_ALL_DONORCARD.getMessage(), donorCards);
     }
