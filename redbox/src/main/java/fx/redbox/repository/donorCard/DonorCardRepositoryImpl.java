@@ -29,6 +29,7 @@ public class DonorCardRepositoryImpl implements DonorCardRepository{
         donorCardParam.put("donor_name",donorCard.getDonorName());
         donorCardParam.put("donor_birth",donorCard.getDonorBirth());
         donorCardParam.put("donor_blood_kind",donorCard.getDonorBloodKind());
+        donorCardParam.put("donation_date", donorCard.getDonationDate());
         donorCardParam.put("donor_gender", donorCard.getDonorGender().name()); //enum 을 string 형으로
         donorCardParam.put("blood_center",donorCard.getBloodCenter());
         donorCardParam.put("user_id",donorCard.getUserId());
@@ -54,30 +55,28 @@ public class DonorCardRepositoryImpl implements DonorCardRepository{
     public List<DonorCard> findAllDonorCards(Long userId) {
         String FIND = "select * from donor_cards where user_id=?";
         List<DonorCard> donorCards = jdbcTemplate.query(FIND, donorCardRowMapper(), userId);
-
-
         return donorCards;
     }
 
-    @Override
-    public void updateDonorCard(String certificateNumber, DonorCard updateDonorCard) throws SQLException{
-        String UPDATE = "update donor_cards set donor_name=?," +
-                "donor_birth=?, donor_blood_kind=?, donor_gender=?," +
-                "blood_center=? where certificate_number=?";
-        jdbcTemplate.update(UPDATE,
-                updateDonorCard.getDonorName(),
-                updateDonorCard.getDonorBirth(),
-                updateDonorCard.getDonorBloodKind().name(),
-                updateDonorCard.getDonorGender().name(),
-                updateDonorCard.getBloodCenter(),
-                certificateNumber);
-    }
-
-    @Override
-    public void deleteDonorCard(String certificateNumber) throws SQLException{
-        String DELETE = "select * from donor_cards where cefiticate_number=?";
-        jdbcTemplate.queryForList(DELETE, certificateNumber);
-    }
+//    @Override
+//    public void updateDonorCard(String certificateNumber, DonorCard updateDonorCard) throws SQLException{
+//        String UPDATE = "update donor_cards set donor_name=?," +
+//                "donor_birth=?, donor_blood_kind=?, donor_gender=?," +
+//                "blood_center=? where certificate_number=?";
+//        jdbcTemplate.update(UPDATE,
+//                updateDonorCard.getDonorName(),
+//                updateDonorCard.getDonorBirth(),
+//                updateDonorCard.getDonorBloodKind().name(),
+//                updateDonorCard.getDonorGender().name(),
+//                updateDonorCard.getBloodCenter(),
+//                certificateNumber);
+//    }
+//
+//    @Override
+//    public void deleteDonorCard(String certificateNumber) throws SQLException{
+//        String DELETE = "select * from donor_cards where cefiticate_number=?";
+//        jdbcTemplate.queryForList(DELETE, certificateNumber);
+//    }
 
     private RowMapper<DonorCard> donorCardRowMapper(){
         return((rs, rowNum) -> {

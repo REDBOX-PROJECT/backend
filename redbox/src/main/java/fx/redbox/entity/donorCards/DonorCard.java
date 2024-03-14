@@ -18,6 +18,7 @@ public class DonorCard {
     private String donorName;
     private LocalDate donorBirth;
     private DonorBloodKind donorBloodKind;
+    private LocalDate donationDate;
     private Gender donorGender;
     private String bloodCenter;
     private Long userId;
