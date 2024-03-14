@@ -14,8 +14,4 @@ public interface DonorCardRepository {
 
     List<DonorCard> findAllDonorCards(Long userId);
 
-    void updateDonorCard(String certificateNumber, DonorCard updateDonorCard) throws SQLException;
-
-    void deleteDonorCard(String certificateNumber) throws SQLException;
-
 }

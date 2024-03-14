@@ -15,8 +15,4 @@ public interface DonorCardService {
 
     List<ReadAllDonorCardForm> findAllDonorCards(String email);
 
-    void deleteDonorCard(String certificateNumber) throws SQLException;
-
-    void updateDonorCard(String certificateNumber, DonorCard updateDonorCard) throws SQLException;
-
 }

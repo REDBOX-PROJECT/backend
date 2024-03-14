@@ -47,7 +47,7 @@ public class DonorController {
     public ResponseApi showDonorCardByCertificateNumber(@PathVariable String certificateNumber) throws SQLException{
         Optional<DonorCard> findDonorCard = donorCardService.findDonorCard(certificateNumber);
 
-        return ResponseApi.success(DonorCardResponseMessage.READ_DONORCARD.getMessage());
+        return ResponseApi.success(DonorCardResponseMessage.READ_DONORCARD.getMessage(), findDonorCard);
     }
     @GetMapping("/all/{email}")
     @Operation(
@@ -61,19 +61,5 @@ public class DonorController {
 
         return ResponseApi.success(DonorCardResponseMessage.READ_ALL_DONORCARD.getMessage(), donorCards);
     }
-
-//    @PatchMapping("/{certificateNumber}")
-//    public ResponseApi updateDonorCardByCertificateNumber(@PathVariable String certificateNumber, @RequestBody DonorCard updateDonorCard) throws SQLException{
-//        donorCardService.updateDonorCard(certificateNumber, updateDonorCard);
-//
-//        return ResponseApi.success("헌혈증 정보 수정 성공", null);
-//    }
-    
-//    @DeleteMapping("/{certificateNumber}")
-//    public ResponseApi deleteDonorCardByCertificateNumber(@PathVariable String certificateNumber) throws SQLException{
-//        donorCardService.deleteDonorCard(certificateNumber);
-//
-//        return ResponseApi.success("헌혈증 정보 삭제 성공", null);
-//    }
 
 }

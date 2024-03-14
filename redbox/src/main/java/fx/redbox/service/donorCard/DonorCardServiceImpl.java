@@ -80,7 +80,9 @@ public class DonorCardServiceImpl implements DonorCardService{
 //        if(!findDonorCard.isEmpty()){
 //            // return 해당 증서번호의 헌혈증이 없어요 라는 에러 발생
 //        }
-        donorCardRepository.updateDonorCard(certificateNumber, updateDonorCard);
+//        donorCardRepository.updateDonorCard(certificateNumber, updateDonorCard);
+//    }
+
     public List<ReadAllDonorCardForm> convertToReadAllDonorCardFormList(List<DonorCard> donorCards) {
         return donorCards.stream().map(donorCard -> {
             ReadAllDonorCardForm form = new ReadAllDonorCardForm();
