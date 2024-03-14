@@ -11,12 +11,12 @@ import java.util.Optional;
 public interface UserService {
 
     boolean signUp(SignUpForm signUpForm);
-    SignInForm signIn(SignInForm signInForm);
+    User signIn(SignInForm signInForm);
     UserInfoForm getUser(String email);
     Optional<User> findByEmail(String email);
     Optional<User> findByUserId(Long userId);
     String getEmail(FindMailForm findMailForm);
-    void editUserInfo(String email, UpdateForm updateForm);
+    void editUserInfo(User user, UpdateForm updateForm);
     String findPassword(FindPasswordForm findPasswordForm);
-    void deleteUser(String email);
+    void deleteUser(User user);
 }

@@ -19,7 +19,7 @@ import java.sql.SQLException;
 public class StatisticsController {
 
     StatisticsService statisticsService;
-
+/*
     @GetMapping("/statistics")
     @Operation(summary = "헌혈 통계",
             description = "헌혈종류, 성별, 나이대 통계를 나타냅니다."
@@ -30,5 +30,5 @@ public class StatisticsController {
         StatisticsForm statisticsForm = statisticsService.showStatistics();
         return ResponseApi.success(StatisticsResponseMessage.STATISTICS_SUCCESS.getMessage(), statisticsForm);
     }
-
+*/
 }

@@ -4,14 +4,16 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @Builder
 public class NoticeListForm {
 
     private String title;
-    private Timestamp registrationDate;
+    private LocalDateTime registrationDate;
     //조회수는 나중에 추가하는걸로
+    private Long boardId;
 
 
 }

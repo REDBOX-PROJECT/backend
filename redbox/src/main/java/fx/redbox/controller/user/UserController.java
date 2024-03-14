@@ -1,8 +1,11 @@
 package fx.redbox.controller.user;
 
+import fx.redbox.common.Exception.UserNotFoundException;
+import fx.redbox.config.argumentresolver.Login;
 import fx.redbox.controller.api.ResponseApi;
 import fx.redbox.controller.api.UserResponseMessage;
 import fx.redbox.controller.user.form.*;
+import fx.redbox.entity.users.User;
 import fx.redbox.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -34,15 +37,14 @@ public class UserController { // resource : users
         return ResponseApi.success(UserResponseMessage.READ_USER.getMessage(), email);
     }
 
-    @PatchMapping("/{email}") //회원 정보 수정 - 생년얼일, 전화번호, 주소
+    @PatchMapping() //회원 정보 수정 - 생년얼일, 전화번호, 주소
     @Operation(summary = "사용자 정보 수정",
             description = "사용자의 생년월일, 전화번호, 주소를 변경할 수 있습니다."
     )
     @ApiResponse(responseCode = "200", description = "회원 정보 수정 성공")
     @ApiResponse(responseCode = "404", description = "회원을 찾을 수 없습니다.")
-    public ResponseApi editUserInfo(@PathVariable String email,
-                                    @RequestBody @Valid UpdateForm updateForm) {
-        userService.editUserInfo(email, updateForm);
+    public ResponseApi editUserInfo(@Login User loginUser, @RequestBody @Valid UpdateForm updateForm) {
+        userService.editUserInfo(loginUser, updateForm);
         return ResponseApi.success(UserResponseMessage.UPDATE_USER.getMessage());
     }
 
@@ -56,14 +58,17 @@ public class UserController { // resource : users
         return ResponseApi.success(UserResponseMessage.READ_USER.getMessage(), userService.findPassword(findPasswordForm));
     }
 
-    @DeleteMapping("/{email}") //회원 탈퇴
+    @DeleteMapping() //회원 탈퇴
     @Operation(summary = "사용자 회원 탈퇴",
             description = "회원 탈퇴 기능입니다."
     )
     @ApiResponse(responseCode = "200", description = "회원 탈퇴 성공")
     @ApiResponse(responseCode = "404", description = "회원을 찾을 수 없습니다.")
-    public ResponseApi deleteUser(@PathVariable String email) {
-        userService.deleteUser(email);
+    public ResponseApi deleteUser(@Login User loginUser) {
+        if(loginUser == null)
+            throw new UserNotFoundException();
+
+        userService.deleteUser(loginUser);
         return ResponseApi.success(UserResponseMessage.DELETE_USER.getMessage());
     }
 
