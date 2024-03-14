@@ -65,24 +65,6 @@ public class DonorCardServiceImpl implements DonorCardService{
         return convertToReadAllDonorCardFormList(donorCards);
     }
 
-    @Override
-    public void deleteDonorCard(String certificateNumber) throws SQLException{
-//        Optional<DonorCard> findDonorCard = donorCardRepository.findDonorCardByCertificateNumber(certificateNumber);
-//        if(!findDonorCard.isEmpty()){
-//            // return 해당 증서번호의 헌혈증이 없어요 라는 에러 발생
-//        }
-        donorCardRepository.deleteDonorCard(certificateNumber);
-    }
-
-    @Override
-    public void updateDonorCard(String certificateNumber, DonorCard updateDonorCard) throws SQLException{
-//        Optional<DonorCard> findDonorCard = donorCardRepository.findDonorCardByCertificateNumber(certificateNumber);
-//        if(!findDonorCard.isEmpty()){
-//            // return 해당 증서번호의 헌혈증이 없어요 라는 에러 발생
-//        }
-//        donorCardRepository.updateDonorCard(certificateNumber, updateDonorCard);
-//    }
-
     public List<ReadAllDonorCardForm> convertToReadAllDonorCardFormList(List<DonorCard> donorCards) {
         return donorCards.stream().map(donorCard -> {
             ReadAllDonorCardForm form = new ReadAllDonorCardForm();
