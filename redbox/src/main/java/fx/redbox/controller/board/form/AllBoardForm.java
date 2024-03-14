@@ -5,7 +5,7 @@ import fx.redbox.entity.enums.BoardType;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -14,7 +14,7 @@ public class AllBoardForm {
     private Long boardId;
     private String title;
     private String content;
-    private Timestamp registrationDate; //YYYY-MM-DD HH:MI:SS
+    private LocalDateTime registrationDate; //YYYY-MM-DD HH:MI:SS
     private BoardType boardType;
     private Long userId;
 

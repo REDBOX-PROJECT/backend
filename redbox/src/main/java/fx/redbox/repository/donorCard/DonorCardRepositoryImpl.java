@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -84,6 +85,8 @@ public class DonorCardRepositoryImpl implements DonorCardRepository{
                     .certificateNumber(rs.getString("certificate_number"))
                     .donorName(rs.getString("donor_name"))
                     .donorBloodKind(DonorBloodKind.valueOf(rs.getString("donor_blood_kind")))
+                    .donorBirth(LocalDate.parse(rs.getString("donor_birth")))
+                    .donationDate(LocalDate.parse(rs.getString("donation_date")))
                     .donorGender(Gender.valueOf(rs.getString("donor_gender")))
                     .bloodCenter(rs.getString("blood_center"))
                     .userId(rs.getLong("user_id")).build();

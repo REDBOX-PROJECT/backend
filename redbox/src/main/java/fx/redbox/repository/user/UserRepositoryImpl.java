@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -64,7 +65,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void update(Long userId, Date birth, String phone, String address) { //생일, 전화번호, 주소 변경
+    public void update(Long userId, LocalDate birth, String phone, String address) { //생일, 전화번호, 주소 변경
         String userSql = "UPDATE users SET birth = ? WHERE user_id = ?";
         String userInfoSql = "UPDATE user_info SET phone = ?, address = ? WHERE user_info_id = ?";
         jdbcTemplate.update(userSql, birth, userId);

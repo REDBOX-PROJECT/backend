@@ -1,11 +1,13 @@
 package fx.redbox.controller.donorCard;
 
+import fx.redbox.config.argumentresolver.Login;
 import fx.redbox.controller.api.DonorCardRequestResponseMessage;
 import fx.redbox.controller.api.ResponseApi;
 import fx.redbox.controller.donorCard.form.DonorCardRequestDto;
 import fx.redbox.controller.donorCard.form.DonorCardRequestListForm;
 import fx.redbox.controller.donorCard.form.DonorCardRequestReviewCheckForm;
 import fx.redbox.controller.donorCard.form.DonorCardRequestReviewForm;
+import fx.redbox.entity.users.User;
 import fx.redbox.service.donorCard.DonorCardRequestService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -23,14 +25,14 @@ public class DonorCardRequestController {
 
     private final DonorCardRequestService donorCardRequestService;
 
-    @PostMapping("/{email}")
+    @PostMapping()
     @Operation(
             summary = "요청서 저장",
             description = "환자이름, 생일, 성별, 병원이름, 증거자료를 이용해 요청서를 작성하고 저장합니다."
     )
     @ApiResponse(responseCode = "200", description = "헌혈증 요청 저장 성공")
-    public ResponseApi saveDonorCardRequest(@PathVariable String email, @RequestBody DonorCardRequestDto donorCardRequestDto) {
-        donorCardRequestService.saveDonorCardRequest(email, donorCardRequestDto);
+    public ResponseApi saveDonorCardRequest(@RequestBody DonorCardRequestDto donorCardRequestDto, @Login User loginUser) {
+        donorCardRequestService.saveDonorCardRequest(loginUser.getUserId(), donorCardRequestDto);
         return ResponseApi.success(DonorCardRequestResponseMessage.DONOR_CARD_REQUEST_SUCCESS.getMessage());
     }
 

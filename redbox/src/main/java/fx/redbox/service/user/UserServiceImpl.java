@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public SignInForm signIn(SignInForm signInForm) {
+    public User signIn(SignInForm signInForm) {
         User user = userRepository.findByEmail(signInForm.getEmail())
                 .orElseThrow(() -> new EmailNotFoundException(1));
 
@@ -50,8 +50,7 @@ public class UserServiceImpl implements UserService {
             throw new PasswordMismatchException();
         }
 
-        return SignInForm.builder()
-                .email(user.getUserAccount().getEmail()).build();
+        return user;
     }
 
     @Override
@@ -83,10 +82,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void editUserInfo(String email, UpdateForm updateForm) {
-        User user = userRepository.findByEmail(email)
-                        .orElseThrow(() -> new UserNotFoundException());
-        userRepository.update(user.getUserId(), updateForm.getBirth(), updateForm.getPhone(), updateForm.getAddress() );
+    public void editUserInfo(User user, UpdateForm updateForm) {
+        userRepository.update(user.getUserId(), updateForm.getBirth(), updateForm.getPhone(), updateForm.getAddress());
     }
 
     @Override
@@ -112,9 +109,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(String email) {
-        User user = userRepository.findByEmail(email).
-                orElseThrow(() -> new UserNotFoundException());
+    public void deleteUser(User user) {
         userRepository.deleteByUserId(user.getUserId());
     }
 

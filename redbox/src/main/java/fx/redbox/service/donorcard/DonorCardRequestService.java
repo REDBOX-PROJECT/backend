@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface DonorCardRequestService {
 
-    void saveDonorCardRequest(String email, DonorCardRequestDto donorCardRequestDto);
+    void saveDonorCardRequest(Long userId, DonorCardRequestDto donorCardRequestDto);
 
     List<DonorCardRequestListForm> showAllDonorCardRequests();
 

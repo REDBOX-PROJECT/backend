@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface DonorCardService {
 
-    Optional<DonorCard> saveDonorCard(String email, DonorCard donorCard) throws SQLException;
+    Optional<DonorCard> saveDonorCard(DonorCard donorCard) throws SQLException;
 
     Optional<DonorCard> findDonorCard(String email) throws SQLException;
 

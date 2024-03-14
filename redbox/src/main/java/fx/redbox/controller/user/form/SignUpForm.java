@@ -7,7 +7,8 @@ import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Date;
+import java.time.LocalDate;
+
 
 @Getter
 @Setter
@@ -19,7 +20,7 @@ public class SignUpForm {
     private String name;
 
 //    @Past
-    private Date birth; //YYYY-MM-DD
+    private LocalDate birth; //YYYY-MM-DD
 
 //    @ValidEnum(enumClass = Gender.class)
     private Gender gender;

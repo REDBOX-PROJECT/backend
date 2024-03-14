@@ -1,9 +1,11 @@
 package fx.redbox.controller.donorCard;
 
+import fx.redbox.config.argumentresolver.Login;
 import fx.redbox.controller.api.DonorCardResponseMessage;
 import fx.redbox.controller.api.ResponseApi;
 import fx.redbox.controller.donorCard.form.ReadAllDonorCardForm;
 import fx.redbox.entity.donorCards.DonorCard;
+import fx.redbox.entity.users.User;
 import fx.redbox.service.donorCard.DonorCardService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -24,15 +26,18 @@ import java.util.Optional;
 public class DonorController {
     private final DonorCardService donorCardService;
 
-    @PostMapping("{email}")
+    @PostMapping()
     @Operation(
             summary = "헌혈증 저장",
             description = "증서번호, 성명, 생년월일, 헌혈일, 혈액원명, 헌혈종류, 성별을 이용해 헌혈증을 작성하고 저장합니다."
     )
     @ApiResponse(responseCode = "200", description = "헌혈증 저장 성공.")
     @ApiResponse(responseCode = "404", description = "헌혈증 저장 실패.")
-    public ResponseApi saveDonorCard(@PathVariable String email, @RequestBody DonorCard donorCardData) throws SQLException {
-        donorCardService.saveDonorCard(email, donorCardData);
+    public ResponseApi saveDonorCard(@RequestBody DonorCard donorCardData, @Login User loginUser) throws SQLException {
+
+        donorCardData.setUserId(loginUser.getUserId());
+
+        donorCardService.saveDonorCard(donorCardData);
 
         return ResponseApi.success(DonorCardResponseMessage.CREATED_DONORCARD.getMessage());
     }

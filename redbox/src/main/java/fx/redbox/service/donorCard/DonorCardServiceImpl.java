@@ -25,15 +25,7 @@ public class DonorCardServiceImpl implements DonorCardService{
     private final UserService userService;
 
     @Override
-    public Optional<DonorCard> saveDonorCard(String email, DonorCard donorCard) throws SQLException {
-        //사용자 검증
-        Optional<User> userOptional = userService.findByEmail(email);
-        if(userOptional.isEmpty())
-            throw new UserNotFoundException();
-        User user = userOptional.get();
-
-        donorCard.setUserId(user.getUserId());
-
+    public Optional<DonorCard> saveDonorCard(DonorCard donorCard) throws SQLException {
         Optional<DonorCard> findDonorCard = donorCardRepository.findDonorCardByCertificateNumber(donorCard.getCertificateNumber());
         if (!findDonorCard.isEmpty()){
             return findDonorCard; // 등록하려는 헌혈증이 이미 있다면 그 헌혈증의 정보 반환

@@ -31,9 +31,9 @@ public class DonorCardRequestServiceImpl implements DonorCardRequestService {
     private final UserService userService;
 
     @Override
-    public void saveDonorCardRequest(String email, DonorCardRequestDto donorCardRequestDto) {
+    public void saveDonorCardRequest(Long userId, DonorCardRequestDto donorCardRequestDto) {
 
-        Optional<User> userOptional = userService.findByEmail(email);
+        Optional<User> userOptional = userService.findByUserId(userId);
         if(userOptional.isEmpty())
             throw new UserNotFoundException();
         User user = userOptional.get();
