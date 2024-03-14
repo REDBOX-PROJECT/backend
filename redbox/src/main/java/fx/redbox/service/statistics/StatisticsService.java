@@ -15,13 +15,14 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+
 @AllArgsConstructor
 @Service
 public class StatisticsService {
 
     private DonorCardRepository donorCardRepository;
     private UserService userService;
-
+/*
     public StatisticsForm showStatistics() throws SQLException {
 
         List<DonorCard> allDonorCards = donorCardRepository.findAllDonorCards();
@@ -59,6 +60,7 @@ public class StatisticsService {
                 .build();
     }
 
+*/
 
 
 
@@ -98,7 +100,7 @@ public class StatisticsService {
                 plateletPlasma = plateletPlasma + 1;
             }
 
-            
+
             //성별 수집
             Gender donorGender = donorCard.getDonorGender();
             if(donorGender.equals(Gender.남)) {
@@ -107,7 +109,7 @@ public class StatisticsService {
                 woman++;
             }
 
-            
+
             //나이대 수집
             Long userId = donorCard.getUserId();
             Optional<User> user = userService.findByUserId(userId);

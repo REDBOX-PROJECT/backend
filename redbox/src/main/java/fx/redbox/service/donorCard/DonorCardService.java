@@ -1,5 +1,6 @@
 package fx.redbox.service.donorCard;
 
+import fx.redbox.controller.donorCard.form.ReadAllDonorCardForm;
 import fx.redbox.entity.donorCards.DonorCard;
 
 import java.sql.SQLException;
@@ -10,12 +11,8 @@ public interface DonorCardService {
 
     Optional<DonorCard> saveDonorCard(DonorCard donorCard) throws SQLException;
 
-    Optional<DonorCard> findDonorCard(String certificateNumber) throws SQLException;
+    Optional<DonorCard> findDonorCard(String email) throws SQLException;
 
-    List<DonorCard> findAllDonorCards() throws SQLException;
-
-    void deleteDonorCard(String certificateNumber) throws SQLException;
-
-    void updateDonorCard(String certificateNumber, DonorCard updateDonorCard) throws SQLException;
+    List<ReadAllDonorCardForm> findAllDonorCards(String email);
 
 }
