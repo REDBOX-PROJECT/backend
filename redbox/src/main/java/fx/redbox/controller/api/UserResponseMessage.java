@@ -16,6 +16,7 @@ public enum UserResponseMessage {
     FAIL_CREATED_USER("회원 가입 실패", 404),
     UPDATE_USER("회원 정보 수정 성공", 200),
     DELETE_USER("회원 탈퇴 성공", 200),
+    NO_PERMISSION("접근 권한이 없습니다", 406),
     INTERNAL_SERVER_ERROR("서버 내부 에러", 500),
     DB_ERROR("데이터베이스 에러", 500);
 
