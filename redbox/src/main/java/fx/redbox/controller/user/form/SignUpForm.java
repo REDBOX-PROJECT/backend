@@ -26,14 +26,15 @@ public class SignUpForm {
     private Gender gender;
 
 //    @ValidEnum(enumClass = BloodType.class)
-    private BloodType bloodType = BloodType.NULL;
+    private BloodType bloodType;
 
     //UserAccount
 //    @Email
     private String email;
 
 //    @Size(min=5, max=20)
-    private String password;
+    private String password1;
+    private String password2;
 
     //UserInfo
 //    @Pattern(regexp = "\\d{3}-\\d{4}-\\d{4}")
