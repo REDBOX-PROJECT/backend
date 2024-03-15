@@ -19,4 +19,5 @@ public interface UserService {
     void editUserInfo(User user, UpdateForm updateForm);
     String findPassword(FindPasswordForm findPasswordForm);
     void deleteUser(User user);
+    Boolean duplicateEmailCheck(String email);
 }
