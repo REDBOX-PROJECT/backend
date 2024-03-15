@@ -29,13 +29,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean signUp(SignUpForm signUpForm){ // 기술 누수
 
-        ConvertSignUpFormToUser userData = getConvertSignUpFormToUser(signUpForm);
 
         //중복 이메일 검증
-        boolean existsUserMail = userRepository.existsByEmail(userData.userAccount().getEmail());
-        if(existsUserMail) {
+        boolean existsUserMail = userRepository.existsByEmail(signUpForm.getEmail());
+        if(existsUserMail)
             throw new DuplicateEmailException();
-        }
+
+        //비밀번호1 비밀번호2 체크
+        if(!signUpForm.getPassword1().equals(signUpForm.getPassword2()))
+            throw new PasswordMismatchException();
+
+        ConvertSignUpFormToUser userData = getConvertSignUpFormToUser(signUpForm);
+
 
         userRepository.saveUser(userData.userAccount(), userData.userInfo(), userData.user());
         return true;
@@ -113,6 +118,14 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteByUserId(user.getUserId());
     }
 
+    @Override
+    public Boolean duplicateEmailCheck(String email) {
+        boolean existsUserMail = userRepository.existsByEmail(email);
+        if(existsUserMail)
+            throw new DuplicateEmailException();
+
+        return true;
+    }
 
 
 
@@ -125,7 +138,7 @@ public class UserServiceImpl implements UserService {
                 .build();
         UserAccount userAccount = UserAccount.builder()
                 .email(signUpForm.getEmail())
-                .password(signUpForm.getPassword())
+                .password(signUpForm.getPassword1())
                 .build();
         UserInfo userInfo = UserInfo.builder()
                 .phone(signUpForm.getPhone())

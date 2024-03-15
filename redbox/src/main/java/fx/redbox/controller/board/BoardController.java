@@ -1,12 +1,14 @@
 package fx.redbox.controller.board;
 
 import fx.redbox.common.Exception.BoardNotFoundException;
+import fx.redbox.common.Exception.NoPermissionException;
 import fx.redbox.common.Exception.UserNotFoundException;
 import fx.redbox.config.argumentresolver.Login;
 import fx.redbox.controller.api.BoardResponseMessage;
 import fx.redbox.controller.api.ResponseApi;
 import fx.redbox.controller.board.form.*;
 import fx.redbox.entity.enums.BoardType;
+import fx.redbox.entity.enums.Permission;
 import fx.redbox.entity.users.User;
 import fx.redbox.service.board.BoardService;
 import fx.redbox.service.user.UserService;
@@ -53,7 +55,11 @@ public class BoardController {
     )
     @ApiResponse(responseCode = "200", description = "문의에 대한 답변이 저장되었습니다.")
     @ApiResponse(responseCode = "400", description = "게시글을 불러올 수 없습니다.")
-    public ResponseApi saveInquiryAnswer(@PathVariable Long boardId, @RequestBody InquiryAnswerForm inquiryAnswerForm) {
+    public ResponseApi saveInquiryAnswer(@PathVariable Long boardId, @RequestBody InquiryAnswerForm inquiryAnswerForm, @Login User loginUser) {
+        //관리자 유뮤 판단하기
+        if(loginUser.getUserInfo().getPermission().equals(Permission.ROLE_USER))
+            throw new NoPermissionException();
+
 
         //해당하는 게시글 불러오기
         AllBoardForm board = boardService.getBoard(boardId);

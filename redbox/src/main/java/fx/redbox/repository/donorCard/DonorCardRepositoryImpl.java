@@ -24,7 +24,6 @@ public class DonorCardRepositoryImpl implements DonorCardRepository{
     public Optional<DonorCard> saveDonorCard(DonorCard donorCard) {
         SimpleJdbcInsert donorCardJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("donor_cards");
-//                .usingGeneratedKeyColumns("certificate_number"); //자동으로 증가하는 값이 아님
         Map<String, Object> donorCardParam = new ConcurrentHashMap<>();
         donorCardParam.put("certificate_number",donorCard.getCertificateNumber());
         donorCardParam.put("donor_name",donorCard.getDonorName());
@@ -58,26 +57,6 @@ public class DonorCardRepositoryImpl implements DonorCardRepository{
         List<DonorCard> donorCards = jdbcTemplate.query(FIND, donorCardRowMapper(), userId);
         return donorCards;
     }
-
-//    @Override
-//    public void updateDonorCard(String certificateNumber, DonorCard updateDonorCard) throws SQLException{
-//        String UPDATE = "update donor_cards set donor_name=?," +
-//                "donor_birth=?, donor_blood_kind=?, donor_gender=?," +
-//                "blood_center=? where certificate_number=?";
-//        jdbcTemplate.update(UPDATE,
-//                updateDonorCard.getDonorName(),
-//                updateDonorCard.getDonorBirth(),
-//                updateDonorCard.getDonorBloodKind().name(),
-//                updateDonorCard.getDonorGender().name(),
-//                updateDonorCard.getBloodCenter(),
-//                certificateNumber);
-//    }
-//
-//    @Override
-//    public void deleteDonorCard(String certificateNumber) throws SQLException{
-//        String DELETE = "select * from donor_cards where cefiticate_number=?";
-//        jdbcTemplate.queryForList(DELETE, certificateNumber);
-//    }
 
     private RowMapper<DonorCard> donorCardRowMapper(){
         return((rs, rowNum) -> {

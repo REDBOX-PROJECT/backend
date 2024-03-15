@@ -1,12 +1,8 @@
 package fx.redbox.common;
 
-import fx.redbox.common.Exception.DuplicateEmailException;
-import fx.redbox.common.Exception.EmailNotFoundException;
-import fx.redbox.common.Exception.PasswordMismatchException;
-import fx.redbox.common.Exception.UserNotFoundException;
+import fx.redbox.common.Exception.*;
 import fx.redbox.controller.api.ResponseApi;
 import fx.redbox.controller.api.UserResponseMessage;
-import fx.redbox.controller.api.StatusCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -34,7 +30,7 @@ public class ExceptionAdvice {
     @ExceptionHandler(DuplicateEmailException.class)
     public ResponseApi duplicateEmailException(Exception e) {
         log.error("이미 존재하는 회원입니다.");
-        return ResponseApi.fail(UserResponseMessage.FAIL_CREATED_USER.getStatusCode(), UserResponseMessage.FAIL_CREATED_USER.getMessage());
+        return ResponseApi.fail(UserResponseMessage.DUPLICATE_EMAIL.getStatusCode(), UserResponseMessage.DUPLICATE_EMAIL.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -50,6 +46,13 @@ public class ExceptionAdvice {
     public ResponseApi emailNotFoundException(Exception e) {
         log.error("이메일을 찾을 수 없습니다.");
         return ResponseApi.fail(UserResponseMessage.NOT_FOUND_EMAIL.getStatusCode(), UserResponseMessage.NOT_FOUND_EMAIL.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+    @ExceptionHandler(NoPermissionException.class)
+    public ResponseApi noPermissionException(Exception e) {
+        log.error("접근 권한이 없습니다.");
+        return ResponseApi.fail(UserResponseMessage.NO_PERMISSION.getStatusCode(), UserResponseMessage.NO_PERMISSION.getMessage());
     }
 
 }
