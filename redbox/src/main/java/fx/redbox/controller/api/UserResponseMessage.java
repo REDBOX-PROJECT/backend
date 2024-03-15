@@ -10,6 +10,7 @@ public enum UserResponseMessage {
     READ_USER("회원 정보 조회 성공", 200),
     NOT_FOUND_USER("회원을 찾을 수 없습니다.", 404),
     NOT_FOUND_EMAIL("이메일을 찾을 수 없습니다.", 404),
+    DUPLICATE_EMAIL("중복된 이메일 입니다.", 404),
 
     CREATED_USER("회원 가입 성공", 201),
     FAIL_CREATED_USER("회원 가입 실패", 404),
