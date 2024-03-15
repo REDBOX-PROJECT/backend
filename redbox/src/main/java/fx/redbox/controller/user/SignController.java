@@ -18,10 +18,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @Tag(name = "SIGN API", description = "사용자 인증 관리 API")
@@ -57,10 +54,6 @@ public class SignController {
         return ResponseApi.success(UserResponseMessage.LOGIN_SUCCESS.getMessage());
     }
 
-//    @ResponseStatus
-//    @ControllerAdvice
-//    @RestControllerAdvice
-
     @PostMapping("/register") //회원가입
     @Operation(summary = "회원가입",
             description = "회원가입 API"
@@ -88,5 +81,14 @@ public class SignController {
         return ResponseApi.fail(UserResponseMessage.LOGOUT_FAIL.getStatusCode(),
                 UserResponseMessage.LOGOUT_FAIL.getMessage());
     }
+
+    @PostMapping("/register/{email}")
+    public ResponseApi duplicateEmailCheck(@PathVariable String email) {
+        Boolean existsEmail = userService.duplicateEmailCheck(email);
+        return ResponseApi.success("사용 가능한 이메일.", existsEmail);
+    }
+
+
+
 
 }

@@ -113,6 +113,14 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteByUserId(user.getUserId());
     }
 
+    @Override
+    public Boolean duplicateEmailCheck(String email) {
+        boolean existsUserMail = userRepository.existsByEmail(email);
+        if(existsUserMail)
+            throw new DuplicateEmailException();
+
+        return true;
+    }
 
 
 
@@ -125,7 +133,7 @@ public class UserServiceImpl implements UserService {
                 .build();
         UserAccount userAccount = UserAccount.builder()
                 .email(signUpForm.getEmail())
-                .password(signUpForm.getPassword())
+                .password(signUpForm.getPassword1())
                 .build();
         UserInfo userInfo = UserInfo.builder()
                 .phone(signUpForm.getPhone())
