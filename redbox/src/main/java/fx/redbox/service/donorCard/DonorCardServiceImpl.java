@@ -5,7 +5,6 @@ import fx.redbox.controller.donorCard.form.ReadAllDonorCardForm;
 import fx.redbox.entity.donorCards.DonorCard;
 import fx.redbox.entity.users.User;
 import fx.redbox.repository.donorCard.DonorCardRepository;
-import fx.redbox.repository.user.UserRepository;
 import fx.redbox.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
