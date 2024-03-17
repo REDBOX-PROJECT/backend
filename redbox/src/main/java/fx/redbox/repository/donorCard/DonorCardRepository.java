@@ -14,4 +14,6 @@ public interface DonorCardRepository {
 
     List<DonorCard> findAllDonorCards(Long userId);
 
+    List<DonorCard> findAllDonorCards();
+
 }

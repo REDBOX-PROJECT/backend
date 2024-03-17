@@ -58,6 +58,13 @@ public class DonorCardRepositoryImpl implements DonorCardRepository{
         return donorCards;
     }
 
+    @Override //통계에 쓰여질 findAll
+    public List<DonorCard> findAllDonorCards() {
+        String FIND = "select * from donor_cards";
+        List<DonorCard> donorCards = jdbcTemplate.query(FIND, donorCardRowMapper());
+        return donorCards;
+    }
+
     private RowMapper<DonorCard> donorCardRowMapper(){
         return((rs, rowNum) -> {
             DonorCard donorCard = DonorCard.builder()
