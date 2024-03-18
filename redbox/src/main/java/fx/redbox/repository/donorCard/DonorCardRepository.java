@@ -10,6 +10,8 @@ public interface DonorCardRepository {
 
     Optional<DonorCard> saveDonorCard(DonorCard donorCard) throws SQLException;
 
+    boolean existsDonorCardByCertificateNumber(String certificateNumber);
+
     Optional<DonorCard> findDonorCardByCertificateNumber(String certificateNumber) throws SQLException;
 
     List<DonorCard> findAllDonorCards(Long userId);
