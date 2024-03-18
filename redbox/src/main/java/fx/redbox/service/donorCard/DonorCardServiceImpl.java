@@ -7,6 +7,7 @@ import fx.redbox.controller.donorCard.form.ReadDonorCardForm;
 import fx.redbox.entity.donorCards.DonorCard;
 import fx.redbox.entity.users.User;
 import fx.redbox.repository.donorCard.DonorCardRepository;
+import fx.redbox.repository.user.UserRepository;
 import fx.redbox.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 public class DonorCardServiceImpl implements DonorCardService{
 
     private final DonorCardRepository donorCardRepository;
-    private final UserService userService;
+    private final UserRepository userRepository;
 
     @Override
     public Optional<DonorCard> saveDonorCard(DonorCard donorCard) throws SQLException {
@@ -45,11 +46,7 @@ public class DonorCardServiceImpl implements DonorCardService{
         Optional<DonorCard> findDonorCard = donorCardRepository.findDonorCardByCertificateNumber(certificatieNumber);
 
         //요청자 ID 확인
-        Optional<User> byUserId = userService.findByUserId(findDonorCard.get().getUserId());
-        if(byUserId.isEmpty()) {
-            throw new UserNotFoundException();
-        }
-        User user = byUserId.get();
+        User user = userRepository.findByUserId(findDonorCard.get().getUserId()).orElseThrow(UserNotFoundException::new);
 
         ReadDonorCardForm readDonorCardForm = ReadDonorCardForm.builder()
                 .certificateNumber(user.getName())
