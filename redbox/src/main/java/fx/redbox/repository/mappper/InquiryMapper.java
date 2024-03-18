@@ -1,26 +1,30 @@
 package fx.redbox.repository.mappper;
 
 import fx.redbox.entity.boards.Inquiry;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
+@Component
 public class InquiryMapper implements RowMapper<Inquiry> {
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    @Value("${inquiry.column.board_id}") private String boardId;
+    @Value("${inquiry.column.inquiry_answer_content}") private String inquiryAnswerContent;
+    @Value("${inquiry.column.registration_date}") private String registrationDate;
+    @Value("${inquiry.column.title}") private String title;
 
     @Override
     public Inquiry mapRow(ResultSet rs, int rowNum) throws SQLException {
         Inquiry inquiry = Inquiry.builder()
-                .boardId(rs.getLong("board_id"))
-                .inquiryAnswerContent(rs.getString("inquiry_answer_content"))
-                .registrationDate(rs.getTimestamp("registration_date").toLocalDateTime())
-                .title(rs.getString("title"))
+                .boardId(rs.getLong(boardId))
+                .inquiryAnswerContent(rs.getString(inquiryAnswerContent))
+                .registrationDate(rs.getTimestamp(registrationDate).toLocalDateTime())
+                .title(rs.getString(title))
                 .build();
 
         return inquiry;
     }
-
 }
