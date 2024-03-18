@@ -10,7 +10,7 @@ import fx.redbox.controller.donorCard.form.DonorCardRequestReviewForm;
 import fx.redbox.entity.donorCards.DonorCardRequestForm;
 import fx.redbox.entity.users.User;
 import fx.redbox.repository.donorCardRequest.DonorCardRequestRepository;
-import fx.redbox.service.user.UserService;
+import fx.redbox.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,12 +28,12 @@ import java.util.Optional;
 public class DonorCardRequestServiceImpl implements DonorCardRequestService {
 
     private final DonorCardRequestRepository donorCardRequestRepository;
-    private final UserService userService;
+    private final UserRepository userRepository;
 
     @Override
     public void saveDonorCardRequest(Long userId, DonorCardRequestDto donorCardRequestDto) {
 
-        Optional<User> userOptional = userService.findByUserId(userId);
+        Optional<User> userOptional = userRepository.findByUserId(userId);
         if(userOptional.isEmpty())
             throw new UserNotFoundException();
         User user = userOptional.get();
@@ -86,7 +86,7 @@ public class DonorCardRequestServiceImpl implements DonorCardRequestService {
         DonorCardRequestForm donorCardRequestForm = donorCardRequest.get();
 
         //요청자 ID 확인
-        Optional<User> byUserId = userService.findByUserId(donorCardRequestForm.getUserId());
+        Optional<User> byUserId = userRepository.findByUserId(donorCardRequestForm.getUserId());
         if(byUserId.isEmpty()) {
             throw new UserNotFoundException();
         }
