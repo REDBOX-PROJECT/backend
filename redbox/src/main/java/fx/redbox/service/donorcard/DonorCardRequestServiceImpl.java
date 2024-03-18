@@ -10,7 +10,7 @@ import fx.redbox.controller.donorCard.form.DonorCardRequestReviewForm;
 import fx.redbox.entity.donorCards.DonorCardRequestForm;
 import fx.redbox.entity.users.User;
 import fx.redbox.repository.donorCardRequest.DonorCardRequestRepository;
-import fx.redbox.service.user.UserService;
+import fx.redbox.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,15 +27,12 @@ import java.util.Optional;
 public class DonorCardRequestServiceImpl implements DonorCardRequestService {
 
     private final DonorCardRequestRepository donorCardRequestRepository;
-    private final UserService userService;
+    private final UserRepository userRepository;
 
     @Override
     public void saveDonorCardRequest(Long userId, DonorCardRequestDto donorCardRequestDto) {
 
-        Optional<User> userOptional = userService.findByUserId(userId);
-        if(userOptional.isEmpty())
-            throw new UserNotFoundException();
-        User user = userOptional.get();
+        User user = userRepository.findByUserId(userId).orElseThrow(UserNotFoundException::new);
 
         Boolean existDonorCardRequest = donorCardRequestRepository.existsByUserId(user.getUserId());
         if (existDonorCardRequest) {
@@ -79,18 +75,12 @@ public class DonorCardRequestServiceImpl implements DonorCardRequestService {
     @Override
     public DonorCardRequestReviewForm showDonorCardRequestReview(Long donorCardRequestId) {
 
-        Optional<DonorCardRequestForm> donorCardRequest = donorCardRequestRepository.getDonorCardRequestByDonorCardRequestId(donorCardRequestId);
-        if (donorCardRequest.isEmpty()) {
-            throw new DonorCardRequestNotFoundException();
-        }
-        DonorCardRequestForm donorCardRequestForm = donorCardRequest.get();
+        DonorCardRequestForm donorCardRequestForm = donorCardRequestRepository.getDonorCardRequestByDonorCardRequestId(donorCardRequestId)
+                .orElseThrow(DonorCardRequestNotFoundException::new);
 
         //요청자 ID 확인
-        Optional<User> byUserId = userService.findByUserId(donorCardRequestForm.getUserId());
-        if(byUserId.isEmpty()) {
-            throw new UserNotFoundException();
-        }
-        User requestUser = byUserId.get();
+        User requestUser = userRepository.findByUserId(donorCardRequestForm.getUserId())
+                .orElseThrow(UserNotFoundException::new);
 
         DonorCardRequestReviewForm donorCardRequestReviewForm = DonorCardRequestReviewForm.builder()
                 .requestName(requestUser.getName()) //요청자이름
@@ -104,11 +94,11 @@ public class DonorCardRequestServiceImpl implements DonorCardRequestService {
 
     @Override
     public void updateDonorCardRequest(Long donorCardRequestId, DonorCardRequestReviewCheckForm donorCardRequestReviewCheckForm) {
-        Optional<DonorCardRequestForm> donorCardRequestByDonorCardRequestId = donorCardRequestRepository.getDonorCardRequestByDonorCardRequestId(donorCardRequestId);
-        if(donorCardRequestByDonorCardRequestId.isEmpty()){
-            throw new DonorCardRequestNotFoundException();
-        }
-        donorCardRequestRepository.updateDonorCardRequestReview(donorCardRequestId,
+        donorCardRequestRepository.getDonorCardRequestByDonorCardRequestId(donorCardRequestId)
+                        .orElseThrow(DonorCardRequestNotFoundException::new);
+
+        donorCardRequestRepository.updateDonorCardRequestReview(
+                donorCardRequestId,
                 donorCardRequestReviewCheckForm.getRejectPermission().name(),
                 donorCardRequestReviewCheckForm.getDonorCardRequestRejectReason().name());
     }

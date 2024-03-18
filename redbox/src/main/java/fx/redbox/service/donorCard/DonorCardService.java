@@ -1,7 +1,9 @@
 package fx.redbox.service.donorCard;
 
 import fx.redbox.controller.donorCard.form.ReadAllDonorCardForm;
+import fx.redbox.controller.donorCard.form.ReadDonorCardForm;
 import fx.redbox.entity.donorCards.DonorCard;
+import fx.redbox.entity.users.User;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -11,8 +13,8 @@ public interface DonorCardService {
 
     Optional<DonorCard> saveDonorCard(DonorCard donorCard) throws SQLException;
 
-    Optional<DonorCard> findDonorCard(String email) throws SQLException;
+    Optional<ReadDonorCardForm> findDonorCard(String certificateNumber) throws SQLException;
 
-    List<ReadAllDonorCardForm> findAllDonorCards(String email);
+    List<ReadAllDonorCardForm> findAllDonorCards(User user);
 
 }

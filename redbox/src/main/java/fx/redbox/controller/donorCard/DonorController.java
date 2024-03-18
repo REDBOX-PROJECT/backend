@@ -4,6 +4,7 @@ import fx.redbox.config.argumentresolver.Login;
 import fx.redbox.controller.api.DonorCardResponseMessage;
 import fx.redbox.controller.api.ResponseApi;
 import fx.redbox.controller.donorCard.form.ReadAllDonorCardForm;
+import fx.redbox.controller.donorCard.form.ReadDonorCardForm;
 import fx.redbox.entity.donorCards.DonorCard;
 import fx.redbox.entity.users.User;
 import fx.redbox.service.donorCard.DonorCardService;
@@ -26,7 +27,7 @@ import java.util.Optional;
 public class DonorController {
     private final DonorCardService donorCardService;
 
-    @PostMapping()
+    @PostMapping("/saveDonorCard")
     @Operation(
             summary = "헌혈증 저장",
             description = "증서번호, 성명, 생년월일, 헌혈일, 혈액원명, 헌혈종류, 성별을 이용해 헌혈증을 작성하고 저장합니다."
@@ -50,19 +51,20 @@ public class DonorController {
     @ApiResponse(responseCode = "200", description = "단일 헌혈증 조회 성공.")
     @ApiResponse(responseCode = "404", description = "단일 헌혈증 조회 실패.")
     public ResponseApi showDonorCardByCertificateNumber(@PathVariable String certificateNumber) throws SQLException{
-        Optional<DonorCard> findDonorCard = donorCardService.findDonorCard(certificateNumber);
+        Optional<ReadDonorCardForm> readDonorCardForm = donorCardService.findDonorCard(certificateNumber);
 
-        return ResponseApi.success(DonorCardResponseMessage.READ_DONORCARD.getMessage(), findDonorCard);
+        return ResponseApi.success(DonorCardResponseMessage.READ_DONORCARD.getMessage(), readDonorCardForm);
     }
-    @GetMapping("/all/{email}")
+
+    @GetMapping("/readAll")
     @Operation(
             summary = "헌혈증 전체 정보 조회",
             description = "증서번호, 헌혈종류, 헌혈일자, 혈액원명을 이용해 전체 헌혈증을 조회합니다."
     )
     @ApiResponse(responseCode = "200", description = "전체 헌혈증 조회 성공.")
     @ApiResponse(responseCode = "404", description = "전체 헌혈증 조회 실패.")
-    public ResponseApi showAllDonorCards(@PathVariable String email) {
-        List<ReadAllDonorCardForm> donorCards = donorCardService.findAllDonorCards(email);
+    public ResponseApi showAllDonorCards(@Login User loginuser) {
+        List<ReadAllDonorCardForm> donorCards = donorCardService.findAllDonorCards(loginuser);
 
         return ResponseApi.success(DonorCardResponseMessage.READ_ALL_DONORCARD.getMessage(), donorCards);
     }

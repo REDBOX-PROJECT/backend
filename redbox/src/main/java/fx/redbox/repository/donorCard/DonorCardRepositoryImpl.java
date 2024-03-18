@@ -1,5 +1,6 @@
 package fx.redbox.repository.donorCard;
 
+import fx.redbox.common.Exception.DonorCardNotFoundException;
 import fx.redbox.entity.donorCards.DonorCard;
 import fx.redbox.entity.enums.DonorBloodKind;
 import fx.redbox.entity.enums.Gender;
@@ -10,7 +11,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -40,16 +40,23 @@ public class DonorCardRepositoryImpl implements DonorCardRepository{
     }
 
     @Override
+    public boolean existsDonorCardByCertificateNumber(String certificateNumber) {
+        String sql = "select count(*) from donor_cards where certificate_number = ?";
+        int cnt = jdbcTemplate.queryForObject(sql, Integer.class, certificateNumber);
+        return cnt > 0;
+    }
+
+    @Override
     public Optional<DonorCard> findDonorCardByCertificateNumber(String certificateNumber){
         String FIND = "select * from donor_cards where certificate_number=?";
-        try{
-            DonorCard donorCard = jdbcTemplate.queryForObject(FIND, donorCardRowMapper(),certificateNumber);
-            return Optional.of(donorCard);
-        }catch (EmptyResultDataAccessException e){
-            return Optional.empty();
+        try {
+            DonorCard donorCard = jdbcTemplate.queryForObject(FIND, new Object[]{certificateNumber}, donorCardRowMapper());
+            return Optional.ofNullable(donorCard);
+        } catch (EmptyResultDataAccessException e) {
+            throw new DonorCardNotFoundException();
         }
-
     }
+
 
     @Override
     public List<DonorCard> findAllDonorCards(Long userId) {

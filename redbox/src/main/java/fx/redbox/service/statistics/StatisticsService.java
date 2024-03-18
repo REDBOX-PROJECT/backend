@@ -6,7 +6,7 @@ import fx.redbox.entity.enums.BloodType;
 import fx.redbox.entity.enums.Gender;
 import fx.redbox.entity.users.User;
 import fx.redbox.repository.donorCard.DonorCardRepository;
-import fx.redbox.service.user.UserService;
+import fx.redbox.repository.user.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +18,8 @@ import java.util.*;
 @Service
 public class StatisticsService {
 
-    private DonorCardRepository donorCardRepository;
-    private UserService userService;
+    private final DonorCardRepository donorCardRepository;
+    private final UserRepository userRepository;
 
     public StatisticsForm showStatistics() {
 
@@ -35,7 +35,7 @@ public class StatisticsService {
 
         // 혈액형, 성별, 연령대별로 수를 계산
         for (DonorCard donorCard : donorCards) {
-            Optional<User> userOptional = userService.findByUserId(donorCard.getUserId());
+            Optional<User> userOptional = userRepository.findByUserId(donorCard.getUserId());
             userOptional.ifPresent(user -> {
                 bloodTypeCounts.merge(user.getBloodType(), 1, Integer::sum);
                 genderCounts.merge(donorCard.getDonorGender(), 1, Integer::sum);
