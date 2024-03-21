@@ -56,7 +56,7 @@ public class DonorController {
         return ResponseApi.success(DonorCardResponseMessage.READ_DONORCARD.getMessage(), readDonorCardForm);
     }
 
-    @GetMapping("/readAll")
+    @GetMapping()
     @Operation(
             summary = "헌혈증 전체 정보 조회",
             description = "증서번호, 헌혈종류, 헌혈일자, 혈액원명을 이용해 전체 헌혈증을 조회합니다."
