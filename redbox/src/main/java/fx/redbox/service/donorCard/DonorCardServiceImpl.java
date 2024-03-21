@@ -1,5 +1,6 @@
 package fx.redbox.service.donorCard;
 
+import fx.redbox.common.Exception.DonorCardNotFoundException;
 import fx.redbox.common.Exception.DuplicateCertificateNumberException;
 import fx.redbox.common.Exception.UserNotFoundException;
 import fx.redbox.controller.donorCard.form.ReadAllDonorCardForm;
@@ -63,8 +64,12 @@ public class DonorCardServiceImpl implements DonorCardService{
     @Override
     public List<ReadAllDonorCardForm> findAllDonorCards(User user) {
         List<DonorCard> donorCards = donorCardRepository.findAllDonorCards(user.getUserId());
+        if (donorCards.isEmpty()) {
+            throw new DonorCardNotFoundException();
+        }
         return convertToReadAllDonorCardFormList(donorCards);
     }
+
 
     public List<ReadAllDonorCardForm> convertToReadAllDonorCardFormList(List<DonorCard> donorCards) {
         return donorCards.stream().map(donorCard -> {
