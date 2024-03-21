@@ -27,7 +27,7 @@ import java.util.Optional;
 public class DonorController {
     private final DonorCardService donorCardService;
 
-    @PostMapping("/saveDonorCard")
+    @PostMapping()
     @Operation(
             summary = "헌혈증 저장",
             description = "증서번호, 성명, 생년월일, 헌혈일, 혈액원명, 헌혈종류, 성별을 이용해 헌혈증을 작성하고 저장합니다."
