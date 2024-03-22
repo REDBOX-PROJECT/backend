@@ -72,7 +72,19 @@ public class DonorCardRepositoryImpl implements DonorCardRepository{
         return donorCards;
     }
 
-    private RowMapper<DonorCard> donorCardRowMapper(){
+    @Override
+    public void deleteDonorCard(String certificateNumber) {
+        String DELETE = "select * from donor_cards where cefiticate_number=?";
+        jdbcTemplate.queryForList(DELETE, certificateNumber);
+    }
+
+    @Override
+    public int countDonorCardByUserId(Long userId) {
+        String sql = "select count(*) from donor_cards where user_id = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, userId);
+    }
+
+    public RowMapper<DonorCard> donorCardRowMapper(){
         return((rs, rowNum) -> {
             DonorCard donorCard = DonorCard.builder()
                     .certificateNumber(rs.getString("certificate_number"))

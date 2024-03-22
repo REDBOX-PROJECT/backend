@@ -18,4 +18,7 @@ public interface DonorCardRepository {
 
     List<DonorCard> findAllDonorCards();
 
+    void deleteDonorCard(String certificateNumber);
+
+    int countDonorCardByUserId(Long userId);
 }
