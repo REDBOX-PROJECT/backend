@@ -7,7 +7,6 @@ public enum DonorCardResponseMessage {
     READ_ALL_DONORCARD("헌혈증 전체 조회 성공", 200),
     NOT_FOUND_DONORCARD("헌혈증 정보를 찾을 수 없습니다.", 404),
     READ_REDBOX_DASHBOARD("REDBOX 대시보드 조회 성공", 200),
-    NOT_FOUND_DONORCARD("헌혈증 조회 실패", 500),
 
     INTERNAL_SERVER_ERROR("서버 내부 에러", 500),
     DB_ERROR("데이터베이스 에러", 500);
