@@ -2,6 +2,7 @@ package fx.redbox.service.donorCard;
 
 import fx.redbox.controller.donorCard.form.ReadAllDonorCardForm;
 import fx.redbox.controller.donorCard.form.ReadDonorCardForm;
+import fx.redbox.controller.donorCard.form.RedBoxDashboardInfo;
 import fx.redbox.entity.donorCards.DonorCard;
 import fx.redbox.entity.users.User;
 
@@ -17,4 +18,5 @@ public interface DonorCardService {
 
     List<ReadAllDonorCardForm> findAllDonorCards(User user);
 
+    RedBoxDashboardInfo readRedBoxDashboard(User user);
 }
