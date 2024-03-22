@@ -76,7 +76,7 @@ public class DonorCardServiceImpl implements DonorCardService{
         boolean certificateNumerCheck = false;
         List<DonorCard> allDonorCards = donorCardRepository.findAllDonorCards(user.getUserId());
         for(DonorCard donorCard : allDonorCards) {
-            if(donorCard.equals(certificateNumber)) {
+            if(donorCard.getCertificateNumber().equals(certificateNumber)) {
                 certificateNumerCheck = true;
                 break;
             }
