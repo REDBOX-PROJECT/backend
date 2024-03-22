@@ -18,4 +18,6 @@ public interface DonorCardRepository {
 
     List<DonorCard> findAllDonorCards();
 
+    void updateDonorCardUserId(String certificateNumber);
+
 }

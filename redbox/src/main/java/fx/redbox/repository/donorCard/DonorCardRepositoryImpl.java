@@ -72,6 +72,13 @@ public class DonorCardRepositoryImpl implements DonorCardRepository{
         return donorCards;
     }
 
+    @Override
+    public void updateDonorCardUserId(String certificateNumber) {
+        // user_id 1번은 레드박스 소유이다!!!!!
+        String sql = "UPDATE donor_cards SET user_id = 1 WHERE certificate_number = ?";
+        jdbcTemplate.update(sql, certificateNumber);
+    }
+
     private RowMapper<DonorCard> donorCardRowMapper(){
         return((rs, rowNum) -> {
             DonorCard donorCard = DonorCard.builder()
