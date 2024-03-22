@@ -12,12 +12,12 @@ public interface DonorCardRepository {
 
     boolean existsDonorCardByCertificateNumber(String certificateNumber);
 
-    Optional<DonorCard> findDonorCardByCertificateNumber(String certificateNumber) throws SQLException;
+    Optional<DonorCard> findDonorCardByCertificateNumber(String certificateNumber);
 
     List<DonorCard> findAllDonorCards(Long userId);
 
     List<DonorCard> findAllDonorCards();
 
-    void updateDonorCardUserId(String certificateNumber);
+    void assignRedboxOwnerToDonorCard(String certificateNumber);
 
 }

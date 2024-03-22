@@ -73,7 +73,7 @@ public class DonorCardRepositoryImpl implements DonorCardRepository{
     }
 
     @Override
-    public void updateDonorCardUserId(String certificateNumber) {
+    public void assignRedboxOwnerToDonorCard(String certificateNumber) {
         // user_id 1번은 레드박스 소유이다!!!!!
         String sql = "UPDATE donor_cards SET user_id = 1 WHERE certificate_number = ?";
         jdbcTemplate.update(sql, certificateNumber);
