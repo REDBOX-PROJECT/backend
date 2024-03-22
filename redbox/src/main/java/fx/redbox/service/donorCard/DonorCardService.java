@@ -17,4 +17,5 @@ public interface DonorCardService {
 
     List<ReadAllDonorCardForm> findAllDonorCards(User user);
 
+    void redboxGive(String certificateNumber, User user);
 }

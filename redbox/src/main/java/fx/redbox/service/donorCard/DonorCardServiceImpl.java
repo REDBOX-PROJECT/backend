@@ -9,7 +9,6 @@ import fx.redbox.entity.donorCards.DonorCard;
 import fx.redbox.entity.users.User;
 import fx.redbox.repository.donorCard.DonorCardRepository;
 import fx.redbox.repository.user.UserRepository;
-import fx.redbox.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -70,6 +69,29 @@ public class DonorCardServiceImpl implements DonorCardService{
         return convertToReadAllDonorCardFormList(donorCards);
     }
 
+    @Override //레드박스 기부 시 userId가 1이 지정됨.
+    public void redboxGive(String certificateNumber, User user) {
+
+        //해당 사용자의 헌혈증이 맞는지 검증한다.
+        boolean certificateNumerCheck = false;
+        List<DonorCard> allDonorCards = donorCardRepository.findAllDonorCards(user.getUserId());
+        for(DonorCard donorCard : allDonorCards) {
+            if(donorCard.equals(certificateNumber)) {
+                certificateNumerCheck = true;
+                break;
+            }
+        }
+
+        //파라미터에서 넘어온 헌혈증 번호와 사용자가 가지고 있는 헌혈증이 일치하지 않으면 예외 발생
+        if(!certificateNumerCheck) {
+            throw new DonorCardNotFoundException();
+        }
+
+        donorCardRepository.findDonorCardByCertificateNumber(certificateNumber)
+                .orElseThrow(DonorCardNotFoundException::new);
+
+        donorCardRepository.assignRedboxOwnerToDonorCard(certificateNumber);
+    }
 
     public List<ReadAllDonorCardForm> convertToReadAllDonorCardFormList(List<DonorCard> donorCards) {
         return donorCards.stream().map(donorCard -> {
