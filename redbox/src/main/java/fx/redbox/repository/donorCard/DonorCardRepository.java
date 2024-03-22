@@ -18,6 +18,9 @@ public interface DonorCardRepository {
 
     List<DonorCard> findAllDonorCards();
 
-    void assignRedboxOwnerToDonorCard(String certificateNumber);
+    void deleteDonorCard(String certificateNumber);
 
+    int countDonorCardByUserId(Long userId);
+  
+    void assignRedboxOwnerToDonorCard(String certificateNumber);
 }

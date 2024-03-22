@@ -5,6 +5,7 @@ import fx.redbox.common.Exception.DuplicateCertificateNumberException;
 import fx.redbox.common.Exception.UserNotFoundException;
 import fx.redbox.controller.donorCard.form.ReadAllDonorCardForm;
 import fx.redbox.controller.donorCard.form.ReadDonorCardForm;
+import fx.redbox.controller.donorCard.form.RedBoxDashboardInfo;
 import fx.redbox.entity.donorCards.DonorCard;
 import fx.redbox.entity.users.User;
 import fx.redbox.repository.donorCard.DonorCardRepository;
@@ -69,6 +70,27 @@ public class DonorCardServiceImpl implements DonorCardService{
         return convertToReadAllDonorCardFormList(donorCards);
     }
 
+  
+    @Override
+    public RedBoxDashboardInfo readRedBoxDashboard(User user) {
+        // 사용자 존재 여부 확인
+        userRepository.findByUserId(user.getUserId()).orElseThrow(UserNotFoundException::new);
+
+        // 사용자 ID에 해당하는 헌혈증 수 카운트
+        int totalDonorCards = donorCardRepository.countDonorCardByUserId(1L);
+        int userDonorCards = donorCardRepository.countDonorCardByUserId(user.getUserId());
+
+        // 기여도 계산
+        double contributionRate;
+        if(totalDonorCards > 0) {
+            contributionRate = (double) userDonorCards / totalDonorCards * 100;
+        } else {
+            contributionRate = 0;
+        }
+
+        return new RedBoxDashboardInfo(totalDonorCards, userDonorCards, contributionRate);
+    }
+  
     @Override //레드박스 기부 시 userId가 1이 지정됨.
     public void redboxGive(String certificateNumber, User user) {
 
@@ -93,6 +115,8 @@ public class DonorCardServiceImpl implements DonorCardService{
         donorCardRepository.assignRedboxOwnerToDonorCard(certificateNumber);
     }
 
+  
+  
     public List<ReadAllDonorCardForm> convertToReadAllDonorCardFormList(List<DonorCard> donorCards) {
         return donorCards.stream().map(donorCard -> {
             ReadAllDonorCardForm form = new ReadAllDonorCardForm();

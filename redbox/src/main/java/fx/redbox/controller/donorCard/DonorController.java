@@ -5,6 +5,7 @@ import fx.redbox.controller.api.DonorCardResponseMessage;
 import fx.redbox.controller.api.ResponseApi;
 import fx.redbox.controller.donorCard.form.ReadAllDonorCardForm;
 import fx.redbox.controller.donorCard.form.ReadDonorCardForm;
+import fx.redbox.controller.donorCard.form.RedBoxDashboardInfo;
 import fx.redbox.entity.donorCards.DonorCard;
 import fx.redbox.entity.users.User;
 import fx.redbox.service.donorCard.DonorCardService;
@@ -69,4 +70,16 @@ public class DonorController {
         return ResponseApi.success(DonorCardResponseMessage.READ_ALL_DONORCARD.getMessage(), donorCards);
     }
 
+    @GetMapping("/readRedBoxDashboard")
+    @Operation(
+            summary = "REDBOX 대시보드 조회",
+            description = "REDBOX 총 기부 개수, 회원별 기부 개수, 기여도를 조회합니다."
+    )
+    @ApiResponse(responseCode = "200", description = "REDBOX 대시보드 조회 성공.")
+    @ApiResponse(responseCode = "404", description = "REDBOX 대시보드 조회 실패.")
+    public ResponseApi readRedBoxDashboard(@Login User loginuser) {
+        RedBoxDashboardInfo redBoxDashboardInfo = donorCardService.readRedBoxDashboard(loginuser);
+
+        return ResponseApi.success(DonorCardResponseMessage.READ_REDBOX_DASHBOARD.getMessage(), redBoxDashboardInfo);
+    }
 }
