@@ -5,6 +5,7 @@ public enum DonorCardResponseMessage {
     DUPLICATE_DONORCARD("이미 등록된 헌혈증", 404),
     READ_DONORCARD("헌혈증 단건 조회 성공", 200),
     READ_ALL_DONORCARD("헌혈증 전체 조회 성공", 200),
+    READ_REDBOX_DASHBOARD("REDBOX 대시보드 조회 성공", 200),
     NOT_FOUND_DONORCARD("헌혈증 조회 실패", 500),
 
     INTERNAL_SERVER_ERROR("서버 내부 에러", 500),
