@@ -90,8 +90,8 @@ public class DonorCardServiceImpl implements DonorCardService{
 
         return new RedBoxDashboardInfo(totalDonorCards, userDonorCards, contributionRate);
     }
-  
-    @Override //레드박스 기부 시 userId가 1이 지정됨.
+
+    @Override //레드박스 기부 시 userId가 1이 지정됨. & 사용자의 기부개수 1 증가
     public void redboxGive(String certificateNumber, User user) {
 
         //해당 사용자의 헌혈증이 맞는지 검증한다.
@@ -109,8 +109,11 @@ public class DonorCardServiceImpl implements DonorCardService{
             throw new DonorCardNotFoundException();
         }
 
-        donorCardRepository.findDonorCardByCertificateNumber(certificateNumber)
-                .orElseThrow(DonorCardNotFoundException::new);
+//        donorCardRepository.findDonorCardByCertificateNumber(certificateNumber)
+//                .orElseThrow(DonorCardNotFoundException::new);
+
+        //사용자 기부개수 1늘림
+        userRepository.incrementDonationCount(user.getUserId());
 
         donorCardRepository.assignRedboxOwnerToDonorCard(certificateNumber);
     }
