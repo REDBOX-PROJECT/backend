@@ -114,6 +114,7 @@ public class UserRepositoryImpl implements UserRepository {
         return cnt > 0;
     }
 
+    @Override
     public void insertPassword(String email, String password) {
         String sql = "UPDATE user_accounts" +
                 " SET password = ?" +
@@ -121,9 +122,18 @@ public class UserRepositoryImpl implements UserRepository {
         jdbcTemplate.update(sql, password, email);
     }
 
+    @Override
+    public void incrementDonationCount(Long userId) {
+        String sql = "UPDATE user_info SET donation_count = donation_count + 1" +
+                " WHERE user_info_id = ?";
+        jdbcTemplate.update(sql, userId);
+    }
 
-
-
+    @Override
+    public int findDonationCountByUserId(Long userId) {
+        String sql = "SELECT donation_count FROM user_info WHERE user_info_id = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, userId);
+    }
 
     private void saveUserData(UserAccount userAccount, UserInfo userInfo, User user) {
         // user_accounts 테이블
