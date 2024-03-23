@@ -1,5 +1,6 @@
 package fx.redbox.entity.donorCards;
 
+import fx.redbox.entity.enums.BloodType;
 import fx.redbox.entity.enums.DonorBloodKind;
 import fx.redbox.entity.enums.Gender;
 import lombok.Builder;
@@ -22,5 +23,5 @@ public class DonorCard {
     private Gender donorGender;
     private String bloodCenter;
     private Long userId;
-
+    private BloodType bloodType;
 }
