@@ -39,7 +39,7 @@ public class DonorController {
 
         donorCardData.setUserId(loginUser.getUserId());
 
-        donorCardService.saveDonorCard(donorCardData);
+        donorCardService.saveDonorCard(donorCardData, loginUser);
 
         return ResponseApi.success(DonorCardResponseMessage.CREATED_DONORCARD.getMessage());
     }
