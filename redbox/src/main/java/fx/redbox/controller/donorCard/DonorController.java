@@ -6,6 +6,7 @@ import fx.redbox.controller.api.ResponseApi;
 import fx.redbox.controller.donorCard.form.ReadAllDonorCardForm;
 import fx.redbox.controller.donorCard.form.ReadDonorCardForm;
 import fx.redbox.controller.donorCard.form.RedBoxDashboardInfo;
+import fx.redbox.controller.donorCard.form.RedboxDonationInfoForm;
 import fx.redbox.entity.donorCards.DonorCard;
 import fx.redbox.entity.users.User;
 import fx.redbox.service.donorCard.DonorCardService;
@@ -81,5 +82,16 @@ public class DonorController {
         RedBoxDashboardInfo redBoxDashboardInfo = donorCardService.readRedBoxDashboard(loginuser);
 
         return ResponseApi.success(DonorCardResponseMessage.READ_REDBOX_DASHBOARD.getMessage(), redBoxDashboardInfo);
+    }
+
+    @GetMapping("/redbox-donation-information")
+    @Operation(
+            summary = "REDBOX 헌혈증 보유량",
+            description = "REDBOX가 소유하고 있는 A, B, AB, O, 전체 헌혈증 보유량을 나타냅니다."
+    )
+    @ApiResponse(responseCode = "200", description = "REDBOX 혈액형 보유량 조회 성공")
+    public ResponseApi showRedboxDonationInfo() {
+        RedboxDonationInfoForm redboxDonationInfoForm = donorCardService.showRedboxDonationInfo();
+        return ResponseApi.success(DonorCardResponseMessage.SUCESS_REDBOX_DONATION_INFORMATION.getMessage(), redboxDonationInfoForm);
     }
 }

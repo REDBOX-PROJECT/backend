@@ -2,6 +2,7 @@ package fx.redbox.repository.donorCard;
 
 import fx.redbox.common.Exception.DonorCardNotFoundException;
 import fx.redbox.entity.donorCards.DonorCard;
+import fx.redbox.entity.enums.BloodType;
 import fx.redbox.entity.enums.DonorBloodKind;
 import fx.redbox.entity.enums.Gender;
 import lombok.AllArgsConstructor;
@@ -100,7 +101,9 @@ public class DonorCardRepositoryImpl implements DonorCardRepository{
                     .donationDate(LocalDate.parse(rs.getString("donation_date")))
                     .donorGender(Gender.valueOf(rs.getString("donor_gender")))
                     .bloodCenter(rs.getString("blood_center"))
-                    .userId(rs.getLong("user_id")).build();
+                    .userId(rs.getLong("user_id"))
+                    .bloodType(BloodType.valueOf(rs.getString("blood_type")))
+                    .build();
             return donorCard;
         });
     }

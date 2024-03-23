@@ -6,6 +6,7 @@ import fx.redbox.common.Exception.UserNotFoundException;
 import fx.redbox.controller.donorCard.form.ReadAllDonorCardForm;
 import fx.redbox.controller.donorCard.form.ReadDonorCardForm;
 import fx.redbox.controller.donorCard.form.RedBoxDashboardInfo;
+import fx.redbox.controller.donorCard.form.RedboxDonationInfoForm;
 import fx.redbox.entity.donorCards.DonorCard;
 import fx.redbox.entity.enums.BloodType;
 import fx.redbox.entity.users.User;
@@ -124,8 +125,37 @@ public class DonorCardServiceImpl implements DonorCardService{
         donorCardRepository.assignRedboxOwnerToDonorCard(certificateNumber);
     }
 
-  
-  
+    @Override
+    public RedboxDonationInfoForm showRedboxDonationInfo() {
+
+        //레드박스 헌혈증 조회
+        List<DonorCard> donorCards = donorCardRepository.findAllDonorCards(1L);
+
+        // 혈액 형태별 카운트 초기화
+        int countBloodTypeA = 0;
+        int countBloodTypeB = 0;
+        int countBloodTypeAB = 0;
+        int countBloodTypeO = 0;
+
+        // 각 헌혈증의 혈액 형태를 확인하고 카운트 증가
+        for (DonorCard donorCard : donorCards) {
+            BloodType bloodType = donorCard.getBloodType();
+            if (bloodType != null) {
+                if (bloodType.equals(BloodType.A)) {
+                    countBloodTypeA++;
+                } else if (bloodType.equals(BloodType.B)) {
+                    countBloodTypeB++;
+                } else if (bloodType.equals(BloodType.AB)) {
+                    countBloodTypeAB++;
+                } else if (bloodType.equals(BloodType.O)) {
+                    countBloodTypeO++;
+                }
+            }
+        }
+        int countTotalBloodType = countBloodTypeA + countBloodTypeB + countBloodTypeAB + countBloodTypeO;
+        return new RedboxDonationInfoForm(countTotalBloodType, countBloodTypeA, countBloodTypeB, countBloodTypeAB, countBloodTypeO);
+    }
+
     public List<ReadAllDonorCardForm> convertToReadAllDonorCardFormList(List<DonorCard> donorCards) {
         return donorCards.stream().map(donorCard -> {
             ReadAllDonorCardForm form = new ReadAllDonorCardForm();
