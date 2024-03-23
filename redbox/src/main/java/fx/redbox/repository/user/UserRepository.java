@@ -28,6 +28,6 @@ public interface UserRepository {
     boolean existsByNameAndEmail(String name, String email);
     void insertPassword(String email, String password);
     void incrementDonationCount(Long userId);
-
+    int findDonationCountByUserId(Long userId);
 
 }
