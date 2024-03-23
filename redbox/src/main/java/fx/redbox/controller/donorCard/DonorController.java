@@ -35,11 +35,11 @@ public class DonorController {
     )
     @ApiResponse(responseCode = "200", description = "헌혈증 저장 성공.")
     @ApiResponse(responseCode = "404", description = "헌혈증 저장 실패.")
-    public ResponseApi saveDonorCard(@RequestBody DonorCard donorCardData, @Login User loginUser) throws SQLException {
+    public ResponseApi saveDonorCard(@RequestBody DonorCard donorCardData, @Login User loginUser) {
 
         donorCardData.setUserId(loginUser.getUserId());
 
-        donorCardService.saveDonorCard(donorCardData);
+        donorCardService.saveDonorCard(donorCardData, loginUser);
 
         return ResponseApi.success(DonorCardResponseMessage.CREATED_DONORCARD.getMessage());
     }
