@@ -77,8 +77,8 @@ public class DonorCardServiceImpl implements DonorCardService{
         userRepository.findByUserId(user.getUserId()).orElseThrow(UserNotFoundException::new);
 
         // 사용자 ID에 해당하는 헌혈증 수 카운트
-        int totalDonorCards = donorCardRepository.countDonorCardByUserId(1L);
-        int userDonorCards = donorCardRepository.countDonorCardByUserId(user.getUserId());
+        int totalDonorCards = donorCardRepository.countDonorCardByUserId(1L); //1L은 레드박스 소유임! 나중에 상수 처리해야함
+        int userDonorCards = userRepository.findDonationCountByUserId(user.getUserId());
 
         // 기여도 계산
         double contributionRate;
