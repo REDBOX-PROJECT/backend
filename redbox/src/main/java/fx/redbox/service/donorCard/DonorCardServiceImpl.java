@@ -7,6 +7,7 @@ import fx.redbox.controller.donorCard.form.ReadAllDonorCardForm;
 import fx.redbox.controller.donorCard.form.ReadDonorCardForm;
 import fx.redbox.controller.donorCard.form.RedBoxDashboardInfo;
 import fx.redbox.entity.donorCards.DonorCard;
+import fx.redbox.entity.enums.BloodType;
 import fx.redbox.entity.users.User;
 import fx.redbox.repository.donorCard.DonorCardRepository;
 import fx.redbox.repository.user.UserRepository;
@@ -28,12 +29,17 @@ public class DonorCardServiceImpl implements DonorCardService{
     private final UserRepository userRepository;
 
     @Override
-    public Optional<DonorCard> saveDonorCard(DonorCard donorCard) throws SQLException {
+    public Optional<DonorCard> saveDonorCard(DonorCard donorCard, User user) {
 
         // 헌혈증 중복 검증
         boolean exits = donorCardRepository.existsDonorCardByCertificateNumber(donorCard.getCertificateNumber());
         if(exits)
             throw new DuplicateCertificateNumberException();
+
+        //사용자의 혈액형 파악
+        User userInfo = userRepository.findByUserId(user.getUserId()).orElseThrow(UserNotFoundException::new);
+        BloodType bloodType = userInfo.getBloodType();
+        donorCard.setBloodType(bloodType);
 
         // 정보에 빈문자열일 때 예외처리 -> ?
         Optional<DonorCard> savedDonorCard = donorCardRepository.saveDonorCard(donorCard);

@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public interface DonorCardService {
 
-    Optional<DonorCard> saveDonorCard(DonorCard donorCard) throws SQLException;
+    Optional<DonorCard> saveDonorCard(DonorCard donorCard, User user);
 
     Optional<ReadDonorCardForm> findDonorCard(String certificateNumber) throws SQLException;
 
