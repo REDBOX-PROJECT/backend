@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface DonorCardRepository {
 
-    Optional<DonorCard> saveDonorCard(DonorCard donorCard) throws SQLException;
+    Optional<DonorCard> saveDonorCard(DonorCard donorCard);
 
     boolean existsDonorCardByCertificateNumber(String certificateNumber);
 

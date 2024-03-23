@@ -33,7 +33,7 @@ public class DonorCardRepositoryImpl implements DonorCardRepository{
         donorCardParam.put("donor_gender", donorCard.getDonorGender().name()); //enum 을 string 형으로
         donorCardParam.put("blood_center",donorCard.getBloodCenter());
         donorCardParam.put("user_id",donorCard.getUserId());
-
+        donorCardParam.put("blood_type",donorCard.getBloodType().name());
         donorCardJdbcInsert.execute(donorCardParam);
 
         return Optional.of(donorCard);
