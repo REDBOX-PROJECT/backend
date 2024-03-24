@@ -9,6 +9,6 @@ import lombok.*;
 public class DonorCardRequestApproval {
     private Long donorCardRequestId;
     private RejectPermission donorCardRequestPermission;
-    private DonorCardRequestRejectReason donorCardRequestRejectReason;
+    private String donorCardRequestRejectReason;
 
 }

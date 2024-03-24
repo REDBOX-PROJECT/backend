@@ -46,7 +46,7 @@ public class DonorCardRequestMapper implements RowMapper<DonorCardRequestForm> {
         DonorCardRequestApproval approval = DonorCardRequestApproval.builder()
                 .donorCardRequestId(rs.getLong(donorCardRequestId))
                 .donorCardRequestPermission(RejectPermission.valueOf(rs.getString(donorCardRequestPermission)))
-                .donorCardRequestRejectReason(DonorCardRequestRejectReason.valueOf(rs.getString(donorCardRejectionReason)))
+                .donorCardRequestRejectReason(rs.getString(donorCardRejectionReason))
                 .build();
 
         donorCardRequestForm.setDonorCardRequestApproval(approval);

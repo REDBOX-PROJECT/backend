@@ -10,6 +10,6 @@ import lombok.Getter;
 public class DonorCardRequestReviewCheckForm {
 
     private RejectPermission rejectPermission; //승인 거절 심사중
-    private DonorCardRequestRejectReason donorCardRequestRejectReason;
+    private String donorCardRequestRejectReason;
 
 }
