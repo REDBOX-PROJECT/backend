@@ -100,6 +100,6 @@ public class DonorCardRequestServiceImpl implements DonorCardRequestService {
         donorCardRequestRepository.updateDonorCardRequestReview(
                 donorCardRequestId,
                 donorCardRequestReviewCheckForm.getRejectPermission().name(),
-                donorCardRequestReviewCheckForm.getDonorCardRequestRejectReason().name());
+                donorCardRequestReviewCheckForm.getDonorCardRequestRejectReason());
     }
 }
