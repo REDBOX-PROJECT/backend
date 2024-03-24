@@ -22,5 +22,5 @@ public interface DonorCardRepository {
 
     int countDonorCardByUserId(Long userId);
   
-    void assignRedboxOwnerToDonorCard(String certificateNumber);
+    void assignOwnerToDonorCard(String certificateNumber, Long userId);
 }
