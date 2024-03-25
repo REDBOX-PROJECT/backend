@@ -1,5 +1,6 @@
 package fx.redbox.service.donorCard;
 
+import fx.redbox.common.Exception.DonorCardRequestExhaustedException;
 import fx.redbox.common.Exception.DonorCardRequestNotFoundException;
 import fx.redbox.common.Exception.DuplicateDonorCardRequestException;
 import fx.redbox.common.Exception.UserNotFoundException;
@@ -7,8 +8,11 @@ import fx.redbox.controller.donorCard.form.DonorCardRequestDto;
 import fx.redbox.controller.donorCard.form.DonorCardRequestListForm;
 import fx.redbox.controller.donorCard.form.DonorCardRequestReviewCheckForm;
 import fx.redbox.controller.donorCard.form.DonorCardRequestReviewForm;
+import fx.redbox.entity.donorCards.DonorCard;
 import fx.redbox.entity.donorCards.DonorCardRequestForm;
+import fx.redbox.entity.enums.RejectPermission;
 import fx.redbox.entity.users.User;
+import fx.redbox.repository.donorCard.DonorCardRepository;
 import fx.redbox.repository.donorCardRequest.DonorCardRequestRepository;
 import fx.redbox.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +32,7 @@ public class DonorCardRequestServiceImpl implements DonorCardRequestService {
 
     private final DonorCardRequestRepository donorCardRequestRepository;
     private final UserRepository userRepository;
+    private final DonorCardRepository donorCardRepository;
 
     @Override
     public void saveDonorCardRequest(Long userId, DonorCardRequestDto donorCardRequestDto) {
@@ -94,9 +99,30 @@ public class DonorCardRequestServiceImpl implements DonorCardRequestService {
 
     @Override
     public void updateDonorCardRequest(Long donorCardRequestId, DonorCardRequestReviewCheckForm donorCardRequestReviewCheckForm) {
-        donorCardRequestRepository.getDonorCardRequestByDonorCardRequestId(donorCardRequestId)
-                        .orElseThrow(DonorCardRequestNotFoundException::new);
+        DonorCardRequestForm donorCardRequestForm = donorCardRequestRepository.getDonorCardRequestByDonorCardRequestId(donorCardRequestId)
+                .orElseThrow(DonorCardRequestNotFoundException::new);
 
+        //요청자의 userId 가져오기
+        Long userId = donorCardRequestForm.getUserId();
+
+        //요청이 승인된 경우
+        if(donorCardRequestReviewCheckForm.getRejectPermission().equals(RejectPermission.승인)) {
+            //redbox에서 헌혈증 가져오기
+            List<DonorCard> redbox = donorCardRepository.findAllDonorCards(1L);
+
+            //redbox에 헌혈증이 없는 경우 예외 발생
+            if(redbox.isEmpty()) {
+                throw new DonorCardRequestExhaustedException();
+            }
+
+            //redbox에서 첫 번째 헌혈증 가져오기
+            DonorCard donorCard = redbox.get(0);
+
+            //헌혈증의 소유권을 요청자에게 이전
+            donorCardRepository.assignOwnerToDonorCard(donorCard.getCertificateNumber(), userId);
+        }
+
+        //헌혈증 요청 상태 업데이트
         donorCardRequestRepository.updateDonorCardRequestReview(
                 donorCardRequestId,
                 donorCardRequestReviewCheckForm.getRejectPermission().name(),
