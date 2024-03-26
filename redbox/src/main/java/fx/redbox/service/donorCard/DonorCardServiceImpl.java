@@ -122,7 +122,8 @@ public class DonorCardServiceImpl implements DonorCardService{
         //사용자 기부개수 1늘림
         userRepository.incrementDonationCount(user.getUserId());
 
-        donorCardRepository.assignRedboxOwnerToDonorCard(certificateNumber);
+        //1L = 레드박스 나중에 상수처리하자
+        donorCardRepository.assignOwnerToDonorCard(certificateNumber, 1L);
     }
 
     @Override
