@@ -70,28 +70,4 @@ public class DonorController {
 
         return ResponseApi.success(DonorCardResponseMessage.READ_ALL_DONORCARD.getMessage(), donorCards);
     }
-
-    @GetMapping("/readRedBoxDashboard")
-    @Operation(
-            summary = "REDBOX 대시보드 조회",
-            description = "REDBOX 총 기부 개수, 회원별 기부 개수, 기여도를 조회합니다."
-    )
-    @ApiResponse(responseCode = "200", description = "REDBOX 대시보드 조회 성공.")
-    @ApiResponse(responseCode = "404", description = "REDBOX 대시보드 조회 실패.")
-    public ResponseApi readRedBoxDashboard(@Login User loginuser) {
-        RedBoxDashboardInfo redBoxDashboardInfo = donorCardService.readRedBoxDashboard(loginuser);
-
-        return ResponseApi.success(DonorCardResponseMessage.READ_REDBOX_DASHBOARD.getMessage(), redBoxDashboardInfo);
-    }
-
-    @GetMapping("/redbox-donation-information")
-    @Operation(
-            summary = "REDBOX 헌혈증 보유량",
-            description = "REDBOX가 소유하고 있는 A, B, AB, O, 전체 헌혈증 보유량을 나타냅니다."
-    )
-    @ApiResponse(responseCode = "200", description = "REDBOX 혈액형 보유량 조회 성공")
-    public ResponseApi showRedboxDonationInfo() {
-        RedboxDonationInfoForm redboxDonationInfoForm = donorCardService.showRedboxDonationInfo();
-        return ResponseApi.success(DonorCardResponseMessage.SUCESS_REDBOX_DONATION_INFORMATION.getMessage(), redboxDonationInfoForm);
-    }
 }
