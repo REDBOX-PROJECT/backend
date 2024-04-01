@@ -14,7 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "REDBOX GIVE API", description = "레드박스 기부 API")
+@Tag(name = "REDBOX API", description = "레드박스 API, 레드박스로 기부, 조회, REDBOX 헌혈증 보유량을 나타냅니다.")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/redbox")
